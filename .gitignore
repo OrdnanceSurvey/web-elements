@@ -1,5 +1,11 @@
+# ignore vendor libraries
 node_modules
+typings
+
+# intellij
 *.iml
 .idea
+
+# built files
 build
 src/**/*.js
