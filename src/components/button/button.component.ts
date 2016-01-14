@@ -3,6 +3,7 @@
 export interface IOsButton {
     colour: string;
     variation: string;
+    disabled: boolean;
 }
 
 export class OsButton implements IOsButton {
@@ -10,6 +11,7 @@ export class OsButton implements IOsButton {
 
     colour;
     variation;
+    disabled;
 
     constructor($element:ng.IRootElementService) {
 
@@ -22,9 +24,18 @@ export class OsButton implements IOsButton {
 
         var mdButton = $element.children('md-button');
 
-        mdButton
-            .addClass('md-' + this.colour)
-            .addClass('md-' + this.variation);
+        if (this.colour) {
+            mdButton.addClass('md-' + this.colour);
+        }
+
+        if (this.variation) {
+            mdButton.addClass('md-' + this.variation);
+        }
+
+        // set disabled attribute immediately, to avoid FOUC
+        if (this.disabled) {
+            mdButton.attr('disabled', 'disabled');
+        }
     }
 
     private getColour(type:string) {

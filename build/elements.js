@@ -54,20 +54,30 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(1);
+	__webpack_require__(1);
+	module.exports = __webpack_require__(5);
 
 
 /***/ },
 /* 1 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	angular.module('osElements', ['ngMaterial']);
-	var button_component_1 = __webpack_require__(2);
+	var button_component_1 = __webpack_require__(6);
 	exports.OsButton = button_component_1.OsButton;
 
 
 /***/ },
-/* 2 */
+/* 6 */
 /***/ function(module, exports) {
 
 	var OsButton = (function () {
@@ -79,9 +89,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        });
 	        var mdButton = $element.children('md-button');
-	        mdButton
-	            .addClass('md-' + this.colour)
-	            .addClass('md-' + this.variation);
+	        if (this.colour) {
+	            mdButton.addClass('md-' + this.colour);
+	        }
+	        if (this.variation) {
+	            mdButton.addClass('md-' + this.variation);
+	        }
+	        if (this.disabled) {
+	            mdButton.attr('disabled', 'disabled');
+	        }
 	    }
 	    OsButton.prototype.getColour = function (type) {
 	        switch (type) {

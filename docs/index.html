@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+
+    <title>OS Elements</title>
+
+    <!-- demo & libs -->
+    <script type="text/javascript" src="../build/demo_vendor_libs.js"></script>
+    <link rel="stylesheet" href="../build/demo_vendor_libs.css">
+
+    <!-- osElements -->
+    <link rel="stylesheet" href="../build/elements.css">
+    <script type="text/javascript" src="../build/elements.js"></script>
+
+    <!-- Flatdoc -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src='https://cdn.rawgit.com/rstacruz/flatdoc/v0.9.0/legacy.js'></script>
+    <script src='https://cdn.rawgit.com/rstacruz/flatdoc/v0.9.0/flatdoc.js'></script>
+
+    <!-- Flatdoc theme -->
+    <!--<link  href='https://cdn.rawgit.com/rstacruz/flatdoc/v0.9.0/theme-white/style.css' rel='stylesheet'>-->
+    <!--<script src='https://cdn.rawgit.com/rstacruz/flatdoc/v0.9.0/theme-white/script.js'></script>-->
+
+    <!-- Meta -->
+    <meta content="OS Elements" property="og:title">
+    <meta content="OS Elements description goes here." name="description">
+
+
+
+
+    <!-- Initializer -->
+    <script>
+//        Flatdoc.run({
+////            fetcher: Flatdoc.github('ordnancesurvey/elements')
+//            fetcher: Flatdoc.file('../README.md')
+//        });
+
+        angular.element().ready(function() {
+            function makeAwesome(selector, before, after) {
+                var $el = $(selector);
+                $el.replaceWith(before + $el.html() + after);
+                return $el;
+            }
+//            makeAwesome('.header', '<md-toolbar>', '</md-toolbar>')
+
+            angular
+                    .module('docs-app', ['osElements'])
+                    .controller('docs-controller', function($log) {
+                        this.$inject = ['$log'];
+
+                        var vm = this;
+                        vm.components = [
+                            { name: 'readme', url: '../README.md' },
+                            { name: 'button', url: '../src/components/button/Button.md' }
+                        ];
+
+                        vm.selectComponent = function(comp) {
+                            vm.selectedComponent = comp;
+                        };
+
+                        vm.selectComponent(this.components[0]);
+
+                    }).component('componentDocs', {
+                bindings: {
+                    url: '='
+                },
+                controller: function($log, $window, $scope, $element, $compile) {
+                    this.$inject = ['$log', '$window', '$scope', '$element', '$compile'];
+
+                    var vm = this;
+
+                    function recompile() {
+                        $log.debug('recompiling');
+
+                        var compiled = $compile($element.contents())($scope);
+                    }
+
+                    $scope.$watch('ctrl.url', function(newUrl) {
+                        $log.debug('load docs for:', newUrl);
+                        $window.Flatdoc.run({
+                            fetcher: Flatdoc.file(newUrl)
+                        });
+                    });
+
+                    $window.$(document).on('flatdoc:ready', recompile);
+                },
+                controllerAs: 'ctrl',
+                transclude: true,
+                template: `
+                        <div class="ng-hide" role="flatdoc-menu"></div>
+                        <div role="flatdoc-content"></div>
+                    `
+            });
+
+            angular.bootstrap(angular.element(document.body), ['docs-app']);
+
+        });
+    </script>
+    <style>
+        code .string,
+        code .number {
+            color: #3ac;
+        }
+        code .init {
+            color: #383;
+        }
+        code .keyword {
+            font-weight: bold;
+        }
+        code .comment {
+            color: #adadcc;
+        }
+    </style>
+</head>
+<body layout="column" flex role="flatdoc" ng-controller="docs-controller as docs">
+
+<md-toolbar class='header'>
+    <div class="md-toolbar-tools">
+        <h1>OS Elements</h1>
+    </div>
+</md-toolbar>
+
+<section layout="row" flex>
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2 menubar" md-component-id="left" md-is-locked-open="true" layout="column">
+        <os-button colour="primary" variation="raised" ng-repeat="comp in docs.components" ng-click="docs.selectComponent(comp)">{{comp.name}}</os-button>
+    </md-sidenav>
+    <md-content flex layout-padding><component-docs url="docs.selectedComponent.url"></component-docs></md-content>
+</section>
+
+</body>
+</html>

@@ -17,7 +17,7 @@ var config = {
 
     entry: {
         'elements': [
-            // elements code
+            './src/elements.styl',
             './src/elements'
         ]
     },
@@ -39,6 +39,9 @@ var config = {
         }, {
             test: /\.less$/,
             loader: ExtractTextPlugin.extract('style', 'css!less')
+        }, {
+            test: /\.styl$/,
+            loader: ExtractTextPlugin.extract('style-loader', 'css-loader!stylus-loader')
         }]
     },
 

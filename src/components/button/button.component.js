@@ -7,9 +7,15 @@ var OsButton = (function () {
             }
         });
         var mdButton = $element.children('md-button');
-        mdButton
-            .addClass('md-' + this.colour)
-            .addClass('md-' + this.variation);
+        if (this.colour) {
+            mdButton.addClass('md-' + this.colour);
+        }
+        if (this.variation) {
+            mdButton.addClass('md-' + this.variation);
+        }
+        if (this.disabled) {
+            mdButton.attr('disabled', 'disabled');
+        }
     }
     OsButton.prototype.getColour = function (type) {
         switch (type) {
