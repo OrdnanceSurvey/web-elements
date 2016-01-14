@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>OS Elements basic demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!-- demo & libs -->
+    <script type="text/javascript" src="../../build/demo_vendor_libs.js"></script>
+    <link rel="stylesheet" href="../../build/demo_vendor_libs.css">
+
+    <!-- osElements -->
+    <link rel="stylesheet" href="../../build/elements.css">
+    <script type="text/javascript" src="../../build/elements.js"></script>
+</head>
+
+<body>
+<app ng-controller="AppController as app">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2 class="md-flex">os-button</h2>
+        </div>
+    </md-toolbar>
+    <section layout="column" layout-align="center center">
+        <md-content layout="column" layout-align="center" flex="50">
+            <div layout="row" layout-align="space-around">
+                <os-button>Button</os-button>
+                <os-button colour="primary">Primary</os-button>
+                <os-button colour="primary" ng-disabled="true">Disabled</os-button>
+                <os-button colour="accent">Accent</os-button>
+                <os-button colour="warn">Warn</os-button>
+            </div>
+            <div layout="row" layout-align="space-around">
+                <os-button variation="raised">Button</os-button>
+                <os-button variation="raised" colour="primary">Primary</os-button>
+                <os-button variation="raised" colour="primary" ng-disabled="true">Disabled</os-button>
+                <os-button variation="raised" colour="accent">Accent</os-button>
+                <os-button variation="raised" colour="warn">Warn</os-button>
+            </div>
+            <div layout="row" layout-align="space-around">
+                <os-button variation="fab">1</os-button>
+                <os-button variation="fab" colour="primary">2</os-button>
+                <os-button variation="fab" colour="primary" ng-disabled="true">3</os-button>
+                <os-button variation="fab" colour="accent">4</os-button>
+                <os-button variation="fab" colour="warn">5</os-button>
+            </div>
+        </md-content>
+    </section>
+</app>
+
+<script type="text/javascript" src="demo.js"></script>
+</body>
+
+</html>

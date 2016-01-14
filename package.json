@@ -1,0 +1,27 @@
+{
+  "name": "elements",
+  "version": "0.0.1",
+  "description": "Reusable Angular1 components, from Ordnance Survey",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "angular": "^1.4.8",
+    "angular-animate": "^1.4.8",
+    "angular-aria": "^1.4.8",
+    "angular-component": "0.0.3",
+    "angular-material": "^1.0.1",
+    "angular-messages": "^1.4.8"
+  },
+  "devDependencies": {
+    "css-loader": "^0.23.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "less": "^2.5.3",
+    "less-loader": "^2.2.2",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.10"
+  }
+}
