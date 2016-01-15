@@ -1,7 +1,8 @@
 # Buttons!
 
 # os-button
-``` html-demo
+<span class="demo"></span>
+``` html
 <os-button variation="raised">Button</os-button>
 <os-button variation="raised" colour="primary">Primary</os-button>
 <os-button variation="raised" colour="primary" ng-disabled="true">Disabled</os-button>
