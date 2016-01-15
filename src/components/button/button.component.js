@@ -17,18 +17,6 @@ var OsButton = (function () {
             mdButton.attr('disabled', 'disabled');
         }
     }
-    OsButton.prototype.getColour = function (type) {
-        switch (type) {
-            case 'primary':
-                return 'mdl-button--colored';
-                break;
-            case 'accent':
-                return 'mdl-button--accent';
-                break;
-            default:
-                return 'mdl-button--colored';
-        }
-    };
     OsButton.$inject = ['$element'];
     return OsButton;
 })();

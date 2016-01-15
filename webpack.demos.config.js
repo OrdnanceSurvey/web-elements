@@ -23,6 +23,7 @@ var config = {
             'angular-component', // polyfill component API for angular < 1.5
             'angular-messages',
             'angular-material',
+            'angular-sanitize',
             './node_modules/angular-material/angular-material.css'
         ]
     },

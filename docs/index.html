@@ -32,73 +32,6 @@
 
 
     <!-- Initializer -->
-    <script>
-//        Flatdoc.run({
-////            fetcher: Flatdoc.github('ordnancesurvey/elements')
-//            fetcher: Flatdoc.file('../README.md')
-//        });
-
-        angular.element().ready(function() {
-            function makeAwesome(selector, before, after) {
-                var $el = $(selector);
-                $el.replaceWith(before + $el.html() + after);
-                return $el;
-            }
-//            makeAwesome('.header', '<md-toolbar>', '</md-toolbar>')
-
-            angular
-                    .module('docs-app', ['osElements'])
-                    .controller('docs-controller', function($log) {
-                        this.$inject = ['$log'];
-
-                        var vm = this;
-                        vm.components = [
-                            { name: 'readme', url: '../README.md' },
-                            { name: 'button', url: '../src/components/button/Button.md' }
-                        ];
-
-                        vm.selectComponent = function(comp) {
-                            vm.selectedComponent = comp;
-                        };
-
-                        vm.selectComponent(this.components[0]);
-
-                    }).component('componentDocs', {
-                bindings: {
-                    url: '='
-                },
-                controller: function($log, $window, $scope, $element, $compile) {
-                    this.$inject = ['$log', '$window', '$scope', '$element', '$compile'];
-
-                    var vm = this;
-
-                    function recompile() {
-                        $log.debug('recompiling');
-
-                        var compiled = $compile($element.contents())($scope);
-                    }
-
-                    $scope.$watch('ctrl.url', function(newUrl) {
-                        $log.debug('load docs for:', newUrl);
-                        $window.Flatdoc.run({
-                            fetcher: Flatdoc.file(newUrl)
-                        });
-                    });
-
-                    $window.$(document).on('flatdoc:ready', recompile);
-                },
-                controllerAs: 'ctrl',
-                transclude: true,
-                template: `
-                        <div class="ng-hide" role="flatdoc-menu"></div>
-                        <div role="flatdoc-content"></div>
-                    `
-            });
-
-            angular.bootstrap(angular.element(document.body), ['docs-app']);
-
-        });
-    </script>
     <style>
         code .string,
         code .number {
@@ -127,8 +60,148 @@
     <md-sidenav class="md-sidenav-left md-whiteframe-z2 menubar" md-component-id="left" md-is-locked-open="true" layout="column">
         <os-button colour="primary" variation="raised" ng-repeat="comp in docs.components" ng-click="docs.selectComponent(comp)">{{comp.name}}</os-button>
     </md-sidenav>
-    <md-content flex layout-padding><component-docs url="docs.selectedComponent.url"></component-docs></md-content>
+    <md-content flex layout-padding>
+        <component-docs url="docs.selectedComponent.url"></component-docs>
+    </md-content>
 </section>
+
+
+<script>
+    //        Flatdoc.run({
+    ////            fetcher: Flatdoc.github('ordnancesurvey/elements')
+    //            fetcher: Flatdoc.file('../README.md')
+    //        });
+    window.Flatdoc.highlighters.html_old = window.Flatdoc.highlighters.html;
+
+    window.Flatdoc.highlighters.html = function(code) {
+        console.log('skip HTML syntax highlighting');
+        return code;
+    };
+
+    angular.element().ready(function() {
+        function makeAwesome(selector, before, after) {
+            var $el = $(selector);
+            $el.replaceWith(before + $el.html() + after);
+            return $el;
+        }
+//            makeAwesome('.header', '<md-toolbar>', '</md-toolbar>')
+
+
+
+        angular
+                .module('docs-app', ['osElements', 'ngSanitize'])
+                .controller('docs-controller', function($log) {
+                    this.$inject = ['$log'];
+
+                    var vm = this;
+                    vm.components = [
+                        { name: 'readme', url: '../README.md' },
+                        { name: 'button', url: '../src/components/button/docs/Button.md' }
+                    ];
+
+                    vm.selectComponent = function(comp) {
+                        vm.selectedComponent = comp;
+                    };
+
+                    vm.selectComponent(this.components[1]);
+
+                })
+                .component('componentDocs', {
+                    bindings: {
+                        url: '='
+                    },
+                    controller: function($log, $window, $scope, $element, $compile) {
+                        this.$inject = ['$log', '$window', '$scope', '$element', '$compile'];
+
+                        var vm = this;
+
+                        function recompile() {
+                            $log.debug('recompiling');
+                            var code = $element.find('p > .demo').parent().next().find('code.lang-html');
+                            code.parent().after('<div class="abc"></div>');
+
+
+                            $scope.$apply(function() {
+                                console.log('doing scope.$apply');
+                                var compiled = $compile($element.contents())($scope);
+                            });
+                        }
+
+                        $scope.$watch('ctrl.url', function(newUrl) {
+                            $log.debug('load docs for:', newUrl);
+                            $window.Flatdoc.run({
+                                fetcher: Flatdoc.file(newUrl)
+                            });
+                        });
+
+                        $window.$(document).on('flatdoc:ready', recompile);
+                    },
+                    controllerAs: 'ctrl',
+                    transclude: true,
+                    template: `
+                                <div class="ng-hide" role="flatdoc-menu"></div>
+                                <div role="flatdoc-content"></div>
+                            `
+                })
+                .directive('componentDemo', function($log, $compile) {
+                    return {
+                        scope: {
+
+                        },
+                        restrict: 'E',
+                        controllerAs: 'ctrl',
+                        controller: function() {
+                            var vm = this;
+
+                            this.setDemoHTML = function(code) {
+                                vm.demoHTML = code;
+                            };
+
+                            this.doSomething = function() {
+                                $log.debug('doSomething');
+                            };
+                        },
+                        link: function(scope, iElement, iAttrs) {
+
+                            $log.debug(iAttrs.html);
+                            scope.ctrl.setDemoHTML('../src/' + iAttrs.html);
+                            var code = iElement.parent().next().find('code').html().replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+                            $log.debug(code);
+
+                            console.log('component-demo directive link');
+
+//                            iElement.parent().next().find('code').parent().after(angular.element('<div>' + code + '</div>'));
+//                            $compile(iElement.parent().next().find('code').parent().next())(scope);
+
+
+                        },
+                        template: `
+                                <md-button class="md-primary md-raised">my button</md-button>
+                                <!--<md-tabs>-->
+                                    <!--<md-tab label="Example">-->
+                                        <!--<md-content class="md-padding">-->
+                                            <!--<h1>example here</h1>-->
+                                            <!--&lt;!&ndash;<div ng-bind-html="ctrl.demoHTML"></div>&ndash;&gt;-->
+                                            <!--<div ng-include="ctrl.demoHTML"></div>-->
+                                            <!--<md-button class="md-primary md-raised">my button</md-button>-->
+                                        <!--</md-content>-->
+                                    <!--</md-tab>-->
+                                    <!--<md-tab label="HTML">-->
+                                        <!--<md-content class="md-padding">-->
+                                            <!--<h1>HTML here</h1>-->
+                                            <!--<pre ng-include="ctrl.demoHTML"></pre>-->
+                                        <!--</md-content>-->
+                                    <!--</md-tab>-->
+                                <!--</md-tabs>-->
+                            `
+                    }
+                });
+
+        angular.bootstrap(angular.element(document.body), ['docs-app']);
+
+    });
+</script>
+
 
 </body>
 </html>

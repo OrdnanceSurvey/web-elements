@@ -10,5 +10,4 @@ export declare class OsButton implements IOsButton {
     variation: any;
     disabled: any;
     constructor($element: ng.IRootElementService);
-    private getColour(type);
 }

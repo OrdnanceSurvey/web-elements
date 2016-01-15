@@ -38,19 +38,6 @@ export class OsButton implements IOsButton {
         }
     }
 
-    private getColour(type:string) {
-        switch (type) {
-            case 'primary':
-                return 'mdl-button--colored';
-                break;
-            case 'accent':
-                return 'mdl-button--accent';
-                break;
-            default:
-                return 'mdl-button--colored';
-        }
-    }
-
 }
 
 angular
