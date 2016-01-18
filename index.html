@@ -8,12 +8,12 @@
     <title>OS Elements</title>
 
     <!-- demo & libs -->
-    <script type="text/javascript" src="../build/demo_vendor_libs.js"></script>
-    <link rel="stylesheet" href="../build/demo_vendor_libs.css">
+    <script type="text/javascript" src="build/demo_vendor_libs.js"></script>
+    <link rel="stylesheet" href="build/demo_vendor_libs.css">
 
     <!-- osElements -->
-    <link rel="stylesheet" href="../build/elements.css">
-    <script type="text/javascript" src="../build/elements.js"></script>
+    <link rel="stylesheet" href="build/elements.css">
+    <script type="text/javascript" src="build/elements.js"></script>
 
     <!-- Flatdoc -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -94,13 +94,21 @@
 
         angular
                 .module('docs-app', ['osElements', 'ngSanitize'])
+                .config(function($sceDelegateProvider) {
+                    $sceDelegateProvider.resourceUrlWhitelist([
+                        // Allow same origin resource loads.
+                        'self',
+                        // Allow loading from our assets domain.  Notice the difference between * and **.
+                        'https://cdn.rawgit.com/OrdnanceSurvey/**'
+                    ]);
+                })
                 .controller('docs-controller', function($log) {
                     this.$inject = ['$log'];
 
                     var vm = this;
                     vm.components = [
-                        { name: 'readme', url: '../README.md' },
-                        { name: 'button', url: '../src/components/button/docs/Button.md' }
+                        { name: 'readme', url: 'https://cdn.rawgit.com/OrdnanceSurvey/elements/master/README.md' },
+                        { name: 'button', url: 'https://cdn.rawgit.com/OrdnanceSurvey/elements/master/src/components/button/docs/Button.md' }
                     ];
 
                     vm.selectComponent = function(comp) {
@@ -157,7 +165,7 @@
                         controller: function($attrs) {
                             var vm = this;
 
-                            this.htmlURL = '../src/' + $attrs.html;
+                            this.htmlURL = 'https://cdn.rawgit.com/OrdnanceSurvey/elements/master/src/' + $attrs.html;
 
                             this.included = function() {
                                 vm.htmlSource = $templateCache.get(this.htmlURL);
