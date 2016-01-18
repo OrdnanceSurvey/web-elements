@@ -9,3 +9,6 @@ typings
 # built files
 build
 src/**/*.js
+
+# misc
+npm-debug.log

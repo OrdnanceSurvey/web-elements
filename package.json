@@ -1,7 +1,13 @@
 {
-  "name": "elements",
+  "name": "os-elements",
   "version": "0.0.1",
   "description": "Reusable Angular1 components, from Ordnance Survey",
+  "homepage": "http://ordnancesurvey.github.io/web-elements",
+  "repository": "ordnancesurvey/web-elements",
+  "contributors": [
+    "Craig Snyders <craig.snyders@os.uk>",
+    "Sobieslaw Hrehorowicz <sobieslaw.hrehorowicz@os.uk>"
+  ],
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
