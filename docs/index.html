@@ -46,6 +46,10 @@
         code .comment {
             color: #adadcc;
         }
+
+        .live-example {
+            background-color: #dfdfdf;
+        }
     </style>
 </head>
 <body layout="column" flex role="flatdoc" ng-controller="docs-controller as docs">
@@ -117,8 +121,8 @@
 
                         function recompile() {
                             $log.debug('recompiling');
-                            var code = $element.find('p > .demo').parent().next().find('code.lang-html');
-                            code.parent().after('<div class="abc"></div>');
+//                            var code = $element.find('p > .demo').parent().next().find('code.lang-html');
+//                            code.parent().after('<div class="abc"></div>');
 
 
                             $scope.$apply(function() {
@@ -143,56 +147,27 @@
                                 <div role="flatdoc-content"></div>
                             `
                 })
-                .directive('componentDemo', function($log, $compile) {
+                .directive('componentDemo', function($log, $compile, $templateCache) {
                     return {
                         scope: {
 
                         },
                         restrict: 'E',
                         controllerAs: 'ctrl',
-                        controller: function() {
+                        controller: function($attrs) {
                             var vm = this;
 
-                            this.setDemoHTML = function(code) {
-                                vm.demoHTML = code;
+                            this.htmlURL = '../src/' + $attrs.html;
+
+                            this.included = function() {
+                                vm.htmlSource = $templateCache.get(this.htmlURL);
                             };
-
-                            this.doSomething = function() {
-                                $log.debug('doSomething');
-                            };
-                        },
-                        link: function(scope, iElement, iAttrs) {
-
-                            $log.debug(iAttrs.html);
-                            scope.ctrl.setDemoHTML('../src/' + iAttrs.html);
-                            var code = iElement.parent().next().find('code').html().replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-                            $log.debug(code);
-
-                            console.log('component-demo directive link');
-
-//                            iElement.parent().next().find('code').parent().after(angular.element('<div>' + code + '</div>'));
-//                            $compile(iElement.parent().next().find('code').parent().next())(scope);
-
-
                         },
                         template: `
-                                <md-button class="md-primary md-raised">my button</md-button>
-                                <!--<md-tabs>-->
-                                    <!--<md-tab label="Example">-->
-                                        <!--<md-content class="md-padding">-->
-                                            <!--<h1>example here</h1>-->
-                                            <!--&lt;!&ndash;<div ng-bind-html="ctrl.demoHTML"></div>&ndash;&gt;-->
-                                            <!--<div ng-include="ctrl.demoHTML"></div>-->
-                                            <!--<md-button class="md-primary md-raised">my button</md-button>-->
-                                        <!--</md-content>-->
-                                    <!--</md-tab>-->
-                                    <!--<md-tab label="HTML">-->
-                                        <!--<md-content class="md-padding">-->
-                                            <!--<h1>HTML here</h1>-->
-                                            <!--<pre ng-include="ctrl.demoHTML"></pre>-->
-                                        <!--</md-content>-->
-                                    <!--</md-tab>-->
-                                <!--</md-tabs>-->
+                                <h4>Example</h4>
+                                <md-content layout-padding ng-include="ctrl.htmlURL" onload="ctrl.included()"></md-content>
+                                <md-button class="md-primary" ng-click="ctrl.sourceShown = !ctrl.sourceShown">{{ctrl.sourceShown ? 'Hide' : 'Show'}} source code</md-button>
+                                <pre ng-if="ctrl.sourceShown" ng-bind="ctrl.htmlSource"></pre>
                             `
                     }
                 });
