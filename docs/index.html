@@ -100,7 +100,10 @@
                     var vm = this;
                     vm.components = [
                         { name: 'readme', url: '../README.md' },
-                        { name: 'button', url: '../src/components/button/docs/Button.md' }
+                        { name: 'button', url: '../src/components/button/docs/Button.md' },
+                        { name: 'popup', url: '../src/components/popup/docs/Popup.md' },
+                        { name: 'select', url: '../src/components/select/docs/Select.md' },
+                        { name: 'tabs', url: '../src/components/tabs/docs/Tabs.md' }
                     ];
 
                     vm.selectComponent = function(comp) {
@@ -162,6 +165,13 @@
                             this.included = function() {
                                 vm.htmlSource = $templateCache.get(this.htmlURL);
                             };
+
+                            this.items = [
+                                'one',
+                                'two',
+                                'three'
+                            ];
+
                         },
                         template: `
                                 <h4>Example</h4>

@@ -20,5 +20,7 @@ angular.module('osElements', ['ngMaterial']).config(function($mdThemingProvider)
 });
 
 import {OsButton} from './components/button/button.component';
+import {OsSelect} from './components/select/select';
 
 export {OsButton};
+export {OsSelect};
