@@ -10,7 +10,7 @@ export class OsButton implements IOsButton {
     static $inject = ['$element'];
 
     colour;
-    variation;
+    variation; // text|solid|outline|super
     disabled;
 
     constructor($element:ng.IRootElementService) {
@@ -28,8 +28,22 @@ export class OsButton implements IOsButton {
             mdButton.addClass('md-' + this.colour);
         }
 
-        if (this.variation) {
-            mdButton.addClass('md-' + this.variation);
+        // add the correct variation style
+        switch (this.variation) {
+            case 'solid':
+                mdButton.addClass('md-raised');
+                break;
+            case 'outline':
+                mdButton.addClass('md-os-outline');
+                break;
+            case 'super':
+                mdButton.addClass('md-raised');
+                mdButton.addClass('md-os-super');
+                break;
+            case 'text':
+            default:
+                // default to a flat button
+                break;
         }
 
         // set disabled attribute immediately, to avoid FOUC

@@ -92,8 +92,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (this.colour) {
 	            mdButton.addClass('md-' + this.colour);
 	        }
-	        if (this.variation) {
-	            mdButton.addClass('md-' + this.variation);
+	        switch (this.variation) {
+	            case 'solid':
+	                mdButton.addClass('md-raised');
+	                break;
+	            case 'outline':
+	                mdButton.addClass('md-os-outline');
+	                break;
+	            case 'super':
+	                mdButton.addClass('md-raised');
+	                mdButton.addClass('md-os-super');
+	                break;
+	            case 'text':
+	            default:
+	                break;
 	        }
 	        if (this.disabled) {
 	            mdButton.attr('disabled', 'disabled');

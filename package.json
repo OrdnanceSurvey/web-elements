@@ -16,6 +16,7 @@
     "angular-material": "^1.0.1",
     "angular-messages": "^1.4.8",
     "angular-sanitize": "^1.4.8",
+    "nib": "^1.1.0",
     "stylus-loader": "^1.4.3"
   },
   "devDependencies": {

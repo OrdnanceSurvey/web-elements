@@ -48,7 +48,12 @@ var config = {
     // Use the plugin to specify the resulting filename (and add needed behavior to the compiler)
     plugins: [
         new ExtractTextPlugin("[name].css")
-    ]
+    ],
+
+    stylus: {
+        use: [require('nib')()],
+        import: ['~nib/lib/nib/index.styl']
+    }
 };
 
 module.exports = config;
