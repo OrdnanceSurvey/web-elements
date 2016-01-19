@@ -15,6 +15,24 @@
 .md-button .md-button:not([disabled]):hover {
   background-color: #fff;
 }
+md-select.md-os-theme {
+  min-width: 316px;
+}
+md-select.md-os-theme .md-select-value,
+md-select.md-os-theme:not([disabled]):focus .md-select-value {
+  padding-bottom: 16px;
+  border-bottom-color: #d7d7d7;
+  border-bottom-width: 1px;
+}
+md-select .md-select-icon {
+  color: #737373;
+}
+.md-input-has-value label {
+  display: none;
+}
+.md-os-theme md-option {
+  height: 37px;
+}
 body {
   color: #9e9e9e;
 }

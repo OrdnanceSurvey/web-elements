@@ -87,6 +87,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	var button_component_1 = __webpack_require__(6);
 	exports.OsButton = button_component_1.OsButton;
+	var select_1 = __webpack_require__(7);
+	exports.OsSelect = select_1.OsSelect;
 
 
 /***/ },
@@ -140,6 +142,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	    controllerAs: 'osButton',
 	    transclude: true,
 	    template: "\n            <md-button ng-disabled=\"osButton.disabled\"><ng-transclude></ng-transclude></md-button>\n        "
+	});
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	var OsSelect = (function () {
+	    function OsSelect($element) {
+	        console.log('OsSelect constructor');
+	    }
+	    OsSelect.$inject = ['$element'];
+	    return OsSelect;
+	})();
+	exports.OsSelect = OsSelect;
+	angular
+	    .module('osElements')
+	    .component('osSelect', {
+	    bindings: {
+	        disabled: '=ngDisabled',
+	        ngModel: '=',
+	        osItems: '=',
+	        placeholder: '@'
+	    },
+	    controller: OsSelect,
+	    controllerAs: 'osSelect',
+	    transclude: false,
+	    template: "\n            <md-select ng-disabled=\"osSelect.disabled\" ng-model=\"osSelect.ngModel\" placeholder=\"{{ osSelect.placeholder }}\">\n                <md-option ng-value=\"option\" ng-repeat=\"option in osSelect.osItems\">{{ option }}</md-option>\n            </md-select>\n        "
 	});
 
 
