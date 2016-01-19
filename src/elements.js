@@ -14,3 +14,5 @@ angular.module('osElements', ['ngMaterial']).config(function ($mdThemingProvider
 });
 var button_component_1 = require('./components/button/button.component');
 exports.OsButton = button_component_1.OsButton;
+var select_1 = require('./components/select/select');
+exports.OsSelect = select_1.OsSelect;
