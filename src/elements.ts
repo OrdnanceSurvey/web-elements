@@ -19,8 +19,7 @@ angular.module('osElements', ['ngMaterial']).config(function($mdThemingProvider)
     $mdThemingProvider.setDefaultTheme('os');
 });
 
-import {OsButton} from './components/button/button.component';
-import {OsSelect} from './components/select/select';
-
-export {OsButton};
-export {OsSelect};
+export {OsButton} from './components/button/button.component';
+export {OsSelect} from './components/select/select';
+export {OsTabs} from './components/tabs/tabs';
+export {OsTab} from './components/tabs/tab';
