@@ -1,3 +1,62 @@
-<div flex>
-    Modal
+<div ng-controller="modalController as modalController"  flex>
+  <os-button ng-click="modalController.alert()">Alert modal</os-button>
+
+  <os-button ng-click="modalController.confirm()">Confirm modal</os-button>
+
+  <os-button ng-click="modalController.html()">Html modal</os-button>
+
 </div>
+
+<!--
+<script type="text/javascript">
+...
+.controller('modalController', ['$scope', '$OsModal', function($scope, $OsModal) {
+
+      $scope.alert = function () {
+        $OsModal.alert({
+          title: 'Alert title',
+          textContent: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab autem dolor maiores.',
+          fullscreen: true
+        }).finally(function () {
+          console.log('Alert has been closed');
+        });
+      };
+
+      $scope.confirm = function () {
+        $OsModal.confirm(
+          {
+            title: 'Confirm title',
+            textContent: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab autem dolor maiores.',
+            cancel: 'Dismiss'
+          }
+        ).finally(function () {
+          console.log('Confirm has been closed');
+        });
+      };
+
+      $scope.html = function () {
+        var myCustomController = function($scope, $mdDialog) {
+          $scope.hide = function() {
+            $mdDialog.hide();
+          };
+          $scope.cancel = function() {
+            $mdDialog.cancel();
+          };
+          $scope.answer = function(answer) {
+            $mdDialog.hide(answer);
+          };
+        }
+
+        $OsModal.html({
+            title: 'Alert title',
+            textContent: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab autem dolor maiores.',
+            templateUrl: './examples/modal/custom_template.html',
+            fullscreen: true,
+            controller: myCustomController
+        });
+      }
+
+}]);
+...
+</script>
+-->
