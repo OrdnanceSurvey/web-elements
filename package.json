@@ -10,7 +10,8 @@
   ],
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tslint": "tslint \"src/**/*.ts\" || true"
   },
   "author": "",
   "license": "MIT",
@@ -28,9 +29,14 @@
   "devDependencies": {
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "html-loader": "^0.4.0",
+    "jade": "^1.11.0",
+    "jade-loader": "^0.8.0",
     "less": "^2.5.3",
     "less-loader": "^2.2.2",
     "style-loader": "^0.13.0",
+    "tslint": "^3.2.2",
+    "typescript": "^1.7.5",
     "webpack": "^1.12.10"
   }
 }
