@@ -9,6 +9,9 @@
     "noEmitHelpers": false,
     "sourceMap": false
   },
+  "exclude": [
+    "node_modules"
+  ],
   "files": [
     "typings/main.d.ts",
     "src/components/button/button.component.ts",
