@@ -10,16 +10,16 @@ export interface IModalOptions {
   title: string,
   textContent: string,
   template: string,
-  templateUrl: string,
+  templateUrl?: string,
   ok: string,
   cancel: string,
   fullscreen: boolean,
-  controller: any
+  controller?: any
 };
 
 interface IOptions extends IModalOptions {};
 
-// TODO: use os-button inside a template
+
 class OsModalService {
 
   constructor(private $mdDialog: IDialogService, private $mdMedia: IMedia) {}
@@ -27,11 +27,11 @@ class OsModalService {
   private getDefaultOptions(options: IOptions): IModalOptions {
     return {
       title: options.title || '',
-      textContent: options.textContent || false,
+      textContent: options.textContent || '',
       template: require('html!../templates/default.html'),
       ok: options.ok || 'OK',
       cancel: options.cancel || 'Cancel',
-      fullscreen: options.fullscreen || this.isFullScreen()
+      fullscreen: this.isFullScreen()
     }
   }
 
@@ -74,7 +74,8 @@ class OsModalService {
   }
 
   isFullScreen(): boolean {
-    return this.$mdMedia('sm') || this.$mdMedia('xs')
+    // according to ux all modal should be full screen
+    return true; //this.$mdMedia('sm') || this.$mdMedia('xs')
   }
 
 }
