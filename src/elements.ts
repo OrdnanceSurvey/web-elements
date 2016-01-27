@@ -1,8 +1,9 @@
 /// <reference path="../typings/main.d.ts" />
 
-angular.module('osElements', ['ngMaterial']).config(function($mdThemingProvider) {
-    this.$inject = ['$mdThemingProvider'];
+angular.module('osElements', ['ngMaterial']).config(function($mdThemingProvider, $mdIconProvider) {
+    this.$inject = ['$mdThemingProvider', '$mdIconProvider'];
 
+    // theme
     $mdThemingProvider.definePalette('solutions-blue', $mdThemingProvider.extendPalette('indigo', {
         '500': '0099CE'
     }));
@@ -17,6 +18,9 @@ angular.module('osElements', ['ngMaterial']).config(function($mdThemingProvider)
 
     $mdThemingProvider.theme('os').primaryPalette('solutions-blue').accentPalette('creative-green').warnPalette('rubine-red');
     $mdThemingProvider.setDefaultTheme('os');
+
+    // icons
+    $mdIconProvider.defaultFontSet('material-icons')
 });
 
 export {OsButton} from './components/button/button.component';
