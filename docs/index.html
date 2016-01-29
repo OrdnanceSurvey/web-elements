@@ -104,6 +104,7 @@
                     var vm = this;
                     vm.components = [
                         { name: 'readme', url: '../README.md' },
+                        { name: 'autocomplete', url: '../src/components/autocomplete/docs/Autocomplete.md' },
                         { name: 'button', url: '../src/components/button/docs/Button.md' },
                         { name: 'modal', url: '../src/components/modal/docs/Modal.md' },
                         { name: 'popup', url: '../src/components/popup/docs/Popup.md' },
@@ -118,56 +119,77 @@
                     vm.selectComponent(this.components[1]);
 
                 })
-              .controller('modalController', function($log, $OsModal) {
-                this.$inject = ['$log', '$OsModal'];
+                .controller('autocompleteController', function() {
+                  this.searchText = '';
 
-                var vm = this;
+                  this.loadAll = function() {
+                    var rows = [];
 
-                vm.alert = function () {
-                  $OsModal.alert({
-                    title: 'Alert title',
-                    textContent: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab autem dolor maiores.',
-                    fullscreen: true
-                  }).finally(function () {
-                    console.log('Alert has been closed');
-                  });
-                };
+                    var data =  {
+                      grid: 'SP 06952 692305',
+                      addr: '79 This Street, Over here, over there, OT12 3RD',
+                      post: 'OT12 3RD'
+                    };
+                    var i = 30;
 
-                vm.confirm = function () {
-                  $OsModal.confirm(
-                    {
-                      title: 'Confirm title',
-                      textContent: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab autem dolor maiores.',
-                      cancel: 'Dismiss'
+                    while (i-- > 0) {
+                      rows.push(data);
                     }
-                  ).finally(function () {
-                    console.log('Confirm has been closed');
-                  });
-                };
 
-                vm.html = function () {
-                  var myCustomController = function($scope, $mdDialog) {
-                    $scope.hide = function() {
-                      $mdDialog.hide();
-                    };
-                    $scope.cancel = function() {
-                      $mdDialog.cancel();
-                    };
-                    $scope.answer = function(answer) {
-                      $mdDialog.hide(answer);
-                    };
-                  }
+                    return rows;
+                  };
 
-                  $OsModal.html({
+                })
+                .controller('modalController', function($log, $OsModal) {
+                  this.$inject = ['$log', '$OsModal'];
+
+                  var vm = this;
+
+                  vm.alert = function () {
+                    $OsModal.alert({
                       title: 'Alert title',
                       textContent: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab autem dolor maiores.',
-                      templateUrl: './examples/modal/custom_template.html',
-                      fullscreen: true,
-                      controller: myCustomController
-                  });
-                }
+                      fullscreen: true
+                    }).finally(function () {
+                      console.log('Alert has been closed');
+                    });
+                  };
 
-              })
+                  vm.confirm = function () {
+                    $OsModal.confirm(
+                      {
+                        title: 'Confirm title',
+                        textContent: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab autem dolor maiores.',
+                        cancel: 'Dismiss'
+                      }
+                    ).finally(function () {
+                      console.log('Confirm has been closed');
+                    });
+                  };
+
+                  vm.html = function () {
+                    var myCustomController = function($scope, $mdDialog) {
+                      $scope.hide = function() {
+                        $mdDialog.hide();
+                      };
+                      $scope.cancel = function() {
+                        $mdDialog.cancel();
+                      };
+                      $scope.answer = function(answer) {
+                        $mdDialog.hide(answer);
+                      };
+                    }
+
+                    $OsModal.html({
+                        title: 'Alert title',
+                        textContent: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab autem dolor maiores.',
+                        templateUrl: './examples/modal/custom_template.html',
+                        fullscreen: true,
+                        controller: myCustomController
+                    });
+                  }
+
+                })
                 .component('componentDocs', {
                     bindings: {
                         url: '='
