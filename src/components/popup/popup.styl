@@ -6,13 +6,28 @@ os-popover
   top 50%
   left 50%
   min-width 200px
-  max-width 300px
-  min-height 100px
+  min-height 76px
   box-sizing border-box
-  padding 30px
+  padding 0
   //key-shadow()
   ambient-shadow()
   display none
+
+.os-popover-container
+  min-width 278px
+  //max-width 278px
+  max-width 411px
+
+  &.m-os-popover-wide
+    max-width 641px
+
+.os-popover-leftImage
+  max-width 142px
+  max-height 234px
+
+.os-popover-content
+  padding 28px
+  box-sizing border-box
 
 .os-popover-header
   padding 0
@@ -22,18 +37,38 @@ os-popover
   line-height 1.2
   height 20px
 
+.os-popover-subheader
+  padding 0
+  margin 13px 0 0 0
+  color rgba(0, 0, 0, 0.871)
+  font-weight normal
+  font-size 18px
+  line-height 1.2
+  height 18px
 
 .os-popover-description
-  margin 27px 0 37px
+  margin 13px 0 33px
   color rgba(0, 0, 0, 0.541)
   font-size 16px
   line-height 24px
 
+  .m-os-popover-wide &
+    margin-right 49px
 
 os-popover-actions
   color #2b97ef
 
 .os-popover-closeIcon
   position absolute
-  right 15px
-  top 15px
+  right 29px
+  top 29px
+
+os-popover-main-image
+  max-height 184px
+
+os-popover-actions
+  a
+    margin-right 28px
+
+    &:last-child
+      margin-right 0

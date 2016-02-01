@@ -12,13 +12,22 @@ export class OsPopover {
   private tipRect;
 
   title:string;
+  subTitle:string;
+  mainImage:string;
+  leftImage:string;
+  backgroundImage:string;
   description:string;
   actions:string;
+
+  width:string;
+  height:string;
 
   static TOOLTIP_WINDOW_EDGE_SPACE = 8;
 
   constructor(private $element:ng.IRootElementService, private $transclude:ng.ITranscludeFunction, private $mdUtil:any) {
     this.tooltipParent = angular.element(document.body);
+
+    console.log($element, this.width);
 
     this.postLink();
 
@@ -111,14 +120,39 @@ export class OsPopover {
     this.updatePosition(newPosition);
   }
 
+  isWide() {
+    return this.type === 'wide';
+  }
+
 }
 
 angular
   .module('osElements')
+  .directive('osPopoverBackground', function () {
+    return {
+      restrict: 'A',
+      scope: {
+        osPopoverBackground: '='
+      },
+      link: function (scope, element, attr) {
+        scope.$watch('osPopoverBackground', function(image) {
+          if (! image) { return; }
+
+          element.css({
+            'background-image': 'url(' + image +')',
+            'background-size' : 'cover'
+          });
+        })
+      }
+    }
+  })
   .directive('osPopover', function () {
     return {
       scope: {
         osDirection: '@?',
+        width: '@?osWidth',
+        height: '@?osHeight',
+        type: '@?osType',
         osVisible: '=?',
       },
       controller: OsPopover,
@@ -129,6 +163,10 @@ angular
       link: function (scope, element, attr, ctrl:OsPopover) {
         // content
         ctrl.title = element.find('os-popover-title').text();
+        ctrl.subTitle = element.find('os-popover-subtitle').text();
+        ctrl.mainImage = element.find('os-popover-main-image').text();
+        ctrl.leftImage = element.find('os-popover-left-image').text();
+        ctrl.backgroundImage = element.find('os-popover-background-image').text();
         ctrl.description = element.find('os-popover-description').text();
         ctrl.actions = element.find('os-popover-actions').detach();
 
@@ -136,7 +174,7 @@ angular
         angular.element(element[0].getElementsByClassName('transclude-content')[0]).remove();
 
         // translude button without losing bindings
-        angular.element(element[0]).append( ctrl.actions );
+        angular.element(element[0].getElementsByClassName('os-popover-content')).append( ctrl.actions );
       }
     }
   });

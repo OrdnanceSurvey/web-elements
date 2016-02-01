@@ -1,4 +1,4 @@
-// Compiled using typings@0.6.1
+// Compiled using typings@0.6.2
 // Source: shim.d.ts
 // shim.d.ts
 // contains shim functions to make the TS compiler happy
