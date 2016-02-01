@@ -119,6 +119,16 @@
                     vm.selectComponent(this.components[1]);
 
                 })
+                .controller('PopupCtrl', function() {
+                  var vm = this;
+
+                  this.visible = false;
+
+                  this.togglePopup = function() {
+                    vm.visible = !vm.visible;
+                  };
+
+                })
                 .controller('autocompleteController', function() {
                   this.searchText = '';
 

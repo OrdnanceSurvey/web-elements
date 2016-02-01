@@ -1,9 +1,9 @@
 <div flex layout="row">
 
-  <div style="width: 100px; height: 70px;border: 1px solid sandybrown;margin-right: 40px">
+  <div style="width: 100px; height: 70px;border: 1px solid sandybrown;margin-right: 40px" ng-click="popupCtrl.togglePopup()" ng-controller="PopupCtrl as popupCtrl">
     Large desktop dialog
 
-    <os-popover class="os-popover" os-direction="bottom" os-type="wide">
+    <os-popover class="os-popover" os-direction="bottom" os-type="wide" os-visible="popupCtrl.visible">
       <os-popover-title>Permissions</os-popover-title>
 
       <os-popover-description>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisinuli.</os-popover-description>
@@ -17,19 +17,19 @@
 
   </div>
 
-  <div style="min-width: 100px; height: 70px; border: 1px solid sandybrown;margin-right: 40px">
+  <div style="min-width: 100px; height: 70px; border: 1px solid sandybrown;margin-right: 40px" ng-click="popupCtrl.togglePopup()" ng-controller="PopupCtrl as popupCtrl">
     PopUp.Content.Simple
 
-    <os-popover os-direction="bottom">
+    <os-popover os-direction="bottom" os-visible="popupCtrl.visible">
       <os-popover-title>Permissions</os-popover-title>
     </os-popover>
   </div>
 
 
-  <div style="min-width: 100px; height: 70px; border: 1px solid sandybrown;margin-right: 40px">
+  <div style="min-width: 100px; height: 70px; border: 1px solid sandybrown;margin-right: 40px" ng-click="popupCtrl.togglePopup()" ng-controller="PopupCtrl as popupCtrl">
     PopUp.Content.WithSubheader
 
-    <os-popover os-direction="bottom">
+    <os-popover os-direction="bottom" os-visible="popupCtrl.visible">
       <os-popover-title>Title 20pt Semibold</os-popover-title>
       <os-popover-subtitle>18pt Regular subheader</os-popover-subtitle>
 
@@ -37,10 +37,10 @@
     </os-popover>
   </div>
 
-  <div style="min-width: 100px; height: 70px; background: #fff;border: 1px solid sandybrown;margin-right: 40px" >
+  <div style="min-width: 100px; height: 70px; background: #fff;border: 1px solid sandybrown;margin-right: 40px" ng-click="popupCtrl.togglePopup()" ng-controller="PopupCtrl as popupCtrl">
     PopUp.Content.Title
 
-    <os-popover os-direction="bottom">
+    <os-popover os-direction="bottom" os-visible="popupCtrl.visible">
       <os-popover-title>Title 20pt Semibold</os-popover-title>
 
       <os-popover-description>Body Copy 16pt Regular going over two lines tatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magnet.</os-popover-description>
@@ -52,10 +52,10 @@
     </os-popover>
   </div>
 
-  <div style="min-width: 100px; height: 70px; background: #fff;border: 1px solid sandybrown;margin-right: 40px">
+  <div style="min-width: 100px; height: 70px; background: #fff;border: 1px solid sandybrown;margin-right: 40px" ng-click="popupCtrl.togglePopup()" ng-controller="PopupCtrl as popupCtrl">
     PopUp.Content.NoTitle
 
-    <os-popover os-direction="bottom">
+    <os-popover os-direction="bottom" os-visible="popupCtrl.visible">
       <os-popover-description>Body Copy 16pt Regular going over two lines tatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magnet.</os-popover-description>
 
       <os-popover-actions layout="row" layout-align="space-between center">
@@ -66,10 +66,10 @@
   </div>
 
 
-  <div style="min-width: 100px; height: 70px; background: #fff;border: 1px solid sandybrown;margin-right: 40px">
+  <div style="min-width: 100px; height: 70px; background: #fff;border: 1px solid sandybrown;margin-right: 40px" ng-click="popupCtrl.togglePopup()" ng-controller="PopupCtrl as popupCtrl">
     PopUp.Actions
 
-    <os-popover os-direction="bottom">
+    <os-popover os-direction="bottom" os-visible="popupCtrl.visible">
 
       <os-popover-actions layout="column" layout-align="left left">
         <div layout="row">

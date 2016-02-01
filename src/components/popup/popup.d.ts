@@ -6,6 +6,8 @@ export declare class OsPopover {
     static $inject: string[];
     private parent;
     osDirection: string;
+    visible: boolean;
+    autoshow: any;
     private tooltipParent;
     private parentRect;
     private tipRect;
@@ -22,6 +24,7 @@ export declare class OsPopover {
     constructor($element: ng.IRootElementService, $transclude: ng.ITranscludeFunction, $mdUtil: any);
     private postLink();
     private enterHandler();
+    toggleVisibility(visible: boolean): void;
     private show();
     private hide();
     protected updatePosition(pos: any): void;

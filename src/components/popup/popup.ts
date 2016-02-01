@@ -6,6 +6,8 @@ export class OsPopover {
   private parent;
 
   osDirection:string;
+  visible: boolean = false;
+  autoshow: any;
 
   private tooltipParent;
   private parentRect;
@@ -27,8 +29,6 @@ export class OsPopover {
   constructor(private $element:ng.IRootElementService, private $transclude:ng.ITranscludeFunction, private $mdUtil:any) {
     this.tooltipParent = angular.element(document.body);
 
-    console.log($element, this.width);
-
     this.postLink();
 
     this.tooltipParent.append($element);
@@ -37,20 +37,29 @@ export class OsPopover {
   private postLink() {
     this.parent = this.$mdUtil.getParentWithPointerEvents(this.$element);
 
-    this.parent.on('focus mouseenter touchstart', this.enterHandler.bind(this));
+    if (this.autoshow) {
+      this.parent.on('focus mouseenter touchstart', this.enterHandler.bind(this));
 
+    }
   }
 
   private enterHandler() {
     this.show();
-    this.positionTooltip();
+  }
+
+  toggleVisibility(visible: boolean) {
+    this.visible = visible;
+    this.visible ? this.show(): this.hide();
   }
 
   private show() {
+    this.visible = true;
     this.$element.css('display', 'block');
+    this.positionTooltip();
   }
 
   private hide() {
+    this.visible = false;
     this.$element.css('display', 'none');
   }
 
@@ -152,8 +161,9 @@ angular
         osDirection: '@?',
         width: '@?osWidth',
         height: '@?osHeight',
+        autoshow: '=?osAutoshow',
         type: '@?osType',
-        osVisible: '=?',
+        visible: '=?osVisible',
       },
       controller: OsPopover,
       controllerAs: 'osPopover',
@@ -175,6 +185,12 @@ angular
 
         // translude button without losing bindings
         angular.element(element[0].getElementsByClassName('os-popover-content')).append( ctrl.actions );
+
+        // watchers
+        scope.$watch('osPopover.visible', function (visible) {
+          ctrl.toggleVisibility(visible);
+        });
+
       }
     }
   });
