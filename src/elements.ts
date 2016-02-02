@@ -30,3 +30,5 @@ export {OsTab} from './components/tabs/tab';
 export {OsPopover} from './components/popup/popup';
 export {OsModal} from './components/modal/modal';
 export {OsAutocomplete} from './components/autocomplete/autocomplete';
+//export {OsControl} from './components/drawing-tools/drawing-tools';
+export {MaxSize} from './components/map/map';

@@ -8,6 +8,7 @@ export class OsPopover {
   osDirection:string;
   visible: boolean = false;
   autoshow: any;
+  type;
 
   private tooltipParent;
   private parentRect;
