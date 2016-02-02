@@ -606,6 +606,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var max_size_directive_1 = __webpack_require__(17);
+	var max_size_directive_2 = __webpack_require__(17);
+	exports.MaxSize = max_size_directive_2.MaxSize;
+	angular
+	    .module('osElements')
+	    .directive('osMapMaxSize', max_size_directive_1.MaxSize.Factory());
+
+
+/***/ },
+/* 17 */
 /***/ function(module, exports) {
 
 	var MaxSize = (function () {
@@ -634,9 +646,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return MaxSize;
 	})();
 	exports.MaxSize = MaxSize;
-	angular
-	    .module('osElements')
-	    .directive('osMapMaxSize', MaxSize.Factory());
 
 
 /***/ }

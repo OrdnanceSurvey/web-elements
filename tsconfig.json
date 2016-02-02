@@ -16,6 +16,7 @@
     "typings/main.d.ts",
     "src/components/button/button.component.ts",
     "src/components/map/map.ts",
+    "src/components/map/max-size.directive.ts",
     "src/elements.ts"
   ]
 }
