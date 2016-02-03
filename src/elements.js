@@ -27,5 +27,7 @@ var modal_1 = require('./components/modal/modal');
 exports.OsModal = modal_1.OsModal;
 var autocomplete_1 = require('./components/autocomplete/autocomplete');
 exports.OsAutocomplete = autocomplete_1.OsAutocomplete;
+var drawing_tools_1 = require('./components/drawing-tools/drawing-tools');
+exports.PolygonTool = drawing_tools_1.PolygonTool;
 var map_1 = require('./components/map/map');
 exports.MaxSize = map_1.MaxSize;

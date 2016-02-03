@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory();
+		module.exports = factory(require("openlayers"));
 	else if(typeof define === 'function' && define.amd)
-		define([], factory);
+		define(["openlayers"], factory);
 	else {
-		var a = factory();
+		var a = typeof exports === 'object' ? factory(require("openlayers")) : factory(root["ol"]);
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(this, function() {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_18__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -100,7 +100,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.OsModal = modal_1.OsModal;
 	var autocomplete_1 = __webpack_require__(15);
 	exports.OsAutocomplete = autocomplete_1.OsAutocomplete;
-	var map_1 = __webpack_require__(16);
+	var drawing_tools_1 = __webpack_require__(16);
+	exports.PolygonTool = drawing_tools_1.PolygonTool;
+	var map_1 = __webpack_require__(19);
 	exports.MaxSize = map_1.MaxSize;
 
 
@@ -608,16 +610,80 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var max_size_directive_1 = __webpack_require__(17);
-	var max_size_directive_2 = __webpack_require__(17);
-	exports.MaxSize = max_size_directive_2.MaxSize;
+	var polygon_directive_1 = __webpack_require__(17);
+	var polygon_directive_2 = __webpack_require__(17);
+	exports.PolygonTool = polygon_directive_2.PolygonTool;
 	angular
 	    .module('osElements')
-	    .directive('osMapMaxSize', max_size_directive_1.MaxSize.Factory());
+	    .directive('osMapControlPolygon', polygon_directive_1.PolygonTool.Factory());
 
 
 /***/ },
 /* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var polygon_controller_1 = __webpack_require__(21);
+	var PolygonTool = (function () {
+	    function PolygonTool($timeout, $window, olData) {
+	        this.restrict = 'E';
+	        this.require = '^openlayers';
+	        this.template = "<os-button variation=\"outline\" colour=\"primary\" ng-click=\"ctrl.toggle()\">Polygon</os-button>";
+	        this.scope = {};
+	        this.bindToController = {
+	            featureLayer: '=osFeatureLayer'
+	        };
+	        this.controllerAs = 'ctrl';
+	        this.controller = polygon_controller_1.PolygonToolController;
+	        PolygonTool.prototype.link = function (scope, iElement, iAttrs, olCtrl) {
+	            function PolygonTool_OL() {
+	                ol.control.Control.call(this, {
+	                    element: iElement[0]
+	                });
+	            }
+	            olData.getMap().then(function (map) {
+	                ol.inherits(PolygonTool_OL, ol.control.Control);
+	                map.addControl(new PolygonTool_OL());
+	            });
+	        };
+	    }
+	    PolygonTool.prototype.BasicControl = function (element) {
+	        return ol.control.Control.call(this, {
+	            element: element
+	        });
+	    };
+	    ;
+	    PolygonTool.Factory = function () {
+	        var directive = function ($timeout, $window, olData) {
+	            return new PolygonTool($timeout, $window, olData);
+	        };
+	        directive['$inject'] = ['$timeout', '$window', 'olData'];
+	        return directive;
+	    };
+	    return PolygonTool;
+	})();
+	exports.PolygonTool = PolygonTool;
+
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_18__;
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var max_size_directive_1 = __webpack_require__(20);
+	var max_size_directive_2 = __webpack_require__(20);
+	exports.MaxSize = max_size_directive_2.MaxSize;
+	angular
+	    .module('osElements')
+	    .directive('osMaxSize', max_size_directive_1.MaxSize.Factory());
+
+
+/***/ },
+/* 20 */
 /***/ function(module, exports) {
 
 	var MaxSize = (function () {
@@ -646,6 +712,124 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return MaxSize;
 	})();
 	exports.MaxSize = MaxSize;
+
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ol = __webpack_require__(18);
+	var PolygonToolController = (function () {
+	    function PolygonToolController($scope, $timeout, olData) {
+	        var _this = this;
+	        this.$scope = $scope;
+	        this.$timeout = $timeout;
+	        this.transparentStyle = new ol.style.Style({
+	            fill: new ol.style.Fill({
+	                color: 'rgba(0,0,0, 0.0)'
+	            }),
+	            stroke: new ol.style.Stroke({
+	                color: 'rgba(0,0,0, 0.0)',
+	                width: 3
+	            }),
+	            image: new ol.style.Circle({
+	                radius: 7,
+	                fill: new ol.style.Fill({
+	                    color: 'rgba(0,0,0, 0.0)'
+	                }),
+	                stroke: new ol.style.Stroke({
+	                    color: 'rgba(0,0,0, 0.0)',
+	                    width: 3
+	                })
+	            })
+	        });
+	        this.features = new ol.Collection();
+	        this.featureSource = new ol.source.Vector({ features: this.features, updateWhileAnimating: true, updateWhileInteracting: true });
+	        this.featureOverlay = new ol.layer.Vector({
+	            source: this.featureSource,
+	            style: this.transparentStyle
+	        });
+	        olData.getMap().then(function (map) {
+	            _this.map = map;
+	        });
+	    }
+	    PolygonToolController.prototype.toggle = function () {
+	        if (this.interaction && this.interaction.getActive()) {
+	            this.deactivate();
+	        }
+	        else {
+	            this.enable();
+	        }
+	    };
+	    PolygonToolController.prototype.enable = function () {
+	        var _this = this;
+	        this.featureOverlay.setMap(this.map);
+	        var draw = new ol.interaction.Draw({
+	            features: this.features,
+	            type: 'Polygon',
+	            style: this.transparentStyle
+	        });
+	        draw.on('drawend', function () {
+	            _this.$timeout(function () {
+	                _this.deactivate();
+	            });
+	            _this.$scope.$apply(function () {
+	                _this.featureLayer.style.image.circle.fill.color = 'rgba(0,0,0,0)';
+	                _this.featureLayer.style.image.circle.stroke.color = 'rgba(0,0,0,0)';
+	            });
+	        });
+	        draw.on('drawstart', function (drawEvent) {
+	            drawEvent.feature.getGeometry().on('change', function (geometry) {
+	                _this.$scope.$apply(function () {
+	                    _this.featureLayer.style.image.circle.fill.color = '#D40058';
+	                    _this.featureLayer.style.image.circle.stroke.color = '#FFFFFF';
+	                });
+	                var coords = geometry.currentTarget.getCoordinates();
+	                _this.$scope.$apply(function () {
+	                    _this.featureLayer.source.geojson.object.features[0].geometry.geometries[0].coordinates = coords;
+	                    _this.featureLayer.source.geojson.object.features[0].geometry.geometries[1].coordinates = coords[0];
+	                });
+	            });
+	        });
+	        this.interaction = draw;
+	        this.map.addInteraction(draw);
+	    };
+	    PolygonToolController.prototype.removeColour = function (layer) {
+	        layer = layer || {};
+	        layer.style = layer.style || {};
+	        layer.style.image = layer.style.image || {};
+	        layer.style.image.circle.fill = layer.style.image.circle.fill || {};
+	        layer.style.image.circle.stroke = layer.style.image.circle.stroke || {};
+	        layer.style.image.circle.fill.color = 'rgba(0,0,0,0)';
+	        layer.style.image.circle.stroke.color = 'rgba(0,0,0,0)';
+	    };
+	    PolygonToolController.prototype.addColour = function (layer) {
+	        layer = layer || {};
+	        layer.style = layer.style || {};
+	        layer.style.image = layer.style.image || {};
+	        layer.style.image.circle.fill = layer.style.image.circle.fill || {};
+	        layer.style.image.circle.stroke = layer.style.image.circle.stroke || {};
+	        layer.style.image.circle.fill.color = '#D40058';
+	        layer.style.image.circle.stroke.color = '#FFFFFF';
+	    };
+	    PolygonToolController.prototype.deactivate = function () {
+	        this.map.removeInteraction(this.interaction);
+	        this.interaction = null;
+	        this.featureOverlay.setMap(null);
+	    };
+	    PolygonToolController.prototype.isActive = function () {
+	        return this.interaction && this.interaction.getActive();
+	    };
+	    PolygonToolController.prototype.getOpenlayersLayer = function (map, layerName) {
+	        return map.getLayers().getArray().filter(function (layer) {
+	            var layerProps = layer.getProperties();
+	            return layerProps.name === layerName;
+	        })[0];
+	    };
+	    PolygonToolController.$inject = ['$scope', '$timeout', 'olData'];
+	    return PolygonToolController;
+	})();
+	exports.PolygonToolController = PolygonToolController;
 
 
 /***/ }

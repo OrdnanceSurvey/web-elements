@@ -3,6 +3,13 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var destFolder = '/build';
 
+var olExternals = {
+  root: 'ol',
+  commonjs2: 'openlayers',
+  commonjs: 'openlayers',
+  amd: 'openlayers'
+};
+
 var config = {
   context: __dirname,
   debug: true,
@@ -29,6 +36,11 @@ var config = {
     chunkFilename: '[id].chunk.js',
     libraryTarget: 'umd'
   },
+
+  externals: [{
+    'ol': olExternals,
+    'openlayers': olExternals
+  }],
 
   // modles to compile .less and include .css
   // in the .ts use code like: require('./button.less');

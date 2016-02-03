@@ -764,6 +764,15 @@ declare module olx {
       zIndex?: number;
     }
 
+    interface StrokeOptions {
+      color?: ol.Color | string;
+      lineCap?: string;
+      lineJoin?: string;
+      lineDash?: string;
+      miterLimit?: number;
+      width?: number;
+    }
+
     interface TextOptions {
       font?: string;
       offsetX?: number;
@@ -982,6 +991,7 @@ declare module olx {
  */
 declare module ol {
 
+  import DrawEvent = ol.interaction.DrawEvent;
   function inherits(childCtor: any, parentCtor: any): any;
 
   interface TileLoadFunctionType{ (image: ol.Image, url: string): void }
@@ -1014,7 +1024,7 @@ declare module ol {
      * @constructor
      * @param values Array.
      */
-    constructor(values: Array<T>)
+    constructor(values?: Array<T>)
 
     /**
      * Remove all elements from the collection.
@@ -1923,23 +1933,14 @@ declare module ol {
      */
     getRevision(): number;
 
-    /**
-     * Listen for a certain type of event.
-     * @param type The event type.
-     * @param listener The listener function.
-     * @param ref The object to use as this in listener.
-     * @returns Unique key for the listener.
-     */
-    on(type: string, listener: (event: MapBrowserEvent) => void, ref?: any): any;
-
-    /**
+        /**
      * Listen for a certain type of event.
      * @param type The array of event types.
      * @param listener The listener function.
      * @param ref The object to use as this in listener.
      * @returns Unique key for the listener.
      */
-    on(type: Array<string>, listener: (event: MapBrowserEvent) => void, ref?: any): any;
+    on(type: string | Array<string>, listener: (event: MapBrowserEvent | DrawEvent) => void, ref?: any): any;
 
     /**
      * Listen once for a certain type of event.
@@ -1948,7 +1949,7 @@ declare module ol {
      * @param ref The object to use as this in listener.
      * @returns Unique key for the listener.
      */
-    once(type: string, listener: (event: MapBrowserEvent) => void, ref?: any): any;
+    once(type: string, listener: (event: MapBrowserEvent | DrawEvent) => void, ref?: any): any;
 
     /**
      * Listen once for a certain type of event.
@@ -1957,7 +1958,7 @@ declare module ol {
      * @param ref The object to use as this in listener.
      * @returns Unique key for the listener.
      */
-    once(type: Array<string>, listener: (event: MapBrowserEvent) => void, ref?: any): any;
+    once(type: Array<string>, listener: (event: MapBrowserEvent | DrawEvent) => void, ref?: any): any;
 
     /**
      * Unlisten for a certain type of event.
@@ -1966,7 +1967,7 @@ declare module ol {
      * @param ref The object to use as this in listener.
      * @returns Unique key for the listener.
      */
-    un(type: Array<string>, listener: (event: MapBrowserEvent) => void, ref?: any): any;
+    un(type: Array<string>, listener: (event: MapBrowserEvent | DrawEvent) => void, ref?: any): any;
 
     /**
      * Removes an event listener using the key returned by on() or once(). Note that using the ol.Observable.unByKey static function is to be preferred.
@@ -3448,9 +3449,12 @@ declare module ol {
     }
 
     class DrawEvent {
+      feature: ol.Feature;
     }
 
-    class Interaction {
+    class Interaction extends ol.Object {
+      getActive(): boolean;
+      setActive(active: boolean): void;
     }
 
     class KeyboardPan {
@@ -3717,6 +3721,10 @@ declare module ol {
        * @param source The layer source.
        */
       setSource(source: ol.source.Source): void;
+
+      setMap(map: ol.Map): void;
+
+      getMap(): ol.Map;
     }
 
     /**
@@ -4052,7 +4060,7 @@ declare module ol {
     }
 
     class Circle {
-      constructor(opt_options?: olx.style.CircleOptions);
+      constructor(options?: olx.style.CircleOptions);
     }
 
     /**
@@ -4060,7 +4068,7 @@ declare module ol {
      */
     class Fill {
 
-      constructor(opt_options?: olx.style.FillOptions);
+      constructor(options?: olx.style.FillOptions);
 
       getColor(): ol.Color | string;
 
@@ -4086,7 +4094,7 @@ declare module ol {
     }
 
     class Stroke {
-      constructor();
+      constructor(options?: olx.style.StrokeOptions);
     }
 
     /**

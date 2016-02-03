@@ -6,4 +6,4 @@ export {MaxSize} from "./max-size.directive";
 
 angular
   .module('osElements')
-  .directive('osMapMaxSize', MaxSize.Factory());
+  .directive('osMaxSize', MaxSize.Factory());
