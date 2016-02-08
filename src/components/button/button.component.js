@@ -1,5 +1,6 @@
 var OsButton = (function () {
     function OsButton($element) {
+        var _this = this;
         $element.on('click', function (e) {
             if ($element.attr('disabled') === 'disabled') {
                 e.preventDefault();
@@ -7,24 +8,29 @@ var OsButton = (function () {
             }
         });
         var mdButton = $element.children('md-button');
-        if (this.colour) {
-            mdButton.addClass('md-' + this.colour);
-        }
-        switch (this.variation) {
-            case 'solid':
-                mdButton.addClass('md-raised');
-                break;
-            case 'outline':
-                mdButton.addClass('md-os-outline');
-                break;
-            case 'super':
-                mdButton.addClass('md-raised');
-                mdButton.addClass('md-os-super');
-                break;
-            case 'text':
-            default:
-                break;
-        }
+        this.makeClass = function () {
+            var classes = [];
+            switch (_this.variation) {
+                case 'solid':
+                    classes.push('md-raised');
+                    break;
+                case 'outline':
+                    classes.push('md-os-outline');
+                    break;
+                case 'super':
+                    classes.push('md-raised');
+                    classes.push('md-os-super');
+                    break;
+                case 'text':
+                default:
+                    break;
+            }
+            if (_this.colour) {
+                classes.push('md-' + _this.colour);
+            }
+            return classes.join(' ');
+        };
+        mdButton.addClass(this.makeClass());
         if (this.disabled) {
             mdButton.attr('disabled', 'disabled');
         }

@@ -15,6 +15,17 @@
   "files": [
     "typings/main.d.ts",
     "src/components/button/button.component.ts",
+    "src/components/select/select.ts",
+    "src/components/tabs/tabs.ts",
+    "src/components/tabs/tab.ts",
+    "src/components/popup/popup.ts",
+    "src/components/autocomplete/autocomplete.ts",
+    "src/components/map/map.ts",
+    "src/components/map/max-size.directive.ts",
+    "src/components/map/projection.service.ts",
+    "src/components/drawing-tools/polygon.controller.ts",
+    "src/components/drawing-tools/polygon.directive.ts",
+    "src/components/drawing-tools/drawing-tools.ts",
     "src/elements.ts"
   ]
 }

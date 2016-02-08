@@ -15,16 +15,19 @@ export interface IModalOptions {
   cancel: string,
   fullscreen: boolean,
   controller?: any
-};
-
-interface IOptions extends IModalOptions {};
+}
 
 
-class OsModalService {
+export interface IOptions extends IModalOptions {
+}
 
-  constructor(private $mdDialog: IDialogService, private $mdMedia: IMedia) {}
 
-  private getDefaultOptions(options: IOptions): IModalOptions {
+export class OsModalService {
+
+  constructor(private $mdDialog:IDialogService, private $mdMedia:IMedia) {
+  }
+
+  private getDefaultOptions(options:IOptions):IModalOptions {
     return {
       title: options.title || '',
       textContent: options.textContent || '',
@@ -35,23 +38,23 @@ class OsModalService {
     }
   }
 
-  alert(options: IOptions, display: boolean = true): angular.IPromise<any>|IAlertDialog {
+  alert(options:IOptions, display:boolean = true):angular.IPromise<any>|IAlertDialog {
     let params = this.getDefaultOptions(options);
 
     let modal = this.$mdDialog.alert(params);
 
-    return display ? this.$mdDialog.show(modal): modal;
+    return display ? this.$mdDialog.show(modal) : modal;
   }
 
-  confirm(options: IOptions, display: boolean = true): angular.IPromise<any>|IConfirmDialog {
+  confirm(options:IOptions, display:boolean = true):angular.IPromise<any>|IConfirmDialog {
     let params = this.getDefaultOptions(options);
 
     let modal = this.$mdDialog.confirm(params);
 
-    return display ? this.$mdDialog.show(modal): modal;
+    return display ? this.$mdDialog.show(modal) : modal;
   }
 
-  html(options: IOptions, display: boolean = true): angular.IPromise<any> {
+  html(options:IOptions, display:boolean = true):angular.IPromise<any> {
     let params = this.getDefaultOptions(options);
 
     // bind controller
@@ -69,11 +72,11 @@ class OsModalService {
     return this.$mdDialog.show(params);
   }
 
-  show(dialog: IDialogOptions|IAlertDialog|IConfirmDialog)  {
+  show(dialog:IDialogOptions|IAlertDialog|IConfirmDialog) {
     return this.$mdDialog.show(dialog);
   }
 
-  isFullScreen(): boolean {
+  isFullScreen():boolean {
     // according to ux all modal should be full screen
     return true; //this.$mdMedia('sm') || this.$mdMedia('xs')
   }
@@ -82,7 +85,7 @@ class OsModalService {
 
 export class OsModal {
 
-  $get = ['$mdDialog', '$mdMedia', ($mdDialog: IDialogService, $mdMedia: IMedia) => {
+  $get = ['$mdDialog', '$mdMedia', ($mdDialog:IDialogService, $mdMedia:IMedia) => {
 
     return new OsModalService($mdDialog, $mdMedia);
 
