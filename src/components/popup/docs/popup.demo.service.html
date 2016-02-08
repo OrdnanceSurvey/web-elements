@@ -1,0 +1,33 @@
+<script type="text/javascript">
+  <!-- this is only source code example, please edit docs/index.html if change is required -->
+  var OS = OS || {};
+  OS.showPopup = function(name, element) {
+
+    var service = angular.element(document.body).injector().get('$osPopover');
+
+    var popupHandle = service.create({
+      title: name,
+      description: 'Description',
+      parent: element,
+      scope: {
+        ngCallback: function() {
+          console.log('Hit callback');
+        }
+      },
+      actions: '<a ng-click="ngCallback()">Action #1</a>'
+    });
+
+    service.show(popupHandle);
+
+    //service.hide(popupHandle);
+  }
+</script>
+
+<div flex layout="row">
+
+  <div style="width: 100px; height: 70px;border: 1px solid sandybrown;margin-right: 40px">
+    <a href="#" onclick="OS.showPopup('Map #1', this); return false;">Click to show popup</a>
+  </div>
+
+</div>
+

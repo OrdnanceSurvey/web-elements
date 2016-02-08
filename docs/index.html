@@ -277,6 +277,30 @@
     });
 </script>
 
+<script type="text/javascript">
+  <!-- setup code for osPopover -->
+  var OS = OS || {};
+  OS.showPopup = function(name, element) {
+
+    var service = angular.element(document.body).injector().get('$osPopover');
+
+    var popupHandle = service.create({
+      title: name,
+      description: 'Description',
+      parent: element,
+      scope: {
+        ngCallback: function() {
+          console.log('Hit callback');
+        }
+      },
+      actions: '<a ng-click="ngCallback()">Action #1</a>'
+    });
+
+    service.show(popupHandle);
+
+    //service.hide(popupHandle);
+  }
+</script>
 
 </body>
 </html>

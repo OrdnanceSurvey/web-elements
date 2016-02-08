@@ -1,13 +1,14 @@
 /// <reference path="../../../typings/main.d.ts" />
 
 export class OsPopover {
-  static $inject = ['$element', '$transclude', '$mdUtil'];
+  static $inject = ['$element', '$transclude', '$mdUtil', '$window'];
 
   private parent;
 
   osDirection:string;
   visible: boolean = false;
   autoshow: any;
+  type: string;
 
   private tooltipParent;
   private parentRect;
@@ -26,7 +27,7 @@ export class OsPopover {
 
   static TOOLTIP_WINDOW_EDGE_SPACE = 8;
 
-  constructor(private $element:ng.IRootElementService, private $transclude:ng.ITranscludeFunction, private $mdUtil:any) {
+  constructor(private $element:ng.IRootElementService, private $transclude:ng.ITranscludeFunction, private $mdUtil:any, $window: any) {
     this.tooltipParent = angular.element(document.body);
 
     this.postLink();
@@ -39,7 +40,14 @@ export class OsPopover {
 
     if (this.autoshow) {
       this.parent.on('focus mouseenter touchstart', this.enterHandler.bind(this));
+    }
+  }
 
+  setParent(element) {
+    this.parent = angular.element(element);
+
+    if (this.autoshow) {
+      this.parent.on('focus mouseenter touchstart', this.enterHandler.bind(this));
     }
   }
 
@@ -116,7 +124,6 @@ export class OsPopover {
     this.tipRect = this.$mdUtil.offsetRect(this.$element, this.parent);
     this.parentRect = this.$mdUtil.offsetRect(this.parent, this.tooltipParent);
 
-
     let newPosition = this.getPosition(this.osDirection);
     let offsetParent = this.$element.prop('offsetParent');
 
@@ -155,7 +162,76 @@ angular
       }
     }
   })
-  .directive('osPopover', function () {
+  .provider("$osPopupManager", function() {
+
+    this.popups = {};
+
+    this.$get = function() {
+
+      var popups = this.popups;
+
+      return {
+        popup: function(id) {
+          return popups[id] || {};
+        },
+        register: function(id, ctrl) {
+          popups[id] = ctrl;
+        },
+        deregister: function(id) {
+          popups[id] = null;
+          delete popups[id];
+        }
+      };
+    };
+  })
+  .factory('$osPopover', ['$osPopupManager', '$rootScope', '$compile',function($osPopupManager, $rootScope, $compile) {
+    return {
+      create: function(options) {
+        let scope = $rootScope.$new();
+        angular.extend(scope, options.scope);
+
+        let comp = this.compilePopup(options, scope);
+
+        angular.element(document.body).append(angular.element(comp));
+
+        scope.$apply();
+
+        let ctrl = this.getPopupByHandle(scope.$id);
+
+        ctrl.setParent(options.parent);
+
+        return scope.$id;
+      },
+      prepareTemplates: function(options) {
+        return '<os-popover class="os-popover" os-direction="'+ (options.direction || 'top') +'"> \
+          <os-popover-title>'+ (options.title || '') + '</os-popover-title> \
+          <os-popover-subtitle>'+ (options.subtitle || '') + '</os-popover-subtitle> \
+          <os-popover-description>'+ (options.description || '') + '</os-popover-description> \
+          <os-popover-actions>'+ (options.actions || '') + '</os-popover-actions> \
+          <os-popover-main-image>'+ (options.mainImage || '') + '</os-popover-main-image> \
+          <os-popover-left-image>'+ (options.leftImage || '') + '</os-popover-left-image> \
+          <os-popover-background-image>'+ (options.backgroundImage || '') + '</os-popover-background-image> \
+          <os-popover-actions>'+ (options.actions || '') + '</os-popover-actions> \
+          </os-popover>';
+      },
+      compilePopup: function(options, scope) {
+        let templates = this.prepareTemplates(options);
+        return $compile(templates)(scope);
+      },
+      getPopupByHandle: function(handle) {
+        return $osPopupManager.popup(handle);
+      },
+      show: function(handle) {
+        let elem = this.getPopupByHandle(handle);
+        elem.toggleVisibility(true)
+      },
+      hide: function(handle) {
+        let elem = this.getPopupByHandle(handle);
+        elem.toggleVisibility(false)
+      },
+    }
+  }])
+  .directive('osPopover', ['$osPopupManager', function ($osPopupManager) {
     return {
       scope: {
         osDirection: '@?',
@@ -191,6 +267,11 @@ angular
           ctrl.toggleVisibility(visible);
         });
 
+        scope.$on("$destroy", function() {
+          $osPopupManager.deregister(scope.$parent.$id);
+        });
+
+        $osPopupManager.register(scope.$parent.$id, ctrl);
       }
     }
-  });
+  }]);

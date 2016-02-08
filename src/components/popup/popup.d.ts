@@ -8,6 +8,7 @@ export declare class OsPopover {
     osDirection: string;
     visible: boolean;
     autoshow: any;
+    type: string;
     private tooltipParent;
     private parentRect;
     private tipRect;
@@ -21,8 +22,9 @@ export declare class OsPopover {
     width: string;
     height: string;
     static TOOLTIP_WINDOW_EDGE_SPACE: number;
-    constructor($element: ng.IRootElementService, $transclude: ng.ITranscludeFunction, $mdUtil: any);
+    constructor($element: ng.IRootElementService, $transclude: ng.ITranscludeFunction, $mdUtil: any, $window: any);
     private postLink();
+    setParent(element: any): void;
     private enterHandler();
     toggleVisibility(visible: boolean): void;
     private show();
