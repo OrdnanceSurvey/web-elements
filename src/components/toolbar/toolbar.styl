@@ -1,0 +1,56 @@
+.os-map-toolbar
+  display inline-flex
+  max-height 58px
+
+  &.os-map-toolbar--vertical
+    max-width 60px
+    max-height initial
+
+os-toolbar-action
+  width 50px
+  max-width 50px
+  height 58px
+  max-height 58px
+  background-color #ffffff
+  text-align center
+
+  .os-map-toolbar--vertical &
+    width 60px
+    max-width 60px
+    height 50px
+    max-height 50px
+
+  &.os-toolbar-action--active
+    background-color transparent
+
+  a
+    color #757575
+    text-decoration none
+    box-sizing border-box
+    font-size 12px
+
+
+
+.os-toolbar-actionIcon
+  display block
+  margin 10px auto 6px
+
+  .os-map-toolbar--vertical &
+    margin 6px auto 4px
+
+.os-toolbar-actionText
+  display block
+
+os-toolbar-separator
+  background-color #fff
+
+.os-toolbar-separator
+  width 1px
+  height 34px
+  background-color #e0e0e0
+  margin 12px
+  overflow hidden
+
+  .os-map-toolbar--vertical &
+    height 1px
+    width 36px
