@@ -31,5 +31,5 @@ export {OsPopover} from './components/popup/popup';
 export {OsModal} from './components/modal/modal';
 export {OsAutocomplete} from './components/autocomplete/autocomplete';
 //export {OsToolbar} from './components/toolbar/toolbar';
-//export {OsSlider} from './components/slider/slider';
+export {OsSlider} from './components/slider/slider';
 export {OsHeader} from './components/header/header';
