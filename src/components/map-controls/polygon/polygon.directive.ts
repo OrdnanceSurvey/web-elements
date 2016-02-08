@@ -1,4 +1,4 @@
-/// <reference path="../../../typings/main.d.ts" />
+/// <reference path="../../../../typings/main.d.ts" />
 
 import {IPolygonTool, PolygonToolController} from "./polygon.controller";
 import IScope = angular.IScope;

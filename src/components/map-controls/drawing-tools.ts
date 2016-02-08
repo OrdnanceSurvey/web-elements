@@ -1,8 +1,9 @@
 /// <reference path="../../../typings/main.d.ts" />
 
 import * as ol from "openlayers";
-import {PolygonTool} from "./polygon.directive";
-export {PolygonTool} from "./polygon.directive";
+
+import {PolygonTool} from "./polygon/polygon.directive";
+export {PolygonTool} from "./polygon/polygon.directive";
 
 angular
   .module('osElements')

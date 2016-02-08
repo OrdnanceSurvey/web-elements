@@ -1,4 +1,4 @@
-/// <reference path="../../../typings/main.d.ts" />
+/// <reference path="../../../../typings/main.d.ts" />
 
 import * as ol from "openlayers";
 import IDrawInteractionOptions = olx.interaction.IDrawInteractionOptions;

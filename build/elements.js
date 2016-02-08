@@ -7,7 +7,7 @@
 		var a = typeof exports === 'object' ? factory(require("openlayers"), require("proj4")) : factory(root["ol"], root["proj4"]);
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(this, function(__WEBPACK_EXTERNAL_MODULE_19__, __WEBPACK_EXTERNAL_MODULE_23__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_20__, __WEBPACK_EXTERNAL_MODULE_24__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -102,8 +102,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.OsAutocomplete = autocomplete_1.OsAutocomplete;
 	var drawing_tools_1 = __webpack_require__(16);
 	exports.PolygonTool = drawing_tools_1.PolygonTool;
-	var map_1 = __webpack_require__(20);
+	var map_1 = __webpack_require__(21);
 	exports.MaxSize = map_1.MaxSize;
+	var toolbar_1 = __webpack_require__(25);
+	exports.OsToolbar = toolbar_1.OsToolbar;
+	var slider_1 = __webpack_require__(30);
+	exports.OsSlider = slider_1.OsSlider;
+	var header_1 = __webpack_require__(33);
+	exports.OsHeader = header_1.OsHeader;
 
 
 /***/ },
@@ -273,7 +279,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var OsPopover = (function () {
-	    function OsPopover($element, $transclude, $mdUtil) {
+	    function OsPopover($element, $transclude, $mdUtil, $window) {
 	        this.$element = $element;
 	        this.$transclude = $transclude;
 	        this.$mdUtil = $mdUtil;
@@ -284,6 +290,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    OsPopover.prototype.postLink = function () {
 	        this.parent = this.$mdUtil.getParentWithPointerEvents(this.$element);
+	        if (this.autoshow) {
+	            this.parent.on('focus mouseenter touchstart', this.enterHandler.bind(this));
+	        }
+	    };
+	    OsPopover.prototype.setParent = function (element) {
+	        this.parent = angular.element(element);
 	        if (this.autoshow) {
 	            this.parent.on('focus mouseenter touchstart', this.enterHandler.bind(this));
 	        }
@@ -359,7 +371,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    OsPopover.prototype.isWide = function () {
 	        return this.type === 'wide';
 	    };
-	    OsPopover.$inject = ['$element', '$transclude', '$mdUtil'];
+	    OsPopover.$inject = ['$element', '$transclude', '$mdUtil', '$window'];
 	    OsPopover.TOOLTIP_WINDOW_EDGE_SPACE = 8;
 	    return OsPopover;
 	})();
@@ -385,44 +397,107 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	})
-	    .directive('osPopover', function () {
-	    return {
-	        scope: {
-	            osDirection: '@?',
-	            width: '@?osWidth',
-	            height: '@?osHeight',
-	            autoshow: '=?osAutoshow',
-	            type: '@?osType',
-	            visible: '=?osVisible',
-	        },
-	        controller: OsPopover,
-	        controllerAs: 'osPopover',
-	        bindToController: true,
-	        transclude: true,
-	        template: __webpack_require__(11),
-	        link: function (scope, element, attr, ctrl) {
-	            ctrl.title = element.find('os-popover-title').text();
-	            ctrl.subTitle = element.find('os-popover-subtitle').text();
-	            ctrl.mainImage = element.find('os-popover-main-image').text();
-	            ctrl.leftImage = element.find('os-popover-left-image').text();
-	            ctrl.backgroundImage = element.find('os-popover-background-image').text();
-	            ctrl.description = element.find('os-popover-description').text();
-	            ctrl.actions = element.find('os-popover-actions').detach();
-	            angular.element(element[0].getElementsByClassName('transclude-content')[0]).remove();
-	            angular.element(element[0].getElementsByClassName('os-popover-content')).append(ctrl.actions);
-	            scope.$watch('osPopover.visible', function (visible) {
-	                ctrl.toggleVisibility(visible);
-	            });
-	        }
+	    .provider("$osPopupManager", function () {
+	    this.popups = {};
+	    this.$get = function () {
+	        var popups = this.popups;
+	        return {
+	            popup: function (id) {
+	                return popups[id] || {};
+	            },
+	            register: function (id, ctrl) {
+	                popups[id] = ctrl;
+	            },
+	            deregister: function (id) {
+	                popups[id] = null;
+	                delete popups[id];
+	            }
+	        };
 	    };
-	});
+	})
+	    .factory('$osPopover', ['$osPopupManager', '$rootScope', '$compile', function ($osPopupManager, $rootScope, $compile) {
+	        return {
+	            create: function (options) {
+	                var scope = $rootScope.$new();
+	                angular.extend(scope, options.scope);
+	                var comp = this.compilePopup(options, scope);
+	                angular.element(document.body).append(angular.element(comp));
+	                scope.$apply();
+	                var ctrl = this.getPopupByHandle(scope.$id);
+	                ctrl.setParent(options.parent);
+	                return scope.$id;
+	            },
+	            prepareTemplates: function (options) {
+	                return '<os-popover class="os-popover" os-direction="' + (options.direction || 'top') + '"> \
+	          <os-popover-title>' + (options.title || '') + '</os-popover-title> \
+	          <os-popover-subtitle>' + (options.subtitle || '') + '</os-popover-subtitle> \
+	          <os-popover-description>' + (options.description || '') + '</os-popover-description> \
+	          <os-popover-actions>' + (options.actions || '') + '</os-popover-actions> \
+	          <os-popover-main-image>' + (options.mainImage || '') + '</os-popover-main-image> \
+	          <os-popover-left-image>' + (options.leftImage || '') + '</os-popover-left-image> \
+	          <os-popover-background-image>' + (options.backgroundImage || '') + '</os-popover-background-image> \
+	          <os-popover-actions>' + (options.actions || '') + '</os-popover-actions> \
+	          </os-popover>';
+	            },
+	            compilePopup: function (options, scope) {
+	                var templates = this.prepareTemplates(options);
+	                return $compile(templates)(scope);
+	            },
+	            getPopupByHandle: function (handle) {
+	                return $osPopupManager.popup(handle);
+	            },
+	            show: function (handle) {
+	                var elem = this.getPopupByHandle(handle);
+	                elem.toggleVisibility(true);
+	            },
+	            hide: function (handle) {
+	                var elem = this.getPopupByHandle(handle);
+	                elem.toggleVisibility(false);
+	            },
+	        };
+	    }])
+	    .directive('osPopover', ['$osPopupManager', function ($osPopupManager) {
+	        return {
+	            scope: {
+	                osDirection: '@?',
+	                width: '@?osWidth',
+	                height: '@?osHeight',
+	                autoshow: '=?osAutoshow',
+	                type: '@?osType',
+	                visible: '=?osVisible',
+	            },
+	            controller: OsPopover,
+	            controllerAs: 'osPopover',
+	            bindToController: true,
+	            transclude: true,
+	            template: __webpack_require__(11),
+	            link: function (scope, element, attr, ctrl) {
+	                ctrl.title = element.find('os-popover-title').text();
+	                ctrl.subTitle = element.find('os-popover-subtitle').text();
+	                ctrl.mainImage = element.find('os-popover-main-image').text();
+	                ctrl.leftImage = element.find('os-popover-left-image').text();
+	                ctrl.backgroundImage = element.find('os-popover-background-image').text();
+	                ctrl.description = element.find('os-popover-description').text();
+	                ctrl.actions = element.find('os-popover-actions').detach();
+	                angular.element(element[0].getElementsByClassName('transclude-content')[0]).remove();
+	                angular.element(element[0].getElementsByClassName('os-popover-content')).append(ctrl.actions);
+	                scope.$watch('osPopover.visible', function (visible) {
+	                    ctrl.toggleVisibility(visible);
+	                });
+	                scope.$on("$destroy", function () {
+	                    $osPopupManager.deregister(scope.$parent.$id);
+	                });
+	                $osPopupManager.register(scope.$parent.$id, ctrl);
+	            }
+	        };
+	    }]);
 
 
 /***/ },
 /* 11 */
 /***/ function(module, exports) {
 
-	module.exports = "<div ng-transclude=\"ng-transclude\" class=\"transclude-content\"></div><md-icon ng-click=\"osPopover.hide()\" class=\"os-popover-closeIcon\">clear</md-icon><div layout=\"row\" os-popover-background=\"osPopover.backgroundImage\" ng-class=\"{'m-os-popover-wide': osPopover.isWide()}\" ng-style=\"{width: osPopover.width, height: osPopover.height, 'max-width': osPopover.width, 'max-height': osPopover.height}\" class=\"os-popover-container\"><div flex=\"flex\" ng-if=\"osPopover.leftImage\" class=\"os-popover-leftImage\"><img ng-src=\"{{ osPopover.leftImage }}\" width=\"142\" height=\"234\"/></div><div flex=\"flex\"><img ng-if=\"osPopover.mainImage\" ng-src=\"{{ osPopover.mainImage }}\"/><div flex=\"flex\" ng-if=\"osPopover.title || osPopover.subTitle || osPopover.description\" class=\"os-popover-content\"><h1 ng-if=\"osPopover.title\" class=\"os-popover-header\">{{ osPopover.title }}</h1><h2 ng-if=\"osPopover.subTitle\" class=\"os-popover-subheader\">{{ osPopover.subTitle }}</h2><p ng-if=\"osPopover.description\" class=\"os-popover-description\">{{ osPopover.description }}</p></div></div></div>"
+	module.exports = "<div ng-transclude=\"ng-transclude\" class=\"transclude-content\"></div><md-icon ng-click=\"osPopover.hide()\" class=\"os-popover-closeIcon\">clear</md-icon><div layout=\"row\" os-popover-background=\"osPopover.backgroundImage\" ng-class=\"{'m-os-popover-wide': osPopover.isWide()}\" ng-style=\"{width: osPopover.width, height: osPopover.height, 'max-width': osPopover.width, 'max-height': osPopover.height}\" class=\"os-popover-container\"><div flex=\"flex\" ng-if=\"osPopover.leftImage\" class=\"os-popover-leftImage\"><img ng-src=\"{{ osPopover.leftImage }}\" width=\"142\" height=\"234\"/></div><div flex=\"flex\"><img ng-if=\"osPopover.mainImage\" ng-src=\"{{ osPopover.mainImage }}\"/><div flex=\"flex\" ng-if=\"osPopover.title || osPopover.subTitle || osPopover.description || osPopover.actions\" class=\"os-popover-content\"><h1 ng-if=\"osPopover.title\" class=\"os-popover-header\">{{ osPopover.title }}</h1><h2 ng-if=\"osPopover.subTitle\" class=\"os-popover-subheader\">{{ osPopover.subTitle }}</h2><p ng-if=\"osPopover.description\" class=\"os-popover-description\">{{ osPopover.description }}</p></div></div></div>"
 
 /***/ },
 /* 12 */
@@ -610,8 +685,8 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var polygon_directive_1 = __webpack_require__(17);
-	var polygon_directive_2 = __webpack_require__(17);
+	var polygon_directive_1 = __webpack_require__(36);
+	var polygon_directive_2 = __webpack_require__(36);
 	exports.PolygonTool = polygon_directive_2.PolygonTool;
 	angular
 	    .module('osElements')
@@ -619,10 +694,278 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_20__;
+
+/***/ },
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var polygon_controller_1 = __webpack_require__(18);
+	var max_size_directive_1 = __webpack_require__(22);
+	var max_size_directive_2 = __webpack_require__(22);
+	exports.MaxSize = max_size_directive_2.MaxSize;
+	var projection_service_1 = __webpack_require__(23);
+	var projection_service_2 = __webpack_require__(23);
+	exports.ProjectionServiceProvider = projection_service_2.ProjectionServiceProvider;
+	angular
+	    .module('osElements')
+	    .constant('ol', __webpack_require__(20))
+	    .constant('proj4', __webpack_require__(24))
+	    .run(['$window', function ($window) {
+	        $window.proj4 = __webpack_require__(24);
+	    }])
+	    .directive('osMaxSize', max_size_directive_1.MaxSize.Factory())
+	    .provider('osProjectionService', projection_service_1.ProjectionServiceProvider);
+
+
+/***/ },
+/* 22 */
+/***/ function(module, exports) {
+
+	var MaxSize = (function () {
+	    function MaxSize($timeout, $window) {
+	        this.restrict = 'A';
+	        this.require = 'openlayers';
+	        MaxSize.prototype.link = function (scope, iElement, iAttrs, olCtrl) {
+	            var resize = function () {
+	                iElement.css('height', '0px');
+	                iElement.css('height', iElement.parent()[0].getBoundingClientRect().height + 'px');
+	                olCtrl.getOpenlayersScope().getMap().then(function (map) {
+	                    map.updateSize();
+	                });
+	            };
+	            $timeout(resize);
+	            $window.addEventListener('resize', resize);
+	        };
+	    }
+	    MaxSize.Factory = function () {
+	        var directive = function ($timeout, $window) {
+	            return new MaxSize($timeout, $window);
+	        };
+	        directive['$inject'] = ['$timeout', '$window'];
+	        return directive;
+	    };
+	    return MaxSize;
+	})();
+	exports.MaxSize = MaxSize;
+
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ol = __webpack_require__(20);
+	var ProjectionService = (function () {
+	    function ProjectionService(ol, proj4) {
+	        this.ol = ol;
+	        this.proj4 = proj4;
+	        this['EPSG:27700'] = this.createEPSG27700();
+	    }
+	    ProjectionService.prototype.createEPSG27700 = function () {
+	        this.proj4.defs("EPSG:27700", "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.999601 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.060,0.1502,0.2470,0.8421,-20.4894 +datum=OSGB36 +units=m +no_defs");
+	        function returnSameCoords(coord) {
+	            return [coord[0], coord[1]];
+	        }
+	        this.ol.proj.addCoordinateTransforms('EPSG:27700', 'EPSG:27700', returnSameCoords, returnSameCoords);
+	        return new ol.proj.Projection({
+	            code: 'EPSG:27700',
+	            extent: [-238375.0, 0, 700000, 1300000],
+	            units: 'm'
+	        });
+	    };
+	    return ProjectionService;
+	})();
+	exports.ProjectionService = ProjectionService;
+	var ProjectionServiceProvider = (function () {
+	    function ProjectionServiceProvider() {
+	        this.$get = ['ol', 'proj4', function (ol, proj4) {
+	                return new ProjectionService(ol, proj4);
+	            }];
+	    }
+	    return ProjectionServiceProvider;
+	})();
+	exports.ProjectionServiceProvider = ProjectionServiceProvider;
+
+
+/***/ },
+/* 24 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_24__;
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var osToolbar_1 = __webpack_require__(26);
+	exports.OsToolbar = osToolbar_1.OsToolbar;
+	var osToolbar_2 = __webpack_require__(26);
+	angular
+	    .module('osElements')
+	    .component('osToolbarAction', {
+	    bindings: {
+	        icon: '@osIcon',
+	        text: '@osText',
+	        action: '=',
+	        active: '=osActive'
+	    },
+	    controllerAs: 'osToolbarAction',
+	    transclude: true,
+	    template: __webpack_require__(27)
+	})
+	    .component('osToolbarSeparator', {
+	    transclude: false,
+	    template: __webpack_require__(28)
+	})
+	    .component('osToolbar', {
+	    bindings: {
+	        direction: '@osDirection'
+	    },
+	    controller: osToolbar_2.OsToolbar,
+	    controllerAs: 'osToolbar',
+	    transclude: true,
+	    template: __webpack_require__(29)
+	});
+
+
+/***/ },
+/* 26 */
+/***/ function(module, exports) {
+
+	var OsToolbar = (function () {
+	    function OsToolbar($element) {
+	        this.$element = $element;
+	    }
+	    OsToolbar.prototype.getOrientation = function () {
+	        return this.direction == 'vertical' ? 'column' : 'row';
+	    };
+	    OsToolbar.prototype.isVertical = function () {
+	        return this.direction == 'vertical';
+	    };
+	    OsToolbar.$inject = ['$element'];
+	    return OsToolbar;
+	})();
+	exports.OsToolbar = OsToolbar;
+
+
+/***/ },
+/* 27 */
+/***/ function(module, exports) {
+
+	module.exports = "<a><md-icon class=\"os-toolbar-actionIcon\">{{ osToolbarAction.icon }}</md-icon><span class=\"os-toolbar-actionText\"> {{ osToolbarAction.text }}</span></a>"
+
+/***/ },
+/* 28 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"os-toolbar-separator\"></div>"
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	module.exports = "<div ng-class=\"{'os-map-toolbar--vertical': osToolbar.isVertical()}\" flex=\"flex\" layout=\"{{ osToolbar.getOrientation() }}\" layout-align=\"start stretch\" ng-transclude=\"ng-transclude\" class=\"os-map-toolbar\"></div>"
+
+/***/ },
+/* 30 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var osSlider_1 = __webpack_require__(31);
+	exports.OsSlider = osSlider_1.OsSlider;
+	var osSlider_2 = __webpack_require__(31);
+	angular
+	    .module('osElements')
+	    .component('osSlider', {
+	    bindings: {
+	        position: '@osPosition'
+	    },
+	    controller: osSlider_2.OsSlider,
+	    controllerAs: 'osSlider',
+	    transclude: true,
+	    template: __webpack_require__(32)
+	});
+
+
+/***/ },
+/* 31 */
+/***/ function(module, exports) {
+
+	var OsSlider = (function () {
+	    function OsSlider($element) {
+	        this.$element = $element;
+	        this.opened = false;
+	    }
+	    OsSlider.prototype.toggle = function () {
+	        this.opened = !this.opened;
+	    };
+	    OsSlider.prototype.isOpened = function () {
+	        return this.opened;
+	    };
+	    OsSlider.prototype.iconName = function () {
+	        return this.opened ? 'keyboard_arrow_right' : 'keyboard_arrow_left';
+	    };
+	    OsSlider.$inject = ['$element'];
+	    return OsSlider;
+	})();
+	exports.OsSlider = OsSlider;
+
+
+/***/ },
+/* 32 */
+/***/ function(module, exports) {
+
+	module.exports = "<div layout=\"row\" ng-class=\"{'os-slider-opened': osSlider.isOpened()}\" class=\"os-slider\"><div ng-transclude=\"ng-transclude\" class=\"os-slider-content\"></div><div class=\"os-slider-button\"><a ng-click=\"osSlider.toggle()\"><md-icon>{{ osSlider.iconName() }}</md-icon></a></div></div>"
+
+/***/ },
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var osHeader_1 = __webpack_require__(34);
+	exports.OsHeader = osHeader_1.OsHeader;
+	var osHeader_2 = __webpack_require__(34);
+	angular
+	    .module('osElements')
+	    .component('osHeader', {
+	    bindings: {
+	        title: '@osTitle'
+	    },
+	    controller: osHeader_2.OsHeader,
+	    controllerAs: 'osHeader',
+	    transclude: true,
+	    template: __webpack_require__(35)
+	});
+
+
+/***/ },
+/* 34 */
+/***/ function(module, exports) {
+
+	var OsHeader = (function () {
+	    function OsHeader($element) {
+	        this.$element = $element;
+	    }
+	    OsHeader.$inject = ['$element'];
+	    return OsHeader;
+	})();
+	exports.OsHeader = OsHeader;
+
+
+/***/ },
+/* 35 */
+/***/ function(module, exports) {
+
+	module.exports = "<div layout=\"row\" layout-align=\"center strech\" class=\"os-header\"><!--a.os-header-menuIcon(flex=\"3\")md-icon menu\n--><span flex=\"65\">{{ osHeader.title }}</span><div flex=\"30\" class=\"os-header-search\"><span class=\"os-header-searchText\">Search for a location, postcode</span><a class=\"os-header-searchIcon\"><md-icon>search</md-icon></a></div><!--a(flex=\"2\")md-icon more_vert--></div>"
+
+/***/ },
+/* 36 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var polygon_controller_1 = __webpack_require__(37);
 	var PolygonTool = (function () {
 	    function PolygonTool($timeout, $window, olData) {
 	        this.restrict = 'E';
@@ -665,10 +1008,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 18 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ol = __webpack_require__(19);
+	var ol = __webpack_require__(20);
 	var PolygonToolController = (function () {
 	    function PolygonToolController($scope, $timeout, olData) {
 	        var _this = this;
@@ -781,108 +1124,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 	exports.PolygonToolController = PolygonToolController;
 
-
-/***/ },
-/* 19 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_19__;
-
-/***/ },
-/* 20 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var max_size_directive_1 = __webpack_require__(21);
-	var max_size_directive_2 = __webpack_require__(21);
-	exports.MaxSize = max_size_directive_2.MaxSize;
-	var projection_service_1 = __webpack_require__(22);
-	var projection_service_2 = __webpack_require__(22);
-	exports.ProjectionServiceProvider = projection_service_2.ProjectionServiceProvider;
-	angular
-	    .module('osElements')
-	    .constant('ol', __webpack_require__(19))
-	    .constant('proj4', __webpack_require__(23))
-	    .run(['$window', function ($window) {
-	        $window.proj4 = __webpack_require__(23);
-	    }])
-	    .directive('osMaxSize', max_size_directive_1.MaxSize.Factory())
-	    .provider('osProjectionService', projection_service_1.ProjectionServiceProvider);
-
-
-/***/ },
-/* 21 */
-/***/ function(module, exports) {
-
-	var MaxSize = (function () {
-	    function MaxSize($timeout, $window) {
-	        this.restrict = 'A';
-	        this.require = 'openlayers';
-	        MaxSize.prototype.link = function (scope, iElement, iAttrs, olCtrl) {
-	            var resize = function () {
-	                iElement.css('height', '0px');
-	                iElement.css('height', iElement.parent()[0].getBoundingClientRect().height + 'px');
-	                olCtrl.getOpenlayersScope().getMap().then(function (map) {
-	                    map.updateSize();
-	                });
-	            };
-	            $timeout(resize);
-	            $window.addEventListener('resize', resize);
-	        };
-	    }
-	    MaxSize.Factory = function () {
-	        var directive = function ($timeout, $window) {
-	            return new MaxSize($timeout, $window);
-	        };
-	        directive['$inject'] = ['$timeout', '$window'];
-	        return directive;
-	    };
-	    return MaxSize;
-	})();
-	exports.MaxSize = MaxSize;
-
-
-/***/ },
-/* 22 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ol = __webpack_require__(19);
-	var ProjectionService = (function () {
-	    function ProjectionService(ol, proj4) {
-	        this.ol = ol;
-	        this.proj4 = proj4;
-	        this['EPSG:27700'] = this.createEPSG27700();
-	    }
-	    ProjectionService.prototype.createEPSG27700 = function () {
-	        this.proj4.defs("EPSG:27700", "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.999601 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.060,0.1502,0.2470,0.8421,-20.4894 +datum=OSGB36 +units=m +no_defs");
-	        function returnSameCoords(coord) {
-	            return [coord[0], coord[1]];
-	        }
-	        this.ol.proj.addCoordinateTransforms('EPSG:27700', 'EPSG:27700', returnSameCoords, returnSameCoords);
-	        return new ol.proj.Projection({
-	            code: 'EPSG:27700',
-	            extent: [-238375.0, 0, 700000, 1300000],
-	            units: 'm'
-	        });
-	    };
-	    return ProjectionService;
-	})();
-	exports.ProjectionService = ProjectionService;
-	var ProjectionServiceProvider = (function () {
-	    function ProjectionServiceProvider() {
-	        this.$get = ['ol', 'proj4', function (ol, proj4) {
-	                return new ProjectionService(ol, proj4);
-	            }];
-	    }
-	    return ProjectionServiceProvider;
-	})();
-	exports.ProjectionServiceProvider = ProjectionServiceProvider;
-
-
-/***/ },
-/* 23 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_23__;
 
 /***/ }
 /******/ ])
