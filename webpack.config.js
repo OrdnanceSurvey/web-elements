@@ -10,6 +10,13 @@ var olExternals = {
   amd: 'openlayers'
 };
 
+var proj4Externals = {
+  root: 'proj4',
+  commonjs2: 'proj4',
+  commonjs: 'proj4',
+  amd: 'proj4'
+};
+
 var config = {
   context: __dirname,
   debug: true,
@@ -39,7 +46,8 @@ var config = {
 
   externals: [{
     'ol': olExternals,
-    'openlayers': olExternals
+    'openlayers': olExternals,
+    'proj4': proj4Externals
   }],
 
   // modles to compile .less and include .css

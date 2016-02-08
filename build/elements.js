@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("openlayers"));
+		module.exports = factory(require("openlayers"), require("proj4"));
 	else if(typeof define === 'function' && define.amd)
-		define(["openlayers"], factory);
+		define(["openlayers", "proj4"], factory);
 	else {
-		var a = typeof exports === 'object' ? factory(require("openlayers")) : factory(root["ol"]);
+		var a = typeof exports === 'object' ? factory(require("openlayers"), require("proj4")) : factory(root["ol"], root["proj4"]);
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(this, function(__WEBPACK_EXTERNAL_MODULE_18__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_19__, __WEBPACK_EXTERNAL_MODULE_23__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -102,7 +102,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.OsAutocomplete = autocomplete_1.OsAutocomplete;
 	var drawing_tools_1 = __webpack_require__(16);
 	exports.PolygonTool = drawing_tools_1.PolygonTool;
-	var map_1 = __webpack_require__(19);
+	var map_1 = __webpack_require__(20);
 	exports.MaxSize = map_1.MaxSize;
 
 
@@ -622,7 +622,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var polygon_controller_1 = __webpack_require__(21);
+	var polygon_controller_1 = __webpack_require__(18);
 	var PolygonTool = (function () {
 	    function PolygonTool($timeout, $window, olData) {
 	        this.restrict = 'E';
@@ -666,59 +666,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 18 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_18__;
-
-/***/ },
-/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var max_size_directive_1 = __webpack_require__(20);
-	var max_size_directive_2 = __webpack_require__(20);
-	exports.MaxSize = max_size_directive_2.MaxSize;
-	angular
-	    .module('osElements')
-	    .directive('osMaxSize', max_size_directive_1.MaxSize.Factory());
-
-
-/***/ },
-/* 20 */
-/***/ function(module, exports) {
-
-	var MaxSize = (function () {
-	    function MaxSize($timeout, $window) {
-	        this.restrict = 'A';
-	        this.require = 'openlayers';
-	        MaxSize.prototype.link = function (scope, iElement, iAttrs, olCtrl) {
-	            var resize = function () {
-	                iElement.css('height', '0px');
-	                iElement.css('height', iElement.parent()[0].getBoundingClientRect().height + 'px');
-	                olCtrl.getOpenlayersScope().getMap().then(function (map) {
-	                    map.updateSize();
-	                });
-	            };
-	            $timeout(resize);
-	            $window.addEventListener('resize', resize);
-	        };
-	    }
-	    MaxSize.Factory = function () {
-	        var directive = function ($timeout, $window) {
-	            return new MaxSize($timeout, $window);
-	        };
-	        directive['$inject'] = ['$timeout', '$window'];
-	        return directive;
-	    };
-	    return MaxSize;
-	})();
-	exports.MaxSize = MaxSize;
-
-
-/***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ol = __webpack_require__(18);
+	var ol = __webpack_require__(19);
 	var PolygonToolController = (function () {
 	    function PolygonToolController($scope, $timeout, olData) {
 	        var _this = this;
@@ -831,6 +781,108 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 	exports.PolygonToolController = PolygonToolController;
 
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_19__;
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var max_size_directive_1 = __webpack_require__(21);
+	var max_size_directive_2 = __webpack_require__(21);
+	exports.MaxSize = max_size_directive_2.MaxSize;
+	var projection_service_1 = __webpack_require__(22);
+	var projection_service_2 = __webpack_require__(22);
+	exports.ProjectionServiceProvider = projection_service_2.ProjectionServiceProvider;
+	angular
+	    .module('osElements')
+	    .constant('ol', __webpack_require__(19))
+	    .constant('proj4', __webpack_require__(23))
+	    .run(['$window', function ($window) {
+	        $window.proj4 = __webpack_require__(23);
+	    }])
+	    .directive('osMaxSize', max_size_directive_1.MaxSize.Factory())
+	    .provider('osProjectionService', projection_service_1.ProjectionServiceProvider);
+
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	var MaxSize = (function () {
+	    function MaxSize($timeout, $window) {
+	        this.restrict = 'A';
+	        this.require = 'openlayers';
+	        MaxSize.prototype.link = function (scope, iElement, iAttrs, olCtrl) {
+	            var resize = function () {
+	                iElement.css('height', '0px');
+	                iElement.css('height', iElement.parent()[0].getBoundingClientRect().height + 'px');
+	                olCtrl.getOpenlayersScope().getMap().then(function (map) {
+	                    map.updateSize();
+	                });
+	            };
+	            $timeout(resize);
+	            $window.addEventListener('resize', resize);
+	        };
+	    }
+	    MaxSize.Factory = function () {
+	        var directive = function ($timeout, $window) {
+	            return new MaxSize($timeout, $window);
+	        };
+	        directive['$inject'] = ['$timeout', '$window'];
+	        return directive;
+	    };
+	    return MaxSize;
+	})();
+	exports.MaxSize = MaxSize;
+
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ol = __webpack_require__(19);
+	var ProjectionService = (function () {
+	    function ProjectionService(ol, proj4) {
+	        this.ol = ol;
+	        this.proj4 = proj4;
+	        this['EPSG:27700'] = this.createEPSG27700();
+	    }
+	    ProjectionService.prototype.createEPSG27700 = function () {
+	        this.proj4.defs("EPSG:27700", "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.999601 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.060,0.1502,0.2470,0.8421,-20.4894 +datum=OSGB36 +units=m +no_defs");
+	        function returnSameCoords(coord) {
+	            return [coord[0], coord[1]];
+	        }
+	        this.ol.proj.addCoordinateTransforms('EPSG:27700', 'EPSG:27700', returnSameCoords, returnSameCoords);
+	        return new ol.proj.Projection({
+	            code: 'EPSG:27700',
+	            extent: [-238375.0, 0, 700000, 1300000],
+	            units: 'm'
+	        });
+	    };
+	    return ProjectionService;
+	})();
+	exports.ProjectionService = ProjectionService;
+	var ProjectionServiceProvider = (function () {
+	    function ProjectionServiceProvider() {
+	        this.$get = ['ol', 'proj4', function (ol, proj4) {
+	                return new ProjectionService(ol, proj4);
+	            }];
+	    }
+	    return ProjectionServiceProvider;
+	})();
+	exports.ProjectionServiceProvider = ProjectionServiceProvider;
+
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_23__;
 
 /***/ }
 /******/ ])
