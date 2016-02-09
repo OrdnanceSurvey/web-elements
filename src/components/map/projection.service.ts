@@ -11,7 +11,7 @@ export class ProjectionService implements IProjectionService {
 
   'EPSG:27700';
 
-  constructor(private ol:ol, private proj4:any) {
+  constructor(private ol:any, private proj4:any) {
     this['EPSG:27700'] = this.createEPSG27700();
   }
 
@@ -36,7 +36,7 @@ export class ProjectionService implements IProjectionService {
 
 export class ProjectionServiceProvider {
 
-  $get = ['ol', 'proj4', (ol:ol, proj4:any) => {
+  $get = ['ol', 'proj4', (ol:any, proj4:any) => {
     return new ProjectionService(ol, proj4);
   }];
 

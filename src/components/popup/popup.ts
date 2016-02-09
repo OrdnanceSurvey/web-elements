@@ -1,5 +1,6 @@
 /// <reference path="../../../typings/main.d.ts" />
 
+import IServiceProvider = angular.IServiceProvider;
 export class OsPopover {
   static $inject = ['$element', '$transclude', '$mdUtil', '$window'];
 
@@ -142,6 +143,28 @@ export class OsPopover {
 
 }
 
+class PopupManager implements ng.IServiceProvider{
+
+  private popups = {};
+
+  $get() {
+
+    return {
+      popup: id => {
+        return this.popups[id] || {};
+      },
+      register: (id, ctrl) => {
+        this.popups[id] = ctrl;
+      },
+      deregister: id => {
+        this.popups[id] = null;
+        delete this.popups[id];
+      }
+    };
+  }
+  constructor() {}
+}
+
 angular
   .module('osElements')
   .directive('osPopoverBackground', function () {
@@ -162,31 +185,10 @@ angular
       }
     }
   })
-  .provider("$osPopupManager", function() {
-
-    this.popups = {};
-
-    this.$get = function() {
-
-      var popups = this.popups;
-
-      return {
-        popup: function(id) {
-          return popups[id] || {};
-        },
-        register: function(id, ctrl) {
-          popups[id] = ctrl;
-        },
-        deregister: function(id) {
-          popups[id] = null;
-          delete popups[id];
-        }
-      };
-    };
-  })
+  .provider("$osPopupManager", PopupManager)
   .factory('$osPopover', ['$osPopupManager', '$rootScope', '$compile',function($osPopupManager, $rootScope, $compile) {
     return {
-      create: function(options) {
+      create: options => {
         let scope = $rootScope.$new();
         angular.extend(scope, options.scope);
 
@@ -202,7 +204,7 @@ angular
 
         return scope.$id;
       },
-      prepareTemplates: function(options) {
+      prepareTemplates: options => {
         return '<os-popover class="os-popover" os-direction="'+ (options.direction || 'top') +'"> \
           <os-popover-title>'+ (options.title || '') + '</os-popover-title> \
           <os-popover-subtitle>'+ (options.subtitle || '') + '</os-popover-subtitle> \
@@ -214,18 +216,18 @@ angular
           <os-popover-actions>'+ (options.actions || '') + '</os-popover-actions> \
           </os-popover>';
       },
-      compilePopup: function(options, scope) {
+      compilePopup: (options, scope) => {
         let templates = this.prepareTemplates(options);
         return $compile(templates)(scope);
       },
-      getPopupByHandle: function(handle) {
+      getPopupByHandle: handle => {
         return $osPopupManager.popup(handle);
       },
-      show: function(handle) {
+      show: handle => {
         let elem = this.getPopupByHandle(handle);
         elem.toggleVisibility(true)
       },
-      hide: function(handle) {
+      hide: handle => {
         let elem = this.getPopupByHandle(handle);
         elem.toggleVisibility(false)
       },

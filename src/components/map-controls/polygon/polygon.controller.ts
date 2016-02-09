@@ -53,10 +53,12 @@ export class PolygonToolController implements IPolygonTool {
     // create temporary vector overlay layer for the interaction.Draw to draw on
     // this layer will be transparent, because actual coordinates will be duplicated across onto this.featureLayer
     this.features = new ol.Collection<ol.Feature>();
-    this.featureSource = new ol.source.Vector({features: this.features, updateWhileAnimating: true, updateWhileInteracting: true});
+    this.featureSource = new ol.source.Vector({features: this.features});
     this.featureOverlay = new ol.layer.Vector({
       source: this.featureSource,
-      style: this.transparentStyle
+      style: this.transparentStyle,
+      updateWhileAnimating: true,
+      updateWhileInteracting: true
     });
 
     // keep a reference to the map
