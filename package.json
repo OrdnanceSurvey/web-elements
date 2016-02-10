@@ -17,6 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "angular-component": "0.0.3",
+    "material-design-lite": "^1.1.1",
     "nib": "^1.1.0",
     "stylus-loader": "^1.4.3"
   },

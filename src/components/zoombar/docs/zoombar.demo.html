@@ -1,0 +1,12 @@
+<div flex ng-controller="zoombarController as zoomCtrl" style="min-width:500px; min-height: 400px; background-color: #cfcfcf">
+  Zoom level: {{ zoomCtrl.zoomLevel }}
+  <os-zoombar
+    ng-model="zoomCtrl.zoomLevel"
+    os-zoom-min="1"
+    os-zoom-max="10"
+  ></os-zoombar>
+</div>
+
+<script>
+  window.componentHandler.upgradeAllRegistered();
+</script>

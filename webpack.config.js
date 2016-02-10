@@ -31,8 +31,10 @@ var config = {
 
   entry: {
     'elements': [
+      './src/components/zoombar/mdl-slider.css',
       './src/elements.styl',
-      './src/elements'
+      './src/elements',
+      './node_modules/material-design-lite/material.min.js'
     ]
   },
 
