@@ -10,7 +10,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "build": "typings install & npm run tslint & tsc & webpack",
+    "build": "typings install & npm run tslint & tsc & webpack & webpack --config webpack.demos.config.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "tslint": "tslint \"src/**/*.ts\" || true"
   },
@@ -34,7 +34,16 @@
     "template-html-loader": "0.0.3",
     "tslint": "^3.2.2",
     "typescript": "^1.7.5",
-    "webpack": "^1.12.10"
+    "webpack": "^1.12.10",
+
+    "angular": "^1.4.8",
+    "angular-animate": "^1.4.8",
+    "angular-aria": "^1.4.8",
+    "angular-material": "^1.0.1",
+    "angular-messages": "^1.4.8",
+    "angular-sanitize": "^1.4.8",
+    "openlayers": "~3.8.2"
+
   },
   "peerDependencies": {
     "angular": "^1.4.8",
