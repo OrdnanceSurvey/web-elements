@@ -1,12 +1,19 @@
 # OS Elements Home
 
-# initial setup for development
+## initial setup for development
 ``` bash
 npm install
 typings install
-tsc
-webpack
-webpack --config webpack.demos.config.js
+npm run build
 http-server -p 8080 .
 ```
 now visit localhost:8080/demos/basic
+
+## other tasks for development
+``` bash
+tsc
+webpack
+webpack --config webpack.demos.config.js
+```
+
+
