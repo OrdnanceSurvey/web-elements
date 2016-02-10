@@ -10,6 +10,11 @@ export class OsSlider {
 
   toggle(): void {
     this.opened = !this.opened;
+    if (this.opened) {
+      this.$element.addClass('os-slider-opened');
+    } else {
+      this.$element.removeClass('os-slider-opened');
+    }
   }
 
   isOpened(): boolean {
