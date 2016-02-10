@@ -1,6 +1,6 @@
 # ignore vendor libraries
 node_modules
-typings
+typings/
 
 # intellij
 *.iml

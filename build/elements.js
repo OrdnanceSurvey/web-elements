@@ -1070,6 +1070,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    OsSlider.prototype.toggle = function () {
 	        this.opened = !this.opened;
+	        if (this.opened) {
+	            this.$element.addClass('os-slider-opened');
+	        }
+	        else {
+	            this.$element.removeClass('os-slider-opened');
+	        }
 	    };
 	    OsSlider.prototype.isOpened = function () {
 	        return this.opened;
@@ -1087,7 +1093,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 31 */
 /***/ function(module, exports) {
 
-	module.exports = "<div layout=\"row\" ng-class=\"{'os-slider-opened': osSlider.isOpened()}\" class=\"os-slider\"><div ng-transclude=\"ng-transclude\" class=\"os-slider-content\"></div><div class=\"os-slider-button\"><a ng-click=\"osSlider.toggle()\"><md-icon>{{ osSlider.iconName() }}</md-icon></a></div></div>"
+	module.exports = "<div layout=\"row\" class=\"os-slider\"><div ng-transclude=\"ng-transclude\" class=\"os-slider-content\"></div><div class=\"os-slider-button\"><a ng-click=\"osSlider.toggle()\"><md-icon>{{ osSlider.iconName() }}</md-icon></a></div></div>"
 
 /***/ },
 /* 32 */
