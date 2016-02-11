@@ -14,7 +14,7 @@
   "main": "index.js",
   "scripts": {
     "build": "typings install & npm run tslint & tsc & webpack & webpack --config webpack.demos.config.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\" && exit 0",
     "tslint": "tslint \"src/**/*.ts\" || true",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
@@ -57,5 +57,8 @@
     "angular-messages": "^1.4.8",
     "angular-sanitize": "^1.4.8",
     "openlayers": "~3.8.2"
+  },
+  "release": {
+    "verifyConditions": "condition-circle"
   }
 }
