@@ -23,10 +23,6 @@ angular.module('osElements', ['ngMaterial']).config(function($mdThemingProvider,
     $mdIconProvider.defaultFontSet('material-icons')
 });
 
-// test circleci semantic-release
-var abc = 'abc';
-delete abc;
-
 export {OsButton} from './components/button/button.component';
 export {OsSelect} from './components/select/select';
 export {OsTabs} from './components/tabs/tabs';
