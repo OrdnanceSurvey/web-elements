@@ -2,6 +2,8 @@ machine:
   node:
     version: "0.12"
 test:
+  pre:
+    - npm run build
   override:
     - npm test
   post:
