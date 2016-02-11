@@ -6,7 +6,7 @@ md-icon.os-popover-closeIcon(ng-click="osPopover.hide()") clear
 .os-popover-container(
   layout="row",
   os-popover-background="osPopover.backgroundImage",
-  ng-class="{'m-os-popover-wide': osPopover.isWide()}"
+  ng-class="{'os-popover--wide': osPopover.isWide(), 'os-popover--left-image': osPopover.hasLeftImage()}"
   ng-style="{width: osPopover.width, height: osPopover.height, 'max-width': osPopover.width, 'max-height': osPopover.height}"
   )
   .os-popover-leftImage(flex, ng-if="osPopover.leftImage")
@@ -14,9 +14,12 @@ md-icon.os-popover-closeIcon(ng-click="osPopover.hide()") clear
 
   div(flex)
     img(ng-if="osPopover.mainImage", ng-src="{{ osPopover.mainImage }}")
-    .os-popover-content(flex, ng-if="osPopover.title || osPopover.subTitle || osPopover.description || osPopover.actions")
-      h1.os-popover-header(ng-if="osPopover.title") {{ osPopover.title }}
-      h2.os-popover-subheader(ng-if="osPopover.subTitle") {{ osPopover.subTitle }}
-      p.os-popover-description(ng-if="osPopover.description") {{ osPopover.description }}
+    .os-popover-content(flex)
+      h1.os-popover-title
+        .placeholder-title
+      h2.os-popover-subtitle
+        .placeholder-subtitle
+      p.os-popover-description
+        .placeholder-description
 
 //- action box is transclude into this place

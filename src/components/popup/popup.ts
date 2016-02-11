@@ -1,8 +1,14 @@
 /// <reference path="../../../typings/main.d.ts" />
 
+import IScope = angular.IScope;
 import IServiceProvider = angular.IServiceProvider;
+
+export interface IOsPopover {
+  toggle(): boolean;
+}
+
 export class OsPopover {
-  static $inject = ['$element', '$transclude', '$mdUtil', '$window'];
+  static $inject = ['$element', '$transclude', '$mdUtil', '$scope'];
 
   private parent;
 
@@ -16,7 +22,7 @@ export class OsPopover {
   private tipRect;
 
   title:string;
-  subTitle:string;
+  subtitle:string;
   mainImage:string;
   leftImage:string;
   backgroundImage:string;
@@ -28,12 +34,19 @@ export class OsPopover {
 
   static TOOLTIP_WINDOW_EDGE_SPACE = 8;
 
-  constructor(private $element:ng.IRootElementService, private $transclude:ng.ITranscludeFunction, private $mdUtil:any, $window: any) {
-    this.tooltipParent = angular.element(document.body);
+  constructor(private $element:ng.IRootElementService, private $transclude:ng.ITranscludeFunction, private $mdUtil:any, $scope: IScope) {
+    //this.tooltipParent = angular.element(document.body);
+    this.tooltipParent = $element.parent();
 
     this.postLink();
 
     this.tooltipParent.append($element);
+
+    $scope.$watch(() => {
+      return this.$mdUtil.offsetRect($element, this.tooltipParent);
+    }, (newVal, oldVal) => {
+      this.positionTooltip();
+    }, true)
   }
 
   private postLink() {
@@ -133,12 +146,21 @@ export class OsPopover {
     } else if (offsetParent && newPosition.top > offsetParent.scrollHeight - this.tipRect.height - OsPopover.TOOLTIP_WINDOW_EDGE_SPACE) {
       newPosition = this.fitInParent(this.getPosition('top'));
     }
-
     this.updatePosition(newPosition);
+
+    this.$element.css({
+      'margin-top': -this.tipRect.height + 'px',
+      'margin-left': (-this.tipRect.width / 2) + 'px'
+    });
+
   }
 
   isWide() {
     return this.type === 'wide';
+  }
+
+  hasLeftImage() {
+    return this.leftImage ? true : false;
   }
 
 }
@@ -233,6 +255,13 @@ angular
       },
     }
   }])
+  //.directive('osPopoverTitle', function() {
+  //  return {
+  //    transclude: true,
+  //    replace: true,
+  //    template: '<h1 class="os-popover-title" ng-transclude></h1>'
+  //  };
+  //})
   .directive('osPopover', ['$osPopupManager', function ($osPopupManager) {
     return {
       scope: {
@@ -242,6 +271,7 @@ angular
         autoshow: '=?osAutoshow',
         type: '@?osType',
         visible: '=?osVisible',
+        leftImage: '=?osLeftImage'
       },
       controller: OsPopover,
       controllerAs: 'osPopover',
@@ -250,15 +280,20 @@ angular
       template: require('./popup.jade'),
       link: function (scope, element, attr, ctrl:OsPopover) {
         // content
-        ctrl.title = element.find('os-popover-title').text();
-        ctrl.subTitle = element.find('os-popover-subtitle').text();
+        console.log('linking', ctrl.leftImage);
+        ctrl.title = element.find('os-popover-title').detach();
+        ctrl.subtitle = element.find('os-popover-subtitle').detach();
         ctrl.mainImage = element.find('os-popover-main-image').text();
-        ctrl.leftImage = element.find('os-popover-left-image').text();
+        //ctrl.leftImage = element.find('os-popover-left-image').text();
         ctrl.backgroundImage = element.find('os-popover-background-image').text();
-        ctrl.description = element.find('os-popover-description').text();
+        ctrl.description = element.find('os-popover-description').detach();
         ctrl.actions = element.find('os-popover-actions').detach();
 
         // remove transclude content
+        angular.element(element[0].getElementsByClassName('placeholder-title')).replaceWith(ctrl.title);
+        angular.element(element[0].getElementsByClassName('placeholder-subtitle')).replaceWith(ctrl.subtitle);
+        angular.element(element[0].getElementsByClassName('placeholder-description')).replaceWith(ctrl.description);
+
         angular.element(element[0].getElementsByClassName('transclude-content')[0]).remove();
 
         // translude button without losing bindings
