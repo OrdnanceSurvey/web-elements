@@ -1,0 +1,165 @@
+$zoombarWidth = 30px
+$zoombarHeight = 30px
+
+.os-zoombar
+  position absolute
+  top 10px
+  right 10px
+  background-color #fff
+  width $zoombarWidth
+  color #000000
+  overflow hidden
+  z-index 3
+
+  .md-button
+    width 30px
+    min-width 30px
+    max-width 30px
+    height 30px
+    min-height 30px
+    max-height 30px
+    line-height 30px
+    margin 0
+    padding 0
+    border-radius 0
+
+    md-icon
+      line-height 30px
+      vertical-align baseline
+
+  input[type=range]
+
+    $sliderBg = radial-gradient(circle closest-side,
+      transparent 0%,
+      transparent 25%,
+      black 25%,
+      black 100%
+    )
+
+    // chrome
+    &::-webkit-slider-thumb
+      background $sliderBg
+      transform scale(1.2)
+
+    &::-moz-range-thumb
+      background $sliderBg
+      transform scale(1.2)
+
+    &::-ms-thumb
+      background black
+      transform scale(1.2)
+
+    // slider drag, move
+    &:active::-webkit-slider-thumb
+      background $sliderBg
+      transform scale(1.5)
+
+    &:active::-moz-range-thumb
+      background $sliderBg
+      transform scale(1.5)
+
+    &:active::-ms-thumb
+      background $sliderBg
+      transform scale(1.5)
+
+    // lower value is reached
+    &.is-lowest-value::-webkit-slider-thumb
+      border none
+      background $sliderBg
+
+    &.is-lowest-value::-moz-range-thumb
+      border none
+      background $sliderBg
+
+    &.is-lowest-value::-ms-thumb
+      border none
+      background $sliderBg
+
+    &.is-lowest-value:active::-webkit-slider-thumb
+      background $sliderBg
+      transform scale(1.5)
+
+    &.is-lowest-value:active::-moz-range-thumb
+      background $sliderBg
+      transform scale(1.5)
+
+    &.is-lowest-value:active::-ms-thumb
+      background $sliderBg
+      transform scale(1.5)
+
+    // focus
+    &:focus:not(:active)::-webkit-slider-thumb
+      background $sliderBg
+
+    &:focus:not(:active)::-moz-range-thumb
+      background $sliderBg
+
+    &:focus:not(:active)::-ms-thumb
+      background $sliderBg
+
+    &.is-lowest-value:focus:not(:active)::-webkit-slider-thumb
+      background $sliderBg
+
+    &.is-lowest-value:focus:not(:active)::-moz-range-thumb
+      background $sliderBg
+
+    &.is-lowest-value:focus:not(:active)::-ms-thumb
+      background $sliderBg
+
+  .mdl-slider
+    width 100%
+
+    &.is-lowest-value.is-upgraded + .mdl-slider__background-flex>.mdl-slider__background-upper
+      left 0
+
+    &.is-upgraded.is-lowest-value:active + .mdl-slider__background-flex>.mdl-slider__background-upper
+      left 0
+
+  .mdl-slider__background-flex
+    margin 0
+    width 100%
+    border-radius 10px
+    height 6px
+    top 40.5%
+
+  .mdl-slider__background-lower
+    background-color #cccccc
+    flex 0 1 0%
+
+  .mdl-slider__background-upper
+    background-color #cccccc
+    flex 1 1 0%
+
+.os-zoombar-zoom
+  display inline-block
+  width $zoombarWidth
+  height $zoombarHeight
+  text-align center
+  font-size 25px
+  color #000000
+  line-height 30px
+
+.os-zoombar-zoomIn
+  @extend .os-zoombar-zoom
+  border-bottom 1px solid #fcfcfc
+
+.os-zoombar-zoomOut
+  @extend .os-zoombar-zoom
+  border-top 1px solid #fcfcfc
+  vertical-align bottom
+
+.os-zoombar-scroll
+  height 134px
+  width 134px
+  position relative
+
+  @media screen and (max-width: 768px)
+    display none
+
+.os-zoombar-scroll-wrapper
+  position absolute
+  z-index 400
+  transform rotate(90deg)
+  transform-origin left
+  left 15px
+  top 0

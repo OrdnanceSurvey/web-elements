@@ -35,3 +35,4 @@ export {MaxSize} from './components/map/map';
 export {OsToolbar} from './components/toolbar/toolbar';
 export {OsSlider} from './components/slider/slider';
 export {OsHeader} from './components/header/header';
+export {OsZoombar} from './components/zoombar/zoombar';

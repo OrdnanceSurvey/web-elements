@@ -112,7 +112,8 @@
                         { name: 'select', url: '../src/components/select/docs/Select.md' },
                         { name: 'slider', url: '../src/components/slider/docs/Slider.md' },
                         { name: 'tabs', url: '../src/components/tabs/docs/Tabs.md' },
-                        { name: 'toolbar', url: '../src/components/toolbar/docs/Toolbar.md' }
+                        { name: 'toolbar', url: '../src/components/toolbar/docs/Toolbar.md' },
+                        { name: 'zoombar', url: '../src/components/zoombar/docs/Zoombar.md' }
                     ];
 
                     vm.selectComponent = function(comp) {
@@ -152,6 +153,9 @@
                     return rows;
                   };
 
+                })
+                .controller('zoombarController', function() {
+                  this.zoomLevel = 5
                 })
                 .controller('modalController', function($log, $OsModal) {
                   this.$inject = ['$log', '$OsModal'];
