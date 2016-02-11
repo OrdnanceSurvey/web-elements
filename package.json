@@ -33,6 +33,7 @@
     "angular-material": "^1.0.1",
     "angular-messages": "^1.4.8",
     "angular-sanitize": "^1.4.8",
+    "condition-circle": "^1.2.0",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "html-loader": "^0.4.0",
