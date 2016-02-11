@@ -1,4 +1,8 @@
 /// <reference path="../../../typings/main.d.ts" />
+import IScope = angular.IScope;
+export interface IOsPopover {
+    toggle(): boolean;
+}
 export declare class OsPopover {
     private $element;
     private $transclude;
@@ -13,7 +17,7 @@ export declare class OsPopover {
     private parentRect;
     private tipRect;
     title: string;
-    subTitle: string;
+    subtitle: string;
     mainImage: string;
     leftImage: string;
     backgroundImage: string;
@@ -22,7 +26,7 @@ export declare class OsPopover {
     width: string;
     height: string;
     static TOOLTIP_WINDOW_EDGE_SPACE: number;
-    constructor($element: ng.IRootElementService, $transclude: ng.ITranscludeFunction, $mdUtil: any, $window: any);
+    constructor($element: ng.IRootElementService, $transclude: ng.ITranscludeFunction, $mdUtil: any, $scope: IScope);
     private postLink();
     setParent(element: any): void;
     private enterHandler();
@@ -43,4 +47,5 @@ export declare class OsPopover {
     };
     private positionTooltip();
     isWide(): boolean;
+    hasLeftImage(): boolean;
 }

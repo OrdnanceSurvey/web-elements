@@ -279,14 +279,20 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var OsPopover = (function () {
-	    function OsPopover($element, $transclude, $mdUtil, $window) {
+	    function OsPopover($element, $transclude, $mdUtil, $scope) {
+	        var _this = this;
 	        this.$element = $element;
 	        this.$transclude = $transclude;
 	        this.$mdUtil = $mdUtil;
 	        this.visible = false;
-	        this.tooltipParent = angular.element(document.body);
+	        this.tooltipParent = $element.parent();
 	        this.postLink();
 	        this.tooltipParent.append($element);
+	        $scope.$watch(function () {
+	            return _this.$mdUtil.offsetRect($element, _this.tooltipParent);
+	        }, function (newVal, oldVal) {
+	            _this.positionTooltip();
+	        }, true);
 	    }
 	    OsPopover.prototype.postLink = function () {
 	        this.parent = this.$mdUtil.getParentWithPointerEvents(this.$element);
@@ -367,11 +373,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	            newPosition = this.fitInParent(this.getPosition('top'));
 	        }
 	        this.updatePosition(newPosition);
+	        this.$element.css({
+	            'margin-top': -this.tipRect.height + 'px',
+	            'margin-left': (-this.tipRect.width / 2) + 'px'
+	        });
 	    };
 	    OsPopover.prototype.isWide = function () {
 	        return this.type === 'wide';
 	    };
-	    OsPopover.$inject = ['$element', '$transclude', '$mdUtil', '$window'];
+	    OsPopover.prototype.hasLeftImage = function () {
+	        return this.leftImage ? true : false;
+	    };
+	    OsPopover.$inject = ['$element', '$transclude', '$mdUtil', '$scope'];
 	    OsPopover.TOOLTIP_WINDOW_EDGE_SPACE = 8;
 	    return OsPopover;
 	})();
@@ -470,6 +483,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                autoshow: '=?osAutoshow',
 	                type: '@?osType',
 	                visible: '=?osVisible',
+	                leftImage: '=?osLeftImage'
 	            },
 	            controller: OsPopover,
 	            controllerAs: 'osPopover',
@@ -477,13 +491,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	            transclude: true,
 	            template: __webpack_require__(11),
 	            link: function (scope, element, attr, ctrl) {
-	                ctrl.title = element.find('os-popover-title').text();
-	                ctrl.subTitle = element.find('os-popover-subtitle').text();
+	                console.log('linking', ctrl.leftImage);
+	                ctrl.title = element.find('os-popover-title').detach();
+	                ctrl.subtitle = element.find('os-popover-subtitle').detach();
 	                ctrl.mainImage = element.find('os-popover-main-image').text();
-	                ctrl.leftImage = element.find('os-popover-left-image').text();
 	                ctrl.backgroundImage = element.find('os-popover-background-image').text();
-	                ctrl.description = element.find('os-popover-description').text();
+	                ctrl.description = element.find('os-popover-description').detach();
 	                ctrl.actions = element.find('os-popover-actions').detach();
+	                angular.element(element[0].getElementsByClassName('placeholder-title')).replaceWith(ctrl.title);
+	                angular.element(element[0].getElementsByClassName('placeholder-subtitle')).replaceWith(ctrl.subtitle);
+	                angular.element(element[0].getElementsByClassName('placeholder-description')).replaceWith(ctrl.description);
 	                angular.element(element[0].getElementsByClassName('transclude-content')[0]).remove();
 	                angular.element(element[0].getElementsByClassName('os-popover-content')).append(ctrl.actions);
 	                scope.$watch('osPopover.visible', function (visible) {
@@ -502,7 +519,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 11 */
 /***/ function(module, exports) {
 
-	module.exports = "<div ng-transclude=\"ng-transclude\" class=\"transclude-content\"></div><md-icon ng-click=\"osPopover.hide()\" class=\"os-popover-closeIcon\">clear</md-icon><div layout=\"row\" os-popover-background=\"osPopover.backgroundImage\" ng-class=\"{'m-os-popover-wide': osPopover.isWide()}\" ng-style=\"{width: osPopover.width, height: osPopover.height, 'max-width': osPopover.width, 'max-height': osPopover.height}\" class=\"os-popover-container\"><div flex=\"flex\" ng-if=\"osPopover.leftImage\" class=\"os-popover-leftImage\"><img ng-src=\"{{ osPopover.leftImage }}\" width=\"142\" height=\"234\"/></div><div flex=\"flex\"><img ng-if=\"osPopover.mainImage\" ng-src=\"{{ osPopover.mainImage }}\"/><div flex=\"flex\" ng-if=\"osPopover.title || osPopover.subTitle || osPopover.description || osPopover.actions\" class=\"os-popover-content\"><h1 ng-if=\"osPopover.title\" class=\"os-popover-header\">{{ osPopover.title }}</h1><h2 ng-if=\"osPopover.subTitle\" class=\"os-popover-subheader\">{{ osPopover.subTitle }}</h2><p ng-if=\"osPopover.description\" class=\"os-popover-description\">{{ osPopover.description }}</p></div></div></div>"
+	module.exports = "<div ng-transclude=\"ng-transclude\" class=\"transclude-content\"></div><md-icon ng-click=\"osPopover.hide()\" class=\"os-popover-closeIcon\">clear</md-icon><div layout=\"row\" os-popover-background=\"osPopover.backgroundImage\" ng-class=\"{'os-popover--wide': osPopover.isWide(), 'os-popover--left-image': osPopover.hasLeftImage()}\" ng-style=\"{width: osPopover.width, height: osPopover.height, 'max-width': osPopover.width, 'max-height': osPopover.height}\" class=\"os-popover-container\"><div flex=\"flex\" ng-if=\"osPopover.leftImage\" class=\"os-popover-leftImage\"><img ng-src=\"{{ osPopover.leftImage }}\" width=\"142\" height=\"234\"/></div><div flex=\"flex\"><img ng-if=\"osPopover.mainImage\" ng-src=\"{{ osPopover.mainImage }}\"/><div flex=\"flex\" class=\"os-popover-content\"><h1 class=\"os-popover-title\"><div class=\"placeholder-title\"></div></h1><h2 class=\"os-popover-subtitle\"><div class=\"placeholder-subtitle\"></div></h2><p class=\"os-popover-description\"><div class=\"placeholder-description\"></div></p></div></div></div>"
 
 /***/ },
 /* 12 */
