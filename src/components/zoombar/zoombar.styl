@@ -46,8 +46,10 @@ $zoombarHeight = 30px
       transform scale(1.2)
 
     &::-ms-thumb
-      background black
-      transform scale(1.2)
+      background $sliderBg
+      width 30px
+      height 30px
+      transform scale(0.535)
 
     // slider drag, move
     &:active::-webkit-slider-thumb
@@ -59,8 +61,10 @@ $zoombarHeight = 30px
       transform scale(1.5)
 
     &:active::-ms-thumb
+      width 30px
+      height 30px
       background $sliderBg
-      transform scale(1.5)
+      transform scale(0.635)
 
     // lower value is reached
     &.is-lowest-value::-webkit-slider-thumb
@@ -85,7 +89,7 @@ $zoombarHeight = 30px
 
     &.is-lowest-value:active::-ms-thumb
       background $sliderBg
-      transform scale(1.5)
+      transform scale(0.575)
 
     // focus
     &:focus:not(:active)::-webkit-slider-thumb
@@ -114,6 +118,9 @@ $zoombarHeight = 30px
 
     &.is-upgraded.is-lowest-value:active + .mdl-slider__background-flex>.mdl-slider__background-upper
       left 0
+
+  .mdl-slider__container
+    top 6px
 
   .mdl-slider__background-flex
     margin 0
@@ -149,7 +156,7 @@ $zoombarHeight = 30px
   vertical-align bottom
 
 .os-zoombar-scroll
-  height 134px
+  height 151px
   width 134px
   position relative
 
@@ -157,9 +164,9 @@ $zoombarHeight = 30px
     display none
 
 .os-zoombar-scroll-wrapper
-  position absolute
+  position relative
   z-index 400
   transform rotate(90deg)
   transform-origin left
-  left 15px
+  left 21px
   top 0
