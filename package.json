@@ -48,7 +48,8 @@
     "template-html-loader": "0.0.3",
     "tslint": "^3.2.2",
     "typescript": "^1.7.5",
-    "webpack": "^1.12.10"
+    "typings": "^0.6.5",
+    "webpack": "^1.12.13"
   },
   "peerDependencies": {
     "angular": "^1.4.8",
