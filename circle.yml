@@ -2,15 +2,13 @@ machine:
   node:
     version: "5.1.0"
 dependencies:
-  override:
-    - rm -r node_modules & npm install
+  pre:
+    - rm -r node_modules
 test:
   pre:
     - npm run build
   override:
-    - npm test
-  post:
-    - npm run semantic-release || true
+    - npm run test
 deployment:
   releaseMasterBranch:
     branch: master
