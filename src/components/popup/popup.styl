@@ -79,3 +79,39 @@ os-popover-actions
 
     &:last-child
       margin-right 0
+
+// arrow
+$arrowWidth = 20px
+$arrowShadowWidth = 19px
+
+.os-popover-arrow
+  &,
+  &:after
+    position: absolute
+    display: block
+    width: 0
+    height: 0
+    border-color: transparent
+    border-style: solid
+
+.os-popover-arrow
+  border-width: $arrowWidth
+
+  &:after
+    border-width $arrowShadowWidth
+    content: ""
+
+.os-popover-arrow
+    left: 50%
+    margin-left: -($arrowWidth)
+    border-bottom-width: 0
+    border-top-color: #999999 // IE8 fallback
+    border-top-color: rgba(125,125,125,.20)
+    bottom: -($arrowWidth)
+
+    &:after
+      content: " "
+      bottom: 1px
+      margin-left: -($arrowWidth)
+      border-bottom-width: 0
+      border-top-color: #ffffff
