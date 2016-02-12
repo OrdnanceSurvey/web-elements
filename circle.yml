@@ -1,6 +1,9 @@
 machine:
   node:
     version: "5.1.0"
+dependencies:
+  override:
+    - rm -r node_modules & npm install
 test:
   pre:
     - npm run build
@@ -8,3 +11,8 @@ test:
     - npm test
   post:
     - npm run semantic-release || true
+deployment:
+  releaseMasterBranch:
+    branch: master
+    commands:
+      - npm run semantic-release || true
