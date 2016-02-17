@@ -24,6 +24,8 @@ var config = {
             'angular-messages',
             'angular-material',
             'angular-sanitize',
+            'rx',
+            'rx-angular',
             './node_modules/angular-material/angular-material.css'
         ]
     },
