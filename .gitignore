@@ -13,3 +13,4 @@ src/**/*.d.ts
 
 # misc
 npm-debug.log
+.npmrc
