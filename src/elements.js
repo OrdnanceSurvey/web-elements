@@ -37,3 +37,5 @@ var slider_1 = require('./components/slider/slider');
 exports.OsSlider = slider_1.OsSlider;
 var header_1 = require('./components/header/header');
 exports.OsHeader = header_1.OsHeader;
+var search_1 = require('./components/search/search');
+exports.OsSearch = search_1.OsSearch;

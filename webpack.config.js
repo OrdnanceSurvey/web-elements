@@ -49,7 +49,8 @@ var config = {
   externals: [{
     'ol': olExternals,
     'openlayers': olExternals,
-    'proj4': proj4Externals
+    'proj4': proj4Externals,
+    'rx': 'rx'
   }],
 
   // modles to compile .less and include .css

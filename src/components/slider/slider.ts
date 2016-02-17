@@ -7,7 +7,8 @@ angular
   .module('osElements')
   .component('osSlider', {
     bindings: {
-      position: '@osPosition'
+      position: '@osPosition',
+      opened: '=?osOpened'
     },
     controller: OsSlider,
     controllerAs: 'osSlider',
