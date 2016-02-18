@@ -33,6 +33,7 @@ export class OsPopover {
   height:string;
 
   static TOOLTIP_WINDOW_EDGE_SPACE = 8;
+  static ARROW_HEIGHT = 20;
 
   constructor(private $element:ng.IRootElementService, private $transclude:ng.ITranscludeFunction, private $mdUtil:any, $scope: IScope) {
     //this.tooltipParent = angular.element(document.body);
@@ -149,7 +150,7 @@ export class OsPopover {
     this.updatePosition(newPosition);
 
     this.$element.css({
-      'margin-top': -this.tipRect.height + 'px',
+      'margin-top': (-this.tipRect.height - OsPopover.ARROW_HEIGHT) + 'px',
       'margin-left': (-this.tipRect.width / 2) + 'px'
     });
 
