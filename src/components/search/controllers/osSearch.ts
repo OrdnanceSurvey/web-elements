@@ -15,6 +15,7 @@ export interface IOsSearch {
   searchResults: Object;
   searchHidden: boolean;
   clear(): void;
+  close(): void;
   search(): void;
   resultsAvailable(): boolean;
   hideSearch(): void;
@@ -30,6 +31,7 @@ export class OsSearch implements IOsSearch {
   searchProviders: IOsSearchProvider[];
   searchResults: Object = {}
   searchHidden: boolean = false;
+  searcherHidden: boolean = true;
   internalSearchProviders: any;
 
   constructor(private $scope: ng.IScope,
@@ -70,12 +72,13 @@ export class OsSearch implements IOsSearch {
     var observableFromFn = function observableFromFn(fn, term) {
       //return rx.Observable.fromCallback(fn)(term);
 
+      return rx.Observable.fromPromise(fn(term))
+
       return rx.Observable.create(function(observer) {
         try {
           observer.onNext(fn.call(this, term));
           observer.onCompleted();
         } catch (e) {
-          console.error( e);
           observer.onError(e);
         }
       });
@@ -176,11 +179,21 @@ export class OsSearch implements IOsSearch {
         });
       }
     });*/
-
+    this.$scope.$on('osHeader.openSearch', () => {
+      this.open();
+    });
   }
 
   clear() {
    this.searchText = '';
+  }
+
+  open() {
+    this.searcherHidden = false;
+  }
+
+  close() {
+    this.searcherHidden = true;
   }
 
   search() {

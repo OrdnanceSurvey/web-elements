@@ -7,7 +7,8 @@ angular
   .module('osElements')
   .component('osHeader', {
     bindings: {
-      title: '@osTitle'
+      title: '@osTitle',
+      useSearch: '=?osUseSearch'
     },
     controller: OsHeader,
     controllerAs: 'osHeader',

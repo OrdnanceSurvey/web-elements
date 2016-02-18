@@ -2,9 +2,14 @@
   //a.os-header-menuIcon(flex="3")
     md-icon menu
 
-  span(flex="65") {{ osHeader.title }}
+  span(flex="*") {{ osHeader.title }}
 
-  div(flex="35").os-header-search
+  .os-header-searchContainer(
+    flex="35"
+    ng-click="osHeader.openSearch()"
+    ng-if="osHeader.useSearch"
+    )
+    .os-header-search
     span.os-header-searchText Search for a location, postcode
 
     a.os-header-searchIcon
@@ -12,3 +17,5 @@
 
   //a(flex="2")
     md-icon more_vert
+
+div(ng-transclude)

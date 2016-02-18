@@ -1,4 +1,4 @@
-.os-search
+.os-search(ng-if="!osSearch.searcherHidden")
   .os-search-head(layout="row")
     .os-search-headItem(flex="90")
       input.os-search-query(
@@ -20,20 +20,22 @@
 
     .os-search-headItem(flex="40px")
       button.os-search-clear(
-
         type="button"
-        ng-if="osSearch.searchText"
-        ng-click="osSearch.clear()"
+        ng-click="osSearch.close()"
       )
         md-icon clear
 
   .os-search-result(layout="column" ng-if="osSearch.searchText.length > 2 && !osSearch.searchHidden && osSearch.resultsAvailable()")
     .os-search-resultHeaders(layout="row")
-      .os-search-resultHeader(flex="{{column.width}}" ng-repeat="(key, column) in osSearch.searchResults") {{ column.title }}
+      .os-search-resultHeader(
+        flex=""
+        ng-repeat="(key, column) in osSearch.searchResults"
+        ng-if="column.results.length"
+        ) {{ column.title }}
 
     .os-search-resultItems(flex)
       .os-search-resultItemsContainer(flex="100" layout="row")
-        .os-search-resultColumn(flex="{{column.width}}" ng-repeat="(key, column) in osSearch.searchResults")
+        .os-search-resultColumn(flex="" ng-repeat="(key, column) in osSearch.searchResults" ng-if="column.results.length")
           .os-search-resultItem(
             ng-repeat="item in column.results"
             )
