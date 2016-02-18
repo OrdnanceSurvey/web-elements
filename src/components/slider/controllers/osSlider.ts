@@ -1,13 +1,17 @@
 /// <reference path="../../../../typings/main.d.ts" />
 
 export class OsSlider {
-  static $inject = ['$element'];
+  static $inject = ['$element', '$scope'];
 
   position: string;
   opened: boolean;
 
-  constructor(private $element: ng.IRootElementService) {
+  constructor(private $element: ng.IRootElementService, private $scope: ng.IScope) {
     this.setVisibility();
+
+    $scope.$watch(() => {
+      this.setVisibility()
+    });
   }
 
   toggle(): void {
