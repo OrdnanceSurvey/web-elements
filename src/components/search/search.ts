@@ -14,7 +14,8 @@ angular
         selectedItem: '=?',
         itemNames: '@osItems',
         searchText: '=?osSearchText',
-        searchProviders: '=osSearchProviders'
+        searchProviders: '=osSearchProviders',
+        searcherHidden: '=?osSearcherHidden'
       },
       controller: OsSearch,
       controllerAs: 'osSearch',
