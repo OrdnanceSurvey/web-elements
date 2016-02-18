@@ -24,11 +24,11 @@ export class OsSlider {
   }
 
   isOpened(): boolean {
-    return this.opened;
+    return this.opened == true;
   }
 
   iconName(): string {
-    return this.opened ? 'keyboard_arrow_right' : 'keyboard_arrow_left';
+    return this.isOpened() ? 'keyboard_arrow_left' : 'keyboard_arrow_right' ;
   }
 
 }
