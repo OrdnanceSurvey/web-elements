@@ -1,4 +1,4 @@
-md-icon.os-popover-closeIcon(ng-click="osPopover.hide()") clear
+md-icon.os-popover__close-icon(ng-click="osPopover.hide()") clear
 
 .os-popover-container(
 layout="row",
@@ -11,9 +11,9 @@ ng-style="{width: osPopover.width, height: osPopover.height, 'max-width': osPopo
 
   div(flex)
     img(ng-if="osPopover.mainImage", ng-src="{{ osPopover.mainImage }}")
-    .os-popover-content(flex, ng-if="osPopover.title || osPopover.subTitle || osPopover.description || osPopover.actions")
+    .os-popover-content(flex, ng-if="osPopover.title || osPopover.subtitle || osPopover.description || osPopover.actions")
       .placeholder-title
-      .placeholder-description
+      .placeholder-subtitle
       .transclude-content(ng-transclude)
 
 
