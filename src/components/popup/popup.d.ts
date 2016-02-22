@@ -26,6 +26,7 @@ export declare class OsPopover {
     width: string;
     height: string;
     static TOOLTIP_WINDOW_EDGE_SPACE: number;
+    static ARROW_HEIGHT: number;
     constructor($element: ng.IRootElementService, $transclude: ng.ITranscludeFunction, $mdUtil: any, $scope: IScope);
     private postLink();
     setParent(element: any): void;

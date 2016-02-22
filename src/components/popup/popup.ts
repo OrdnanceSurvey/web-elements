@@ -293,7 +293,11 @@ angular
         // remove transclude content
         angular.element(element[0].getElementsByClassName('placeholder-title')).replaceWith(ctrl.title);
         angular.element(element[0].getElementsByClassName('placeholder-subtitle')).replaceWith(ctrl.subtitle);
-        angular.element(element[0].getElementsByClassName('placeholder-description')).replaceWith(ctrl.description);
+
+        if (ctrl.description.length > 0) {
+          console.log('found description', ctrl.description);
+          angular.element(element[0].getElementsByClassName('placeholder-description')).replaceWith(ctrl.description);
+        }
 
         angular.element(element[0].getElementsByClassName('transclude-content')[0]).remove();
 

@@ -31,7 +31,7 @@ export class OsSearch implements IOsSearch {
   searchProviders: IOsSearchProvider[];
   searchResults: Object = {}
   searchHidden: boolean = false;
-  searcherHidden: boolean = true;
+  searcherHidden: boolean;
   internalSearchProviders: any;
 
   constructor(private $scope: ng.IScope,
@@ -110,11 +110,15 @@ export class OsSearch implements IOsSearch {
         this.searchResults[provider.id].results = [];
       });
 
-      // only search on 3+ characters
-      return term && term.length && term.length > 2;
+      return term && term.length;
     }).subscribe((term) => {
 
-      var observables = this.searchProviders.map(function(provider) {
+      // check if term is exceeding min length for searchProvider
+      var filtered = this.searchProviders.filter((element) => {
+        return element.minLength <= term.length ;
+      })
+
+      var observables = filtered.map(function(provider) {
       //  $timeout(function() {
       //    $scope.searchResults[provider.id].inProgress = true;
       //    $scope.searchResults[provider.id].results = [];
@@ -211,12 +215,13 @@ export class OsSearch implements IOsSearch {
   // hide the search results
   hideSearch() {
     this.searchHidden = true;
+    this.close();
   }
 
   // call onSelect function if provided.  Pass the hideSearch handler so the function may call it
   selectResult(result, cb) {
     if (cb) {
-      cb.call(null, result, this.hideSearch);
+      cb.call(null, result, this.hideSearch.bind(this));
     }
   }
 
