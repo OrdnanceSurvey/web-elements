@@ -25,7 +25,7 @@
       )
         md-icon clear
 
-  .os-search-result(layout="column" ng-if="osSearch.searchText.length > 2 && !osSearch.searchHidden && osSearch.resultsAvailable()")
+  .os-search-result(layout="column" ng-if="osSearch.searchText.length > 0 && !osSearch.searchHidden && osSearch.resultsAvailable()")
     .os-search-resultHeaders(layout="row")
       .os-search-resultHeader(
         flex=""
