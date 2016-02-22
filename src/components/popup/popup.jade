@@ -1,7 +1,7 @@
 //- transclude-content will be removed by controller
 .transclude-content(ng-transclude)
 
-md-icon.os-popover-closeIcon(ng-click="osPopover.hide()") clear
+md-icon.os-popover__close-icon(ng-click="osPopover.hide()") clear
 
 .os-popover-container(
   layout="row",
@@ -12,15 +12,18 @@ md-icon.os-popover-closeIcon(ng-click="osPopover.hide()") clear
   .os-popover-leftImage(flex, ng-if="osPopover.leftImage")
     img(ng-src="{{ osPopover.leftImage }}", width="142", height="234")
 
-  div(flex)
+  div(flex, layout="row", layout-align="start none")
     img(ng-if="osPopover.mainImage", ng-src="{{ osPopover.mainImage }}")
-    .os-popover-content(flex)
+    .os-popover-content(
+    flex,
+    layout="column",
+    layout-align="start stretch"
+    )
       h1.os-popover-title
         .placeholder-title
-      h2.os-popover-subtitle
+      h2.os-popover__subtitle
         .placeholder-subtitle
-      p.os-popover-description
-        .placeholder-description
+      div(flex)
 
 //- arrows
 .os-popover-arrow
