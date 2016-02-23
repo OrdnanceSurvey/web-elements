@@ -281,7 +281,6 @@ angular
       template: require('./popup.jade'),
       link: function (scope, element, attr, ctrl:OsPopover) {
         // content
-        console.log('linking', ctrl.leftImage);
         ctrl.title = element.find('os-popover-title').detach();
         ctrl.subtitle = element.find('os-popover-subtitle').detach();
         ctrl.mainImage = element.find('os-popover-main-image').text();
