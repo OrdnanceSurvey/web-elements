@@ -1,11 +1,11 @@
-.os-header(layout="row", layout-align="center strech")
+.os-header(layout="row", layout-align="left strech")
   //a.os-header-menuIcon(flex="3")
     md-icon menu
 
-  span(flex="*") {{ osHeader.title }}
+  .os-header-title(flex="63%") {{ osHeader.title }}
 
   .os-header-searchContainer(
-    flex="35"
+    flex="35%"
     ng-click="osHeader.openSearch()"
     ng-if="osHeader.useSearch"
     )
