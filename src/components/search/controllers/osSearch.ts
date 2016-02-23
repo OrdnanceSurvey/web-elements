@@ -75,14 +75,6 @@ export class OsSearch implements IOsSearch {
 
       return rx.Observable.fromPromise(fn(term))
 
-      //return rx.Observable.create(function(observer) {
-      //  try {
-      //    observer.onNext(fn.call(this, term));
-      //    observer.onCompleted();
-      //  } catch (e) {
-      //    observer.onError(e);
-      //  }
-      //});
     };
 
     var createProviderObservable = function createProviderObservable(provider, term) {
@@ -111,7 +103,7 @@ export class OsSearch implements IOsSearch {
         this.searchResults[provider.id].results = [];
       });
 
-      return term && term.length;
+      return term.toLowerCase() && term.length;
     }).subscribe((term) => {
 
       // check if term is exceeding min length for searchProvider
@@ -175,15 +167,6 @@ export class OsSearch implements IOsSearch {
       });
     });
 
-    /*
-    angular.element('html').on('click', function(event) {
-      var el = $(event.target);
-      if (!(el.closest('.osel-search').length || el.closest('.osel-search-results').length)) {
-        $timeout(function() {
-          $scope.searchHidden = true;
-        });
-      }
-    });*/
     this.$scope.$on('osHeader.openSearch', () => {
       this.open();
     });
@@ -195,10 +178,43 @@ export class OsSearch implements IOsSearch {
 
   open() {
     this.searcherHidden = false;
+    this.bindEvents();
+  }
+
+  handleClick = (event) => {
+    // skip click on os reader
+    if (this.closestByClass(event.target, 'os-header-searchContainer')) return false;
+
+    if (!this.closestByClass(event.target, 'os-search')
+      && !this.closestByClass(event.target, 'os-search-container')
+    ) {
+      this.hideSearch();
+    }
+  }
+
+  closestByClass(el, className) {
+    while (! (el.classList.contains(className))) {
+      el = el.parentNode;
+
+      if (!el || !el.classList) {
+        return null;
+      }
+    }
+
+    return el;
+  }
+
+  bindEvents() {
+    angular.element(document.querySelector('html')).on('click', this.handleClick);
+  }
+
+  unBindEvents() {
+    angular.element(document.querySelector('html')).off('click', this.handleClick);
   }
 
   close() {
     this.searcherHidden = true;
+    this.unBindEvents();
   }
 
   search() {
