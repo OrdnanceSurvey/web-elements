@@ -3,10 +3,11 @@
 export interface IOsSearchProvider {
   id: string;
   title: string;
-  columnWidth: Number;
+  columnWidth: number;
   fn: Function;
   transformResponse: Function;
   onSelect: Function;
+  minLength: number;
 }
 
 export interface IOsSearch {
@@ -74,14 +75,14 @@ export class OsSearch implements IOsSearch {
 
       return rx.Observable.fromPromise(fn(term))
 
-      return rx.Observable.create(function(observer) {
-        try {
-          observer.onNext(fn.call(this, term));
-          observer.onCompleted();
-        } catch (e) {
-          observer.onError(e);
-        }
-      });
+      //return rx.Observable.create(function(observer) {
+      //  try {
+      //    observer.onNext(fn.call(this, term));
+      //    observer.onCompleted();
+      //  } catch (e) {
+      //    observer.onError(e);
+      //  }
+      //});
     };
 
     var createProviderObservable = function createProviderObservable(provider, term) {
@@ -100,7 +101,7 @@ export class OsSearch implements IOsSearch {
 
 
     // fire off requests to providers based on throttled search term
-    throttledInput.filter( (term) => {
+    throttledInput.filter( (term: string) => {
       // reset the search results for each provider whenever input changes
       this.searchProviders.forEach((provider) => {
         this.searchResults[provider.id] = this.searchResults[provider.id] || {};
