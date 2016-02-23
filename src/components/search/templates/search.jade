@@ -33,8 +33,8 @@
         ng-if="column.results.length"
         ) {{ column.title }}
 
-    .os-search-resultItems(flex)
-      .os-search-resultItemsContainer(flex="100" layout="row")
+    .os-search-resultItems(layout="row")
+      .os-search-resultItemsContainer(layout="row")
         .os-search-resultColumn(flex="" ng-repeat="(key, column) in osSearch.searchResults" ng-if="column.results.length")
           .os-search-resultItem(
             ng-repeat="item in column.results"
