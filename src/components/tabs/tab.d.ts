@@ -1,6 +1,14 @@
 /// <reference path="../../../typings/main.d.ts" />
-export declare class OsTab {
+export interface IOsTab {
+    ngLink: string;
+    click(): void | boolean;
+}
+export declare class OsTab implements IOsTab {
+    private $element;
+    private $transclude;
+    private $router;
     static $inject: string[];
-    $osTabTransclude: any;
-    constructor($element: ng.IRootElementService, $transclude: ng.ITranscludeFunction);
+    ngLink: string;
+    constructor($element: ng.IRootElementService, $transclude: ng.ITranscludeFunction, $router: any);
+    click(): void | boolean;
 }
