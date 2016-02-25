@@ -1,13 +1,22 @@
 /// <reference path="../../../typings/main.d.ts" />
 
 
-export class OsTab {
-    static $inject = ['$element', '$transclude'];
+export interface IOsTab {
+  ngLink: string;
+  click(): void|boolean;
+}
 
-    $osTabTransclude;
+export class OsTab implements IOsTab {
+    static $inject = ['$element', '$transclude', '$router'];
 
-    constructor($element: ng.IRootElementService, $transclude: ng.ITranscludeFunction) {
-        this.$osTabTransclude = $transclude;
+    ngLink: string;
+
+    constructor(private $element: ng.IRootElementService, private $transclude: ng.ITranscludeFunction, private $router: any) {}
+
+    click(): void|boolean {
+      if (!this.ngLink && !this.ngLink.length) return false;
+
+      this.$router.navigate(this.ngLink);
     }
 }
 
@@ -17,7 +26,7 @@ angular
         return {
             require: '^osTabs',
             link: function ($scope, $element, $attrs, fieldCtrl:OsTab) {
-                $scope.osTab.$osTabTransclude(function (clone) {
+                $scope.osTab.$transclude(function (clone) {
                     $element.empty();
                     $element.append(clone);
                 });
@@ -27,14 +36,14 @@ angular
     .component('osTab', {
         bindings: {
             label: '@',
-            disabled: '='
+            disabled: '=',
+            ngLink: '@?'
         },
         controller: OsTab,
         controllerAs: 'osTab',
         transclude: true,
         template: `
-           <md-tab label="{{osTab.label}}" disabled="{{ osTabs.disabled }}">
-                {{ osTabs.disabled | json }}
+           <md-tab label="{{osTab.label}}" disabled="{{ osTabs.disabled }}" ng-link="{{ osTab.ngLink }}" md-on-select="osTab.click()">
                 <div os-tab-transclude=""></div>
            </md-tab>
         `
