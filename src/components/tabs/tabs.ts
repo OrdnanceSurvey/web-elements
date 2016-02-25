@@ -28,7 +28,7 @@ angular
     })
     .component('osTabs', {
         bindings: {
-            mdDynamicHeight: '=',
+            mdDynamicHeight: '=?',
         },
         controller: OsTabs,
         controllerAs: 'osTabs',
