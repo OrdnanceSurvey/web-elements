@@ -16,6 +16,7 @@ export class OsTab implements IOsTab {
     click(): void|boolean {
       if (!this.ngLink && !this.ngLink.length) return false;
 
+      console.log('doing click on tab', this.ngLink);
       this.$router.navigate(this.ngLink);
     }
 }
@@ -37,13 +38,14 @@ angular
         bindings: {
             label: '@',
             disabled: '=',
-            ngLink: '@?'
+            ngLink: '@?',
+            ngClick: '&'
         },
         controller: OsTab,
         controllerAs: 'osTab',
         transclude: true,
         template: `
-           <md-tab label="{{osTab.label}}" disabled="{{ osTabs.disabled }}" ng-link="{{ osTab.ngLink }}" md-on-select="osTab.click()">
+           <md-tab label="{{osTab.label}}" disabled="{{ osTabs.disabled }}" ng-click="osTab.ngClick()">
                 <div os-tab-transclude=""></div>
            </md-tab>
         `
