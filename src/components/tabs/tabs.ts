@@ -29,12 +29,13 @@ angular
     .component('osTabs', {
         bindings: {
             mdDynamicHeight: '=?',
+            osSelected: '=?'
         },
         controller: OsTabs,
         controllerAs: 'osTabs',
         transclude: true,
         template: `
-           <md-tabs md-dynamic-height="{{ osTabs.mdDynamicHeight }}">
+           <md-tabs md-dynamic-height="{{ osTabs.mdDynamicHeight }}" md-selected="osTabs.osSelected">
                 <div os-tabs-transclude></div>
            </md-tabs>
         `

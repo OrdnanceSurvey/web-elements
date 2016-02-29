@@ -37,13 +37,14 @@ angular
         bindings: {
             label: '@',
             disabled: '=',
-            ngLink: '@?'
+            ngLink: '@?',
+            ngClick: '&'
         },
         controller: OsTab,
         controllerAs: 'osTab',
         transclude: true,
         template: `
-           <md-tab label="{{osTab.label}}" disabled="{{ osTabs.disabled }}" ng-link="{{ osTab.ngLink }}" md-on-select="osTab.click()">
+           <md-tab label="{{osTab.label}}" disabled="{{ osTabs.disabled }}" ng-click="osTab.ngClick()">
                 <div os-tab-transclude=""></div>
            </md-tab>
         `
