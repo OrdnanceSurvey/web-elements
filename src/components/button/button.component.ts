@@ -39,6 +39,9 @@ export class OsButton implements IOsButton {
           classes.push('md-raised');
           classes.push('md-os-super');
           break;
+        case 'icon':
+          classes.push('md-os-icon');
+          break;
         case 'text':
         default:
           break;

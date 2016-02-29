@@ -7,7 +7,7 @@ export class PolygonTool implements ng.IDirective {
   public link:(scope:ng.IScope, iElement:ng.IAugmentedJQuery, iAttrs:ng.IAttributes, olCtrl:any) => void;
   public restrict = 'E';
   public require = '^openlayers';
-  public template = `<os-button variation="outline" colour="primary" ng-click="ctrl.toggle()">Polygon</os-button>`
+  public template = `<os-button variation="outline" colour="primary" ng-click="ctrl.toggle()">Polygon</os-button>`;
   public scope = {};
   public bindToController = {
     featureLayer: '=osFeatureLayer'
@@ -15,7 +15,7 @@ export class PolygonTool implements ng.IDirective {
   public controllerAs = 'ctrl';
   public controller = PolygonToolController;
 
-  constructor($timeout:ng.ITimeoutService, $window:ng.IWindowService, olData) {
+  constructor(private $timeout:ng.ITimeoutService, private $window:ng.IWindowService, private olData, private ol: any) {
 
     PolygonTool.prototype.link = (scope:ng.IScope, iElement:ng.IAugmentedJQuery, iAttrs:ng.IAttributes, olCtrl:any) => {
 
@@ -40,11 +40,11 @@ export class PolygonTool implements ng.IDirective {
 
 
   public static Factory() {
-    var directive = ($timeout:ng.ITimeoutService, $window:ng.IWindowService, olData) => {
-      return new PolygonTool($timeout, $window, olData);
+    var directive = ($timeout:ng.ITimeoutService, $window:ng.IWindowService, olData, ol: any) => {
+      return new PolygonTool($timeout, $window, olData, ol);
     };
 
-    directive['$inject'] = ['$timeout', '$window', 'olData'];
+    directive['$inject'] = ['$timeout', '$window', 'olData', 'ol'];
 
     return directive;
   }
