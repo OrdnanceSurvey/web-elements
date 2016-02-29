@@ -100,7 +100,7 @@ export class PolygonToolController implements IPolygonTool {
 
     draw.on('drawstart', (drawEvent: ol.interaction.DrawEvent) => {
 
-      drawEvent.feature.getGeometry().on('change', (geometry: any) => {
+      drawEvent.feature.getGeometry().on('change', (changeEvent: any) => {
 
         this.$scope.$apply(() => {
           this.featureLayer.style.image.circle.fill.color = '#D40058';
@@ -108,7 +108,7 @@ export class PolygonToolController implements IPolygonTool {
         });
 
         // this event fires in OpenLayers, so tell Angular about it
-        var coords = geometry.currentTarget.getCoordinates();
+        var coords = changeEvent.target.getCoordinates();
         this.$scope.$apply(() => {
           // add fake geometry to the real feature object.
           // first the polygon, then the MultiPoint fake 'editing' points for each vertex
