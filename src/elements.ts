@@ -5,7 +5,7 @@ angular.module('osElements', ['ngMaterial', 'rx']).config(function($mdThemingPro
 
     // theme
     $mdThemingProvider.definePalette('solutions-blue', $mdThemingProvider.extendPalette('indigo', {
-        '500': '0099CE'
+        '500': '2b97ef'
     }));
 
     $mdThemingProvider.definePalette('creative-green', $mdThemingProvider.extendPalette('green', {
