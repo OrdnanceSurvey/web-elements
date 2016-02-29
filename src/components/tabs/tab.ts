@@ -16,7 +16,6 @@ export class OsTab implements IOsTab {
     click(): void|boolean {
       if (!this.ngLink && !this.ngLink.length) return false;
 
-      console.log('doing click on tab', this.ngLink);
       this.$router.navigate(this.ngLink);
     }
 }

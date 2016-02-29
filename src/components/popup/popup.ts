@@ -294,7 +294,6 @@ angular
         angular.element(element[0].getElementsByClassName('placeholder-subtitle')).replaceWith(ctrl.subtitle);
 
         if (ctrl.description.length > 0) {
-          console.log('found description', ctrl.description);
           angular.element(element[0].getElementsByClassName('placeholder-description')).replaceWith(ctrl.description);
         }
 
