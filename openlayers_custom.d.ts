@@ -1967,7 +1967,7 @@ declare module ol {
      * @param ref The object to use as this in listener.
      * @returns Unique key for the listener.
      */
-    un(type: Array<string>, listener: (event: MapBrowserEvent | DrawEvent) => void, ref?: any): any;
+    un(type: string|Array<string>, listener: (event: MapBrowserEvent | DrawEvent) => void, ref?: any): any;
 
     /**
      * Removes an event listener using the key returned by on() or once(). Note that using the ol.Observable.unByKey static function is to be preferred.
