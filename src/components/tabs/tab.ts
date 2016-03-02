@@ -7,12 +7,12 @@ export interface IOsTab {
 }
 
 export class OsTab implements IOsTab {
-    static $inject = ['$element', '$transclude', '$router'];
+    static $inject = ['$element', '$transclude'];
 
     ngLink: string;
     click;
 
-    constructor(private $element: ng.IRootElementService, private $transclude: ng.ITranscludeFunction, private $router: any) {
+    constructor(private $element: ng.IRootElementService, private $transclude: ng.ITranscludeFunction) {
     }
 }
 
@@ -33,8 +33,7 @@ angular
         bindings: {
             label: '@',
             disabled: '=',
-            ngLink: '@?',
-            ngClick: '&'
+            ngClick: '&?'
         },
         controller: OsTab,
         controllerAs: 'osTab',
