@@ -3,13 +3,14 @@
 
 export interface IOsTab {
   ngLink: string;
-  click(): void|boolean;
+  click(): void;
 }
 
 export class OsTab implements IOsTab {
     static $inject = ['$element', '$transclude', '$router'];
 
     ngLink: string;
+    click;
 
     constructor(private $element: ng.IRootElementService, private $transclude: ng.ITranscludeFunction, private $router: any) {
     }
