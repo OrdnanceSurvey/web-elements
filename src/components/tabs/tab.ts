@@ -11,12 +11,7 @@ export class OsTab implements IOsTab {
 
     ngLink: string;
 
-    constructor(private $element: ng.IRootElementService, private $transclude: ng.ITranscludeFunction, private $router: any) {}
-
-    click(): void|boolean {
-      if (!this.ngLink && !this.ngLink.length) return false;
-
-      this.$router.navigate(this.ngLink);
+    constructor(private $element: ng.IRootElementService, private $transclude: ng.ITranscludeFunction, private $router: any) {
     }
 }
 
@@ -44,8 +39,9 @@ angular
         controllerAs: 'osTab',
         transclude: true,
         template: `
-           <md-tab label="{{osTab.label}}" disabled="{{ osTabs.disabled }}" ng-click="osTab.ngClick()">
+           <md-tab label="{{osTab.label}}" ng-disabled="osTab.disabled" ng-click="osTab.ngClick()">
                 <div os-tab-transclude=""></div>
+
            </md-tab>
         `
     });
