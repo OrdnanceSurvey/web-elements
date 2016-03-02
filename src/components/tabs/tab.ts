@@ -41,7 +41,6 @@ angular
         template: `
            <md-tab label="{{osTab.label}}" ng-disabled="osTab.disabled" ng-click="osTab.ngClick()">
                 <div os-tab-transclude=""></div>
-
            </md-tab>
         `
     });
