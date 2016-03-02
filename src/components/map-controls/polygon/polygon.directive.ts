@@ -7,10 +7,12 @@ export class PolygonTool implements ng.IDirective {
   public link:(scope:ng.IScope, iElement:ng.IAugmentedJQuery, iAttrs:ng.IAttributes, olCtrl:any) => void;
   public restrict = 'E';
   public require = '^openlayers';
-  public template = `<os-button variation="outline" colour="primary" ng-click="ctrl.toggle()">Polygon</os-button>`;
+  public template = `<os-button ng-if="!ctrl.noView" variation="outline" colour="primary" ng-click="ctrl.isActive = !ctrl.isActive">Polygon</os-button>`;
   public scope = {};
   public bindToController = {
-    featureLayer: '=osFeatureLayer'
+    featureLayer: '=osFeatureLayer',
+    isActive: '=osIsActive',
+    noView: '=osNoView'
   };
   public controllerAs = 'ctrl';
   public controller = PolygonToolController;
@@ -18,6 +20,14 @@ export class PolygonTool implements ng.IDirective {
   constructor(private $timeout:ng.ITimeoutService, private $window:ng.IWindowService, private olData, private ol: any) {
 
     PolygonTool.prototype.link = (scope:ng.IScope, iElement:ng.IAugmentedJQuery, iAttrs:ng.IAttributes, olCtrl:any) => {
+
+      //console.log('initialised with active', scope.ctrl.isActive);
+
+      scope.$watch('ctrl.isActive', (isActive: boolean) => {
+        if (isActive !== scope.ctrl.isToolActive()) {
+          scope.ctrl.toggle();
+        }
+      });
 
       function PolygonTool_OL() {
         ol.control.Control.call(this, {

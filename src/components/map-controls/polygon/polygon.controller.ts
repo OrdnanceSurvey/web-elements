@@ -6,16 +6,17 @@ import IScope = angular.IScope;
 
 export interface IPolygonTool {
   toggle() : void;
-  isActive() : boolean;
+  isToolActive() : boolean;
   featureLayer : any;
-  enable(): void;
+  activate(): void;
   deactivate(): void;
 }
 
 export class PolygonToolController implements IPolygonTool {
-  public static $inject = ['$scope', '$timeout', 'olData'];
+  public static $inject = ['$scope', '$timeout', 'olData', 'rx'];
 
   public featureLayer;
+  public isToolActive;
 
   private $scope;
   private $timeout;
@@ -24,9 +25,11 @@ export class PolygonToolController implements IPolygonTool {
   private featureSource:ol.source.Vector;
   private featureOverlay:ol.layer.Vector;
   private transparentStyle:ol.style.Style;
-  private interaction: ol.interaction.Draw;
+  private interaction:ol.interaction.Draw;
+  private isAddingToPolygon:boolean = false;
+  private pointermoveObservable:any;
 
-  constructor($scope: IScope, $timeout: ng.ITimeoutService, olData: any) {
+  constructor($scope:IScope, $timeout:ng.ITimeoutService, olData:any, private rx:any) {
     this.$scope = $scope;
     this.$timeout = $timeout;
 
@@ -65,17 +68,21 @@ export class PolygonToolController implements IPolygonTool {
     olData.getMap().then(map => {
       this.map = map;
     });
+
+    this.pointermoveObservable = rx.Observable.create((observer) => {
+
+    });
   }
 
   toggle() {
     if (this.interaction && this.interaction.getActive()) {
       this.deactivate();
     } else {
-      this.enable();
+      this.activate();
     }
   }
 
-  enable() {
+  activate() {
     this.featureOverlay.setMap(this.map);
 
     var draw = new ol.interaction.Draw(<IDrawInteractionOptions>{
@@ -84,8 +91,11 @@ export class PolygonToolController implements IPolygonTool {
       style: this.transparentStyle
     });
 
+    this.map.on('pointermove', this.onPointermove);
 
     draw.on('drawend', () => {
+      this.isAddingToPolygon = false;
+      this.map.on('pointermove', this.onPointermove);
       // deactivate in a timeout to avoid a zoom-in because of double click
       this.$timeout(() => {
         this.deactivate();
@@ -93,22 +103,29 @@ export class PolygonToolController implements IPolygonTool {
 
       this.$scope.$apply(() => {
         // when drawing ends, hide the 'editing' points on each vertex
-        this.featureLayer.style.image.circle.fill.color = 'rgba(0,0,0,0)';
-        this.featureLayer.style.image.circle.stroke.color = 'rgba(0,0,0,0)';
+        this.removeColour(this.featureLayer);
       });
     });
 
-    draw.on('drawstart', (drawEvent: ol.interaction.DrawEvent) => {
+    draw.on('drawstart', (drawEvent:ol.interaction.DrawEvent) => {
+      this.isAddingToPolygon = true;
+      this.map.un('pointermove', this.onPointermove);
 
-      drawEvent.feature.getGeometry().on('change', (changeEvent: any) => {
+      drawEvent.feature.getGeometry().on('change', (changeEvent:any) => {
 
-        this.$scope.$apply(() => {
-          this.featureLayer.style.image.circle.fill.color = '#D40058';
-          this.featureLayer.style.image.circle.stroke.color = '#FFFFFF';
-        });
+        //this.$scope.$apply(() => {
+        //  // when drawing starts, show the 'editing' points on each vertex
+        //  this.addColour(this.featureLayer);
+        //  var polygon = this.featureLayer.source.geojson.object.features[0].geometry.geometries[0].coordinates[0];
+        //  if (polygon) {
+        //    this.featureLayer.source.geojson.object.features[0].geometry.geometries[1].coordinates = polygon[0];
+        //  }
+        //
+        //});
 
         // this event fires in OpenLayers, so tell Angular about it
         var coords = changeEvent.target.getCoordinates();
+        this.addColour(this.featureLayer);
         this.$scope.$apply(() => {
           // add fake geometry to the real feature object.
           // first the polygon, then the MultiPoint fake 'editing' points for each vertex
@@ -128,7 +145,58 @@ export class PolygonToolController implements IPolygonTool {
 
   }
 
-  private removeColour(layer: any): void {
+  private isPolygonEmpty():boolean {
+    try {
+      return this.featureLayer.source.geojson.object.features[0].geometry.geometries[0].coordinates.length === 0;
+    } catch (e) {
+      return true;
+    }
+  }
+
+  private debounce(fn:any, delay:number):any {
+    let timer = null;
+    return function () {
+      let context = this, args = arguments;
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        fn.apply(context, args);
+      }, delay);
+    };
+  }
+
+  private myTimer = null;
+  private lastApplyTime = new Date();
+
+
+  private onPointermove = (browserEvent:any) => {
+
+
+    if (this.isToolActive()) {
+
+        this.addColour(this.featureLayer);
+
+        let now = new Date();
+        // more than 20ms elapsed so do another apply
+        if (now - this.lastApplyTime > 20) {
+          clearTimeout(this.myTimer);
+          this.$scope.$apply(() => {
+            this.lastApplyTime = new Date();
+            this.featureLayer.source.geojson.object.features[0].geometry.geometries[1].coordinates = [browserEvent.coordinate];
+          });
+        } else { // less than 20ms elapsed, so make a timeout to do the apply
+          clearTimeout(this.myTimer);
+          this.myTimer = setTimeout(() => {
+            this.$scope.$apply(() => {
+              this.lastApplyTime = new Date();
+              this.featureLayer.source.geojson.object.features[0].geometry.geometries[1].coordinates = [browserEvent.coordinate];
+            });
+          }, now - this.lastApplyTime + 1);
+        }
+
+    }
+  };
+
+  private removeColour(layer:any):void {
     layer = layer || {};
     layer.style = layer.style || {};
     layer.style.image = layer.style.image || {};
@@ -138,7 +206,7 @@ export class PolygonToolController implements IPolygonTool {
     layer.style.image.circle.stroke.color = 'rgba(0,0,0,0)';
   }
 
-  private addColour(layer: any): void {
+  private addColour(layer:any):void {
     layer = layer || {};
     layer.style = layer.style || {};
     layer.style.image = layer.style.image || {};
@@ -153,15 +221,17 @@ export class PolygonToolController implements IPolygonTool {
     this.map.removeInteraction(this.interaction);
     this.interaction = null;
     this.featureOverlay.setMap(null);
+    this.map.un('pointermove', this.onPointermove);
+    this.isActive = false;
   }
 
   // return true if the current tool is active
-  isActive() {
-    return this.interaction && this.interaction.getActive();
+  isToolActive() {
+    return (this.interaction && this.interaction.getActive()) || false;
   }
 
   // get an openlayers layer by name
-  private getOpenlayersLayer(map:ol.Map, layerName:string): ol.layer.Base {
+  private getOpenlayersLayer(map:ol.Map, layerName:string):ol.layer.Base {
     return map.getLayers().getArray().filter(function (layer:ol.layer.Base) {
       let layerProps = <any>layer.getProperties();
       return layerProps.name === layerName;
