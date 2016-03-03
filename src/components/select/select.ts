@@ -23,7 +23,7 @@ angular
         controllerAs: 'osSelect',
         transclude: false,
         template: `
-            <md-select ng-disabled="osSelect.disabled" ng-model="osSelect.ngModel" placeholder="{{ osSelect.placeholder }}">
+            <md-select ng-disabled="osSelect.disabled" ng-model="osSelect.ngModel" aria-label="{{osSelect.ngModel[osSelect.displayField]}}" placeholder="{{ osSelect.placeholder }}">
                 <md-option ng-value="option" ng-disabled="option.disabled" ng-repeat="option in osSelect.osItems">{{ option[osSelect.displayField] }}</md-option>
             </md-select>
             <os-button ng-if="osSelect.ngModel" class="osSelect__cancel" ng-click="osSelect.clear({object: osSelect.ngModel})" variation="icon"><i class="material-icons">close</i></os-button>

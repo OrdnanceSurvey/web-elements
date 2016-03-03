@@ -29,7 +29,7 @@ export class PolygonToolController implements IPolygonTool {
   private isAddingToPolygon:boolean = false;
   private pointermoveObservable:any;
 
-  constructor($scope:IScope, $timeout:ng.ITimeoutService, olData:any, private rx:any) {
+  constructor($scope:IScope, $timeout:ng.ITimeoutService, private olData:any, private rx:any) {
     this.$scope = $scope;
     this.$timeout = $timeout;
 
@@ -78,11 +78,20 @@ export class PolygonToolController implements IPolygonTool {
     if (this.interaction && this.interaction.getActive()) {
       this.deactivate();
     } else {
-      this.activate();
+      // ensure this tool is attaching to the proper map
+      this.olData.getMap().then((newMap) => {
+        this.map = newMap;
+        this.activate();
+      });
     }
   }
 
   activate() {
+
+    // remove colour when activating, otherwise old MultiPoints might be visible
+    // colour will be added on pointermove
+    this.removeColour(this.featureLayer);
+
     this.featureOverlay.setMap(this.map);
 
     var draw = new ol.interaction.Draw(<IDrawInteractionOptions>{
@@ -112,17 +121,6 @@ export class PolygonToolController implements IPolygonTool {
       this.map.un('pointermove', this.onPointermove);
 
       drawEvent.feature.getGeometry().on('change', (changeEvent:any) => {
-
-        //this.$scope.$apply(() => {
-        //  // when drawing starts, show the 'editing' points on each vertex
-        //  this.addColour(this.featureLayer);
-        //  var polygon = this.featureLayer.source.geojson.object.features[0].geometry.geometries[0].coordinates[0];
-        //  if (polygon) {
-        //    this.featureLayer.source.geojson.object.features[0].geometry.geometries[1].coordinates = polygon[0];
-        //  }
-        //
-        //});
-
         // this event fires in OpenLayers, so tell Angular about it
         var coords = changeEvent.target.getCoordinates();
         this.addColour(this.featureLayer);
@@ -145,31 +143,10 @@ export class PolygonToolController implements IPolygonTool {
 
   }
 
-  private isPolygonEmpty():boolean {
-    try {
-      return this.featureLayer.source.geojson.object.features[0].geometry.geometries[0].coordinates.length === 0;
-    } catch (e) {
-      return true;
-    }
-  }
-
-  private debounce(fn:any, delay:number):any {
-    let timer = null;
-    return function () {
-      let context = this, args = arguments;
-      clearTimeout(timer);
-      timer = setTimeout(function () {
-        fn.apply(context, args);
-      }, delay);
-    };
-  }
-
   private myTimer = null;
   private lastApplyTime = new Date();
 
-
   private onPointermove = (browserEvent:any) => {
-
 
     if (this.isToolActive()) {
 
