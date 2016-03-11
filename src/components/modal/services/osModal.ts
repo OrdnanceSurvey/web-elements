@@ -28,14 +28,15 @@ export class OsModalService {
   }
 
   private getDefaultOptions(options:IOptions):IModalOptions {
-    return {
-      title: options.title || '',
-      textContent: options.textContent || '',
-      template: require('html!../templates/default.html'),
-      ok: options.ok || 'OK',
-      cancel: options.cancel || 'Cancel',
-      fullscreen: this.isFullScreen()
-    }
+
+    options.title = options.hasOwnProperty('title') ? options.title : '';
+    options.textContent = options.hasOwnProperty('textContent') ? options.textContent : '';
+    options.template = options.hasOwnProperty('template') ? options.template : require('html!../templates/default.html');
+    options.ok = options.hasOwnProperty('ok') ? options.ok : 'OK';
+    options.cancel = options.hasOwnProperty('cancel') ? options.cancel : 'Cancel';
+    options.fullscreen = options.hasOwnProperty('fullscreen') ? options.fullscreen : true;
+
+    return options;
   }
 
   alert(options:IOptions, display:boolean = true):angular.IPromise<any>|IAlertDialog {
@@ -74,11 +75,6 @@ export class OsModalService {
 
   show(dialog:IDialogOptions|IAlertDialog|IConfirmDialog) {
     return this.$mdDialog.show(dialog);
-  }
-
-  isFullScreen():boolean {
-    // according to ux all modal should be full screen
-    return true; //this.$mdMedia('sm') || this.$mdMedia('xs')
   }
 
 }
