@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    "declaration": true,
+    "declaration": false,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -20,13 +20,6 @@
     "src/components/tabs/tab.ts",
     "src/components/popup/popup.ts",
     "src/components/autocomplete/autocomplete.ts",
-    "src/components/map/map.ts",
-    "src/components/map/max-size.directive.ts",
-    "src/components/map/projection.service.ts",
-    "src/components/map/pointer.service.ts",
-    "src/components/map-controls/polygon/polygon.controller.ts",
-    "src/components/map-controls/polygon/polygon.directive.ts",
-    "src/components/map-controls/drawing-tools.ts",
     "src/elements.ts"
   ]
 }
