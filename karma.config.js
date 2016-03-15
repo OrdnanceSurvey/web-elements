@@ -28,19 +28,18 @@ module.exports = function(config) {
       'test/unit/test_index.js': ['webpack']
     },
 
-    logLevel: config.LOG_DEBUG,
+    logLevel: config.LOG_INFO,
 
     webpack: webpackConfig,
 
     webpackMiddleware: {
-      stats: {
-        colors: true
-      },
       noInfo: true
     },
 
-    //browsers: ['PhantomJS'],
-    browsers: ['Chrome'],
+    singleRun: true,
+
+    browsers: ['PhantomJS'],
+
     plugins: [
       "karma-webpack",
       "karma-jasmine",
