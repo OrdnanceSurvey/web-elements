@@ -2,12 +2,25 @@ var _ = require("lodash");
 var webpack = require('webpack');
 var webpackConfig = require("./webpack.config.js");
 
-webpackConfig.devtool = 'inline-source-map';
+// prepare webpack config for unit tests
+var webpackTestConfig = _.merge({}, webpackConfig, {
+  devtool: 'inline-source-map',
+  module: {
+    postLoaders: [
+      {
+        test: /\.ts$/,
+        loader: 'istanbul-instrumenter'
+      }
+    ]
+  }
+});
 
 module.exports = function(config) {
   config.set({
     basePath: '.',
+
     frameworks: ['jasmine', 'jasmine-matchers'],
+
     files: [
       './node_modules/angular/angular.js',
       './node_modules/angular-mocks/angular-mocks.js',
@@ -30,7 +43,7 @@ module.exports = function(config) {
 
     logLevel: config.LOG_INFO,
 
-    webpack: webpackConfig,
+    webpack: webpackTestConfig,
 
     webpackMiddleware: {
       noInfo: true
@@ -40,12 +53,28 @@ module.exports = function(config) {
 
     browsers: ['PhantomJS'],
 
-    plugins: [
-      "karma-webpack",
-      "karma-jasmine",
-      "karma-chrome-launcher",
-      "karma-phantomjs-launcher",
-      "karma-jasmine-matchers"
-    ]
+    reporters: ['progress', 'nested', 'coverage', 'threshold'],
+
+    coverageReporter: {
+      dir: 'build/reports/coverage',
+      reporters: [
+        // reporters not supporting the `file` property
+        { type: 'html', subdir: 'report-html' },
+        { type: 'lcov', subdir: 'report-lcov' },
+        { type: 'cobertura', subdir: '.', file: 'cobertura.txt' },
+        { type: 'lcovonly', subdir: '.', file: 'report-lcovonly.txt' },
+        { type: 'text', subdir: '.', file: 'text.txt' },
+        { type: 'text-summary', subdir: '.', file: 'text-summary.txt' },
+      ]
+    },
+
+    // TODO: temporary lowered to 10%
+    thresholdReporter: {
+      statements: 37, // 90
+      branches: 0, // 60
+      functions: 16, // 85
+      lines: 37 // 90
+    }
+
   });
 };

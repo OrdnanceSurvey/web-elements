@@ -11,9 +11,18 @@ now visit localhost:8080/demos/basic
 
 ## other tasks for development
 ``` bash
-tsc
 webpack
 webpack --config webpack.demos.config.js
+```
+## unit testing
+``` bash
+npm test
+```
+
+## test driven development
+``` bash
+npm run test-watcher
+[you may edit source and unit test, all changes will be automatically detected and cover by tests]
 ```
 
 
