@@ -5,6 +5,7 @@ import { OsZoombar } from './controllers/osZoombar';
 
 angular
   .module('osElements')
+  .controller('OsZoombarController', OsZoombar)
   .directive('osZoombar', ['$window', function($window) {
     return {
       scope: {
@@ -13,7 +14,7 @@ angular
         zoomMax: '=osZoomMax'
       },
       require: 'ngModel',
-      controller: OsZoombar,
+      controller: 'OsZoombarController',
       controllerAs: 'osZoombar',
       bindToController: true,
       transclude: true,

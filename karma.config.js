@@ -70,10 +70,10 @@ module.exports = function(config) {
 
     // TODO: temporary lowered to 10%
     thresholdReporter: {
-      statements: 37, // 90
-      branches: 0, // 60
-      functions: 16, // 85
-      lines: 37 // 90
+      statements: 44, // 90
+      branches: 18, // 60
+      functions: 25, // 85
+      lines: 44 // 90
     }
 
   });
