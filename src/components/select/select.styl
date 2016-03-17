@@ -20,9 +20,19 @@ md-select
   .md-input-has-value label
     display none
 
-.md-os-theme
-  md-option
-    height 37px
+md-select-menu
+  .md-os-theme
+    md-option
+      height 37px
+
+      &:hover:not([disabled]):not([selected])
+        background #EEEEEE
+
+      &[selected]
+        color #717171
+
+      &[selected]:focus
+        color #717171
 
   md-select-menu&
     md-content
