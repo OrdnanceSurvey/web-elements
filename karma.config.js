@@ -72,7 +72,7 @@ module.exports = function(config) {
     thresholdReporter: {
       statements: 42, // 90
       branches: 16, // 60
-      functions: 21, // 85
+      functions: 22, // 85
       lines: 41 // 90
     }
 
