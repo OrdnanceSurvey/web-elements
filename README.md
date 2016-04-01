@@ -1,5 +1,7 @@
 # OS Elements Home
 
+[![circleci](https://circleci.com/gh/OrdnanceSurvey/web-elements.svg?&style=shield&circle-token=ff38e8886514d95323b81a98bfe110412c4a188a)](https://circleci.com/gh/OrdnanceSurvey/web-elements) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
+
 ## initial setup for development
 ``` bash
 npm install
@@ -11,9 +13,18 @@ now visit localhost:8080/demos/basic
 
 ## other tasks for development
 ``` bash
-tsc
 webpack
 webpack --config webpack.demos.config.js
+```
+## unit testing
+``` bash
+npm test
+```
+
+## test driven development
+``` bash
+npm run test-watcher
+[you may edit source and unit test, all changes will be automatically detected and cover by tests]
 ```
 
 

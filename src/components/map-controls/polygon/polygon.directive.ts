@@ -3,6 +3,11 @@
 import {IPolygonTool, PolygonToolController} from "./polygon.controller";
 import IScope = angular.IScope;
 
+export interface IPolygonScope extends ng.IScope {
+  ctrl: PolygonToolController;
+}
+
+
 export class PolygonTool implements ng.IDirective {
   public link:(scope:ng.IScope, iElement:ng.IAugmentedJQuery, iAttrs:ng.IAttributes, olCtrl:any) => void;
   public restrict = 'E';
@@ -19,9 +24,7 @@ export class PolygonTool implements ng.IDirective {
 
   constructor(private $timeout:ng.ITimeoutService, private $window:ng.IWindowService, private olData, private ol: any) {
 
-    PolygonTool.prototype.link = (scope:ng.IScope, iElement:ng.IAugmentedJQuery, iAttrs:ng.IAttributes, olCtrl:any) => {
-
-      //console.log('initialised with active', scope.ctrl.isActive);
+    PolygonTool.prototype.link = (scope: IPolygonScope, iElement:ng.IAugmentedJQuery, iAttrs:ng.IAttributes, olCtrl:any) => {
 
       scope.$watch('ctrl.isActive', (isActive: boolean) => {
         if (isActive !== scope.ctrl.isToolActive()) {

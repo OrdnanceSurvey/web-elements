@@ -8,6 +8,7 @@ export interface IPolygonTool {
   toggle() : void;
   isToolActive() : boolean;
   featureLayer : any;
+  isActive : boolean;
   activate(): void;
   deactivate(): void;
 }
@@ -16,7 +17,7 @@ export class PolygonToolController implements IPolygonTool {
   public static $inject = ['$scope', '$timeout', 'olData', 'rx'];
 
   public featureLayer;
-  public isToolActive;
+  public isActive;
 
   private $scope;
   private $timeout;

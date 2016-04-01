@@ -28,12 +28,14 @@ var config = {
     colors: true,
     reasons: true
   },
-
+  resolve: {
+    extensions: ['', '.webpack.js', '.ts', '.js', '.css', '.styl']
+  },
   entry: {
     'elements': [
       './src/components/zoombar/mdl-slider.css',
       './src/elements.styl',
-      './src/elements',
+      './src/elements.ts',
       './node_modules/material-design-lite/material.min.js'
     ]
   },
@@ -57,6 +59,10 @@ var config = {
   // in the .ts use code like: require('./button.less');
   module: {
     loaders: [
+      {
+        test: /\.ts$/,
+        loader: 'ts-loader'
+      },
       {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract("style-loader", "css-loader")

@@ -11,14 +11,7 @@
         ng-keydown="osSearch.keyFromInput($event)"
       )
 
-    .os-search-headItem(flex="40px")
-      button.os-search-spyglass(
-        type="button"
-        ng-click="osSearch.search()"
-      )
-        md-icon search
-
-    .os-search-headItem(flex="40px")
+    .os-search-headItem.os-search__headItem--close(flex="10")
       button.os-search-clear(
         type="button"
         ng-click="osSearch.close()"

@@ -5,9 +5,10 @@ test:
   pre:
     - npm run build
   override:
-    - npm run test
+    - npm test
 deployment:
-  releaseMasterBranch:
+  release:
     branch: master
     commands:
       - npm run semantic-release || true
+      - npm run docs-deploy || true
