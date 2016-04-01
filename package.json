@@ -16,8 +16,8 @@
     "build": "./node_modules/.bin/typings install & npm run tslint & tsc & webpack & webpack --config webpack.demos.config.js",
     "test": "./node_modules/.bin/karma start ./karma.config.js",
     "test-watcher": "./node_modules/.bin/karma start ./karma.config.js --no-single-run",
-    "tslint": "tslint \"src/**/*.ts\" || true",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "tslint": "./node_modules/.bin/tslint \"src/**/*.ts\" || true",
+    "semantic-release": "./node_modules/.bin/semantic-release pre && npm publish && ./node_modules/.bin/semantic-release post",
     "docs-deploy": "tasks/docs-deploy.sh"
   },
   "author": "",
