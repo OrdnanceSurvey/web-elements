@@ -10,6 +10,9 @@ git config --global user.name "cspjenkins"
 pkg_version=$(cat package.json | grep -oE "\"version\":.*" | sed -e 's/\"version\": \"//g' -e 's/\".//g')
 echo "version from package.json: ${pkg_version}"
 
+# revert changes to package.json otherwise os-pages checkout will fail
+git checkout -- package.json
+
 git checkout os-pages
 
 cp -r build/* nginx/www/
