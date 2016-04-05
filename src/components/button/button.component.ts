@@ -5,17 +5,18 @@ export interface IOsButton {
   variation: string;
   disabled: boolean;
   makeClass;
+  $postLink($window);
 }
 
 export class OsButton implements IOsButton {
-  static $inject = ['$element'];
+  static $inject = ['$element', '$window'];
 
   colour;
   variation; // text|solid|outline|super
   disabled;
   makeClass;
 
-  constructor($element:ng.IRootElementService) {
+  constructor(private $element:ng.IRootElementService, private $window: ng.IWindowService) {
 
     $element.on('click', e => {
       if ($element.attr('disabled') === 'disabled') {
@@ -63,6 +64,13 @@ export class OsButton implements IOsButton {
     }
   }
 
+  $postLink() {
+    if ('componentHandler' in this.$window) {
+      // trigger MDL upgrade for button element
+      this.$window.componentHandler.upgradeElement(this.$element.children()[0]);
+    }
+  }
+
 }
 
 angular
@@ -77,6 +85,6 @@ angular
     controllerAs: 'osButton',
     transclude: true,
     template: `
-            <md-button ng-disabled="osButton.disabled"><ng-transclude></ng-transclude></md-button>
+            <md-button ng-disabled="osButton.disabled" md-no-ink class="mdl-button mdl-js-button mdl-js-ripple-effect"><ng-transclude></ng-transclude></md-button>
         `
   });

@@ -33,13 +33,13 @@
     "ts-loader": "^0.8.1"
   },
   "devDependencies": {
-    "angular": "^1.4.8",
-    "angular-animate": "^1.4.8",
-    "angular-aria": "^1.4.8",
-    "angular-material": "^1.0.1",
-    "angular-messages": "^1.4.8",
+    "angular": "1.5.x",
+    "angular-animate": "1.5.x",
+    "angular-aria": "1.5.x",
+    "angular-material": "1.x",
+    "angular-messages": "1.5.x",
     "angular-mocks": "^1.5.0",
-    "angular-sanitize": "^1.4.8",
+    "angular-sanitize": "1.5.x",
     "condition-circle": "^1.2.0",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
@@ -73,12 +73,12 @@
     "webpack": "^1.12.13"
   },
   "peerDependencies": {
-    "angular": "^1.4.8",
-    "angular-animate": "^1.4.8",
-    "angular-aria": "^1.4.8",
+    "angular": "1.5.x",
+    "angular-animate": "1.5.x",
+    "angular-aria": "1.5.x",
     "angular-material": "^1.0.1",
-    "angular-messages": "^1.4.8",
-    "angular-sanitize": "^1.4.8",
+    "angular-messages": "1.5.x",
+    "angular-sanitize": "1.5.x",
     "openlayers": "~3.8.2"
   },
   "release": {
