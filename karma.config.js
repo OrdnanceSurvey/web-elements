@@ -68,12 +68,11 @@ module.exports = function(config) {
       ]
     },
 
-    // TODO: temporary lowered to 10%
     thresholdReporter: {
-      statements: 43, // 90
-      branches: 18, // 60
-      functions: 24, // 85
-      lines: 43 // 90
+      statements: 48, // 90
+      branches: 26, // 60
+      functions: 27, // 85
+      lines: 47 // 90
     }
 
   });
