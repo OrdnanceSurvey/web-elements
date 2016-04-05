@@ -380,7 +380,7 @@
                         template: `
                                 <h4>Example</h4>
                                 <md-content layout-padding ng-include="ctrl.htmlURL" onload="ctrl.included()"></md-content>
-                                <md-button class="md-primary" ng-click="ctrl.sourceShown = !ctrl.sourceShown">{{ctrl.sourceShown ? 'Hide' : 'Show'}} source code</md-button>
+                                <os-button colour="primary" variation="solid" ng-click="ctrl.sourceShown = !ctrl.sourceShown">{{ctrl.sourceShown ? 'Hide' : 'Show'}} source code</os-button>
                                 <pre ng-if="ctrl.sourceShown" ng-bind="ctrl.htmlSource"></pre>
                             `
                     }
