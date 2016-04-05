@@ -18,18 +18,14 @@ export interface IModalOptions {
 }
 
 
-export interface IOptions extends IModalOptions {}
-
-export interface IOsModalService {
-  alert: any,
-  confirm: any,
-  html: any,
-  show: any
+export interface IOptions extends IModalOptions {
 }
 
-export class OsModalService implements IOsModalService {
 
-  constructor(private $mdDialog:IDialogService, private $mdMedia:IMedia) {}
+export class OsModalService {
+
+  constructor(private $mdDialog:IDialogService, private $mdMedia:IMedia) {
+  }
 
   private getDefaultOptions(options:IOptions):IModalOptions {
 
@@ -43,20 +39,10 @@ export class OsModalService implements IOsModalService {
     return options;
   }
 
-  private prepareModalOptions(dialog: IDialogOptions|IAlertDialog|IConfirmDialog, options:IOptions): void {
-    angular.forEach(options, function(value, key) {
-      if(angular.isFunction(dialog[key])) {
-        dialog[key](value);
-      }
-    });
-  }
-
   alert(options:IOptions, display:boolean = true):angular.IPromise<any>|IAlertDialog {
     let params = this.getDefaultOptions(options);
 
-    let modal = this.$mdDialog.alert();
-
-    this.prepareModalOptions(modal, params);
+    let modal = this.$mdDialog.alert(params);
 
     return display ? this.$mdDialog.show(modal) : modal;
   }
@@ -64,14 +50,12 @@ export class OsModalService implements IOsModalService {
   confirm(options:IOptions, display:boolean = true):angular.IPromise<any>|IConfirmDialog {
     let params = this.getDefaultOptions(options);
 
-    let modal = this.$mdDialog.confirm();
-
-    this.prepareModalOptions(modal, params);
+    let modal = this.$mdDialog.confirm(params);
 
     return display ? this.$mdDialog.show(modal) : modal;
   }
 
-  html(options:IOptions):angular.IPromise<any> {
+  html(options:IOptions, display:boolean = true):angular.IPromise<any> {
     let params = this.getDefaultOptions(options);
 
     // bind controller
