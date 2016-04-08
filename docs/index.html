@@ -158,7 +158,7 @@
                 .controller('zoombarController', function() {
                   this.zoomLevel = 5
                 })
-                .controller('searchController', function() {
+                .controller('searchController', function($q) {
                   this.searchProviders = [
                     //{
                     //    id: 'WIKI',
@@ -174,21 +174,26 @@
                     {
                       id: 'ECHO_UPPERCASE',
                       title: 'Grid Reference',
+                      minLength: 1,
                       columnWidth: 10,
                       fn: function(term) {
+                        var deffered = $q.defer();
+
                         var upper = term;
                         try {
                           upper = term.toUpperCase();
                         } catch (e) {}
 
                         // return an array to illustrate how transformResponse can be used
-                        return [{
+                        deffered.resolve([{
                           text: upper
                         },{
                           text: upper
                         },{
                           text: upper
-                        }];
+                        }]);
+
+                        return deffered.promise;
                       },
                       transformResponse: function(response) {
                         // return an object with a results property containing the array
@@ -203,56 +208,27 @@
                     },
                     {
                       id: 'ECHO_LOWERCASE',
-                      title: 'Addresses',
-                      columnWidth: '*',
-                      fn: function(term) {
-                        var lower = term;
-                        try {
-                          lower = term.toLowerCase();
-                        } catch (e) {}
-
-                        // return an array to illustrate how transformResponse can be used
-                        return [{
-                          text: lower
-                        },{
-                          text: lower
-                        },{
-                          text: lower
-                        },{
-                          text: lower
-                        },{
-                          text: lower
-                        }];
-                      },
-                      transformResponse: function(response) {
-                        // return an object with a results property containing the array
-                        return {
-                          results: response
-                        };
-                      },
-                      onSelect: function(result, hideSearch) {
-                        console.log('selected a LOWERCASE result', result);
-                        hideSearch();
-                      }
-                    },
-                    {
-                      id: 'ECHO_POSTCODE',
-                      title: 'Postcode',
+                      title: 'Grid Reference',
+                      minLength: 1,
                       columnWidth: 10,
                       fn: function(term) {
+                        var deffered = $q.defer();
+
                         var upper = term;
                         try {
-                          upper = term.toUpperCase();
+                          upper = term.toLowerCase();
                         } catch (e) {}
 
                         // return an array to illustrate how transformResponse can be used
-                        return [{
+                        deffered.resolve([{
                           text: upper
                         },{
                           text: upper
                         },{
                           text: upper
-                        }];
+                        }]);
+
+                        return deffered.promise;
                       },
                       transformResponse: function(response) {
                         // return an object with a results property containing the array
@@ -264,7 +240,7 @@
                         console.log('selected an UPPERCASE result', result);
                         hideSearch();
                       }
-                    },
+                    }
                   ]
                 })
                 .controller('modalController', function($log, $OsModal) {
