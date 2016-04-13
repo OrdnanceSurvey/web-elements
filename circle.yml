@@ -5,7 +5,8 @@ test:
   pre:
     - npm run build
   override:
-    - npm test
+    - npm run test-ci
+
 deployment:
   release:
     branch: master

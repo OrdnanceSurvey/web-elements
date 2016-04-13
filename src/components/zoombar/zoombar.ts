@@ -1,11 +1,14 @@
 /// <reference path="../../../typings/main.d.ts" />
 
+
 export { OsZoombar } from './controllers/osZoombar';
 import { OsZoombar } from './controllers/osZoombar';
 
+
+
 angular
   .module('osElements')
-  .controller('OsZoombarController', OsZoombar)
+  .controller('OsZoombarController',  OsZoombar)
   .directive('osZoombar', ['$window', function($window) {
     return {
       scope: {

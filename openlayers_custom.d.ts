@@ -1024,7 +1024,7 @@ declare module ol {
      * @constructor
      * @param values Array.
      */
-    constructor(values?: Array<T>)
+    constructor(values?: Array<T>);
 
     /**
      * Remove all elements from the collection.
@@ -3437,7 +3437,7 @@ declare module ol {
     }
 
     class Draw extends Pointer {
-      constructor(options: olx.interaction.IDrawInteractionOptions)
+      constructor(options: olx.interaction.IDrawInteractionOptions);
 
       createRegularPolygon(sides?: number, angle?: number): DrawGeometryFunctionType;
     }
@@ -3932,7 +3932,7 @@ declare module ol {
     function transformExtent(extent: Extent, source: ProjectionLike, destination: ProjectionLike): Extent;
 
     class Projection {
-      constructor(options: olx.Projection)
+      constructor(options: olx.Projection);
     }
   }
 
@@ -4022,7 +4022,7 @@ declare module ol {
     }
 
     class Vector {
-      constructor(opts: olx.source.VectorOptions)
+      constructor(opts: olx.source.VectorOptions);
 
       /**
        * Get the extent of the features currently in the source.

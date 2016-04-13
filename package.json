@@ -15,6 +15,7 @@
   "scripts": {
     "build": "./node_modules/.bin/typings install & npm run tslint & tsc & webpack & webpack --config webpack.demos.config.js",
     "test": "./node_modules/.bin/karma start ./karma.config.js",
+    "test-ci": "./node_modules/.bin/karma start ./karma-ci.config.js",
     "test-watcher": "./node_modules/.bin/karma start ./karma.config.js --no-single-run",
     "tslint": "./node_modules/.bin/tslint \"src/**/*.ts\" || true",
     "semantic-release": "./node_modules/.bin/semantic-release pre && npm publish && ./node_modules/.bin/semantic-release post",
@@ -43,6 +44,7 @@
     "condition-circle": "^1.2.0",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "gulp-ngdocs": "^0.2.13",
     "html-loader": "^0.4.0",
     "istanbul-instrumenter-loader": "^0.2.0",
     "jade": "^1.11.0",
@@ -57,6 +59,7 @@
     "karma-jasmine-matchers": "^2.0.2",
     "karma-nested-reporter": "^0.1.4",
     "karma-phantomjs-launcher": "^1.0.0",
+    "karma-sauce-launcher": "^0.3.1",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-threshold-reporter": "^0.1.15",
     "karma-webpack": "^1.7.0",
@@ -68,6 +71,7 @@
     "style-loader": "^0.13.0",
     "template-html-loader": "0.0.3",
     "tslint": "^3.6.0",
+    "typedoc": "^0.3.12",
     "typescript": "1.7.5",
     "typings": "^0.6.5",
     "webpack": "^1.12.13"
