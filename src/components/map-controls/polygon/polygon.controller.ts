@@ -16,7 +16,7 @@ export interface IPolygonTool {
 export class PolygonToolController implements IPolygonTool {
   public static $inject = ['$scope', '$timeout', 'olData', 'rx'];
 
-  public featureLayer;
+  public featureLayer:any;
   public isActive;
 
   private $scope;
@@ -155,20 +155,28 @@ export class PolygonToolController implements IPolygonTool {
 
         let now = new Date();
         // more than 20ms elapsed so do another apply
-        if (now - this.lastApplyTime > 20) {
+        if (+now - +this.lastApplyTime > 20) { // @see https://github.com/Microsoft/TypeScript/issues/5710
           clearTimeout(this.myTimer);
           this.$scope.$apply(() => {
             this.lastApplyTime = new Date();
-            this.featureLayer.source.geojson.object.features[0].geometry.geometries[1].coordinates = [browserEvent.coordinate];
+            // fix for lack of data type for nested objects
+            // @see error TS2362|TS2363: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+            let source = <any> this.featureLayer.source;
+            let coordinates = source.geojson.object.features[0].geometry.geometries[1].coordinates;
+            coordinates = [browserEvent.coordinate];
           });
         } else { // less than 20ms elapsed, so make a timeout to do the apply
           clearTimeout(this.myTimer);
           this.myTimer = setTimeout(() => {
             this.$scope.$apply(() => {
               this.lastApplyTime = new Date();
-              this.featureLayer.source.geojson.object.features[0].geometry.geometries[1].coordinates = [browserEvent.coordinate];
+              // fix for lack of data type for nested objects
+              // @see error TS2362|TS2363: The left-hand side of an arithmetic operation must be of type 'any', 'number' or an enum type.
+              let source = <any> this.featureLayer.source;
+              let coordinates = source.geojson.object.features[0].geometry.geometries[1].coordinates;
+              coordinates = [browserEvent.coordinate];
             });
-          }, now - this.lastApplyTime + 1);
+          }, +now - +this.lastApplyTime + 1); // @see https://github.com/Microsoft/TypeScript/issues/5710
         }
 
     }
