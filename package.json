@@ -14,6 +14,7 @@
   "main": "index.js",
   "scripts": {
     "build": "./node_modules/.bin/typings install & npm run tslint & tsc & webpack & webpack --config webpack.demos.config.js",
+    "init": "validate-commit-msg",
     "test": "./node_modules/.bin/karma start ./karma.config.js",
     "test-watcher": "./node_modules/.bin/karma start ./karma.config.js --no-single-run",
     "tslint": "./node_modules/.bin/tslint \"src/**/*.ts\" || true",
@@ -70,6 +71,7 @@
     "tslint": "^3.6.0",
     "typescript": "1.7.5",
     "typings": "^0.6.5",
+    "validate-commit-message": "^3.0.1",
     "webpack": "^1.12.13"
   },
   "peerDependencies": {
