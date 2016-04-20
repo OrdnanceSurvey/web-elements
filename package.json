@@ -14,7 +14,8 @@
   "main": "index.js",
   "scripts": {
     "build": "./node_modules/.bin/typings install & npm run tslint & tsc & webpack & webpack --config webpack.demos.config.js",
-    "test": "./node_modules/.bin/karma start ./karma.config.js",
+    "postinstall": "./node_modules/.bin/validate-commit-msg",
+    "test": "./node_modules/.bin/karma start ./karma.config.js && ./node_modules/.bin/validate-commit-msg",
     "test-watcher": "./node_modules/.bin/karma start ./karma.config.js --no-single-run",
     "tslint": "./node_modules/.bin/tslint \"src/**/*.ts\" || true",
     "semantic-release": "./node_modules/.bin/semantic-release pre && npm publish && ./node_modules/.bin/semantic-release post",
@@ -43,6 +44,7 @@
     "condition-circle": "^1.2.0",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "ghooks": "^1.2.1",
     "html-loader": "^0.4.0",
     "istanbul-instrumenter-loader": "^0.2.0",
     "jade": "^1.11.0",
@@ -71,6 +73,8 @@
     "tslint": "^3.6.0",
     "typescript": "1.7.5",
     "typings": "^0.6.5",
+    "validate-commit-message": "^3.0.1",
+    "validate-commit-msg": "^2.6.1",
     "webpack": "^1.12.13"
   },
   "peerDependencies": {
@@ -84,5 +88,10 @@
   },
   "release": {
     "verifyConditions": "condition-circle"
+  },
+  "config": {
+    "validate-commit-msg": {
+      "types": ["feat", "fix", "docs", "style", "refactor", "perf", "test", "build", "ci", "chore", "revert"]
+    }
   }
 }
