@@ -53,7 +53,7 @@ module.exports = function(config) {
 
     browsers: ['PhantomJS'],
 
-    reporters: ['progress', 'nested', 'coverage', 'threshold'],
+    reporters: ['progress', 'nested', 'coverage', 'threshold', 'coveralls'],
 
     coverageReporter: {
       dir: 'build/reports/coverage',
