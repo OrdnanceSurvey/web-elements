@@ -1,19 +1,20 @@
 /// <reference path="../typings/main.d.ts" />
 
-angular.module('osElements', ['ngMaterial', 'rx']).config(function($mdThemingProvider, $mdIconProvider) {
-    this.$inject = ['$mdThemingProvider', '$mdIconProvider'];
+class OsElementsConfig {
+  static $inject = ['$mdThemingProvider', '$mdIconProvider'];
 
+  constructor(private $mdThemingProvider, private $mdIconProvider) {
     // theme
     $mdThemingProvider.definePalette('solutions-blue', $mdThemingProvider.extendPalette('indigo', {
-        '500': '2b97ef'
+      '500': '2b97ef'
     }));
 
     $mdThemingProvider.definePalette('creative-green', $mdThemingProvider.extendPalette('green', {
-        'A200': 'AECC53'
+      'A200': 'AECC53'
     }));
 
     $mdThemingProvider.definePalette('rubine-red', $mdThemingProvider.extendPalette('red', {
-        '500': 'D40058'
+      '500': 'D40058'
     }));
 
     $mdThemingProvider.theme('os').primaryPalette('solutions-blue').accentPalette('creative-green').warnPalette('rubine-red');
@@ -21,7 +22,10 @@ angular.module('osElements', ['ngMaterial', 'rx']).config(function($mdThemingPro
 
     // icons
     $mdIconProvider.defaultFontSet('material-icons')
-});
+  }
+}
+
+angular.module('osElements', ['ngMaterial', 'rx']).config(OsElementsConfig);
 
 export {OsButton} from './components/button/button.component';
 export {OsSelect} from './components/select/select';
