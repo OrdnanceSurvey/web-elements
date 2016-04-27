@@ -1,6 +1,9 @@
 machine:
   node:
     version: "5.1.0"
+dependencies:
+  pre:
+    - if [[ $(npm --version) =~ ^2 ]] ; then echo "NPM version too low, will upgrade"; npm install -g npm; fi
 test:
   pre:
     - npm run build
