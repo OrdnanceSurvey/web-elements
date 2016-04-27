@@ -15,6 +15,7 @@
   "scripts": {
     "build": "./node_modules/.bin/typings install & npm run tslint & tsc & webpack & webpack --config webpack.demos.config.js",
     "test": "./node_modules/.bin/karma start ./karma.config.js",
+    "test-ci": "./node_modules/.bin/karma start ./karma-ci.config.js",
     "test-watcher": "./node_modules/.bin/karma start ./karma.config.js --no-single-run",
     "tslint": "./node_modules/.bin/tslint \"src/**/*.ts\" || true",
     "semantic-release": "./node_modules/.bin/semantic-release pre && npm publish && ./node_modules/.bin/semantic-release post",
@@ -56,6 +57,7 @@
     "karma-jasmine-matchers": "2.x",
     "karma-nested-reporter": "0.x",
     "karma-phantomjs-launcher": "1.x",
+    "karma-sauce-launcher": "0.3.x",
     "karma-sourcemap-loader": "0.x",
     "karma-threshold-reporter": "0.x",
     "karma-webpack": "1.x",
