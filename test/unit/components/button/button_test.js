@@ -130,7 +130,7 @@ describe("osButton | ", function () {
     });
   });
 
-  xit('should stop click propagation when disabled', function() {
+  it('should stop click propagation when disabled', function() {
     var scope = rootScope.$new();
     scope.isDisabled = true;
     var element = angular.element("<os-button ng-disabled='isDisabled'></os-button>");
