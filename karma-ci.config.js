@@ -75,6 +75,26 @@ module.exports = function(config) {
 
     reporters: ['dots', 'saucelabs', 'nested', 'coverage', 'threshold', 'coveralls'],
 
+    coverageReporter: {
+      dir: 'build/reports/coverage',
+      reporters: [
+        // reporters not supporting the `file` property
+        { type: 'html', subdir: 'report-html' },
+        { type: 'lcov', subdir: 'report-lcov' },
+        { type: 'cobertura', subdir: '.', file: 'cobertura.txt' },
+        { type: 'lcovonly', subdir: '.', file: 'report-lcovonly.txt' },
+        { type: 'text', subdir: '.', file: 'text.txt' },
+        { type: 'text-summary', subdir: '.', file: 'text-summary.txt' },
+      ]
+    },
+
+    thresholdReporter: {
+      statements: 48, // 90
+      branches: 26, // 60
+      functions: 27, // 85
+      lines: 47 // 90
+    },
+
     sauceLabs: {
       testName: 'OS Web elements'
     },
