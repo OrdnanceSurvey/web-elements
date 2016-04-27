@@ -74,33 +74,37 @@ describe("osSearch | ", function() {
   describe("events | ", function() {
 
     it('should handle osHeader.openSearch event', function() {
-      spyOn(osSearchCtrl, 'open');
+      spyOn(osSearchCtrl, 'open').and.callThrough();
       scope.$broadcast('osHeader.openSearch');
       expect(osSearchCtrl.open).toHaveBeenCalled();
     });
 
     it('should bind click event', function() {
-      var onSpy = jasmine.createSpyObj('onSpy',['on', 'off']);
-      spyOn(angular, 'element').and.callFake(function(){
-        return onSpy
-      });
+      var fakeElement = {
+        on: function() {},
+        off: function() {},
+        data: function() {}
+      };
+      spyOn(fakeElement, 'on').and.callThrough();
+      spyOn(angular, 'element').and.returnValue(fakeElement);
 
       osSearchCtrl.bindEvents();
       expect(documentSpy.querySelector).toHaveBeenCalledWith('html');
-      expect(onSpy.on).toHaveBeenCalledWith('click', jasmine.any(Function));
+      expect(fakeElement.on).toHaveBeenCalledWith('click', jasmine.any(Function));
     });
 
 
     it('should unbind click event', function() {
-      var onSpy = jasmine.createSpyObj('onSpy',['on', 'off']);
-      spyOn(angular, 'element').and.callFake(function(){
-        return onSpy
-      });
+      var fakeElement = {
+        off: function() {},
+        data: function() {}
+      };
+      spyOn(fakeElement, 'off').and.callThrough();
+      spyOn(angular, 'element').and.returnValue(fakeElement);
 
       osSearchCtrl.unBindEvents();
-
       expect(documentSpy.querySelector).toHaveBeenCalledWith('html');
-      expect(onSpy.off).toHaveBeenCalledWith('click', jasmine.any(Function));
+      expect(fakeElement.off).toHaveBeenCalledWith('click', jasmine.any(Function));
     });
   });
 
