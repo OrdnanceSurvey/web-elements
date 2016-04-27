@@ -1,31 +1,28 @@
 /// <reference path="../typings/main.d.ts" />
 
-class OsElementsConfig {
-  static $inject = ['$mdThemingProvider', '$mdIconProvider'];
+function OsElementsConfig($mdThemingProvider, $mdIconProvider) {
 
-  constructor(private $mdThemingProvider, private $mdIconProvider) {
-    // theme
-    $mdThemingProvider.definePalette('solutions-blue', $mdThemingProvider.extendPalette('indigo', {
-      '500': '2b97ef'
-    }));
+  // theme
+  $mdThemingProvider.definePalette('solutions-blue', $mdThemingProvider.extendPalette('indigo', {
+    '500': '2b97ef'
+  }));
 
-    $mdThemingProvider.definePalette('creative-green', $mdThemingProvider.extendPalette('green', {
-      'A200': 'AECC53'
-    }));
+  $mdThemingProvider.definePalette('creative-green', $mdThemingProvider.extendPalette('green', {
+    'A200': 'AECC53'
+  }));
 
-    $mdThemingProvider.definePalette('rubine-red', $mdThemingProvider.extendPalette('red', {
-      '500': 'D40058'
-    }));
+  $mdThemingProvider.definePalette('rubine-red', $mdThemingProvider.extendPalette('red', {
+    '500': 'D40058'
+  }));
 
-    $mdThemingProvider.theme('os').primaryPalette('solutions-blue').accentPalette('creative-green').warnPalette('rubine-red');
-    $mdThemingProvider.setDefaultTheme('os');
+  $mdThemingProvider.theme('os').primaryPalette('solutions-blue').accentPalette('creative-green').warnPalette('rubine-red');
+  $mdThemingProvider.setDefaultTheme('os');
 
-    // icons
-    $mdIconProvider.defaultFontSet('material-icons')
-  }
+  // icons
+  $mdIconProvider.defaultFontSet('material-icons')
 }
 
-angular.module('osElements', ['ngMaterial', 'rx']).config(OsElementsConfig);
+angular.module('osElements', ['ngMaterial', 'rx']).config(['$mdThemingProvider', '$mdIconProvider', OsElementsConfig]);
 
 export {OsButton} from './components/button/button.component';
 export {OsSelect} from './components/select/select';
