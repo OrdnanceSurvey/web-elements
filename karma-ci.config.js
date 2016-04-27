@@ -73,7 +73,7 @@ module.exports = function(config) {
       noInfo: true
     },
 
-    reporters: ['dots', 'saucelabs'],
+    reporters: ['dots', 'saucelabs', 'nested', 'coverage', 'threshold', 'coveralls'],
 
     sauceLabs: {
       testName: 'OS Web elements'
