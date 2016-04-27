@@ -4,7 +4,17 @@ var webpack = require('webpack');
 var webpackConfig = require("./webpack.config.js");
 
 // prepare webpack config for unit tests
-var webpackTestConfig = _.merge({}, webpackConfig, {});
+var webpackTestConfig = _.merge({}, webpackConfig, {
+  devtool: 'inline-source-map',
+  module: {
+    postLoaders: [
+      {
+        test: /\.ts$/,
+        loader: 'istanbul-instrumenter'
+      }
+    ]
+  }
+});
 
 //
 // Use ENV vars on Travis and sauce.json locally to get credentials
@@ -50,7 +60,6 @@ module.exports = function(config) {
       './node_modules/angular-mocks/angular-mocks.js',
       './node_modules/angular-animate/angular-animate.js',
       './node_modules/angular-aria/angular-aria.js',
-      './node_modules/angular-component/dist/angular-component.js', // polyfill component API for angular < 1.5
       './node_modules/angular-messages/angular-messages.js',
       './node_modules/angular-material/angular-material.js',
       './node_modules/angular-sanitize/angular-sanitize.js',
@@ -96,7 +105,7 @@ module.exports = function(config) {
     },
 
     sauceLabs: {
-      testName: 'OS Web elements'
+      testName: process.env.CIRCLE_PROJECT_USERNAME + '/' + process.env.CIRCLE_PROJECT_REPONAME + (process.env.CIRCLE_BRANCH ? '/' +  process.env.CIRCLE_BRANCH : '') + (process.env.CIRCLE_TAG ? '/' +  process.env.CIRCLE_TAG : '')
     },
     captureTimeout: 120000,
     customLaunchers: customLaunchers,
