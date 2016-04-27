@@ -50,7 +50,7 @@ module.exports = function(config) {
 
     singleRun: true,
 
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
     reporters: ['progress', 'nested', 'coverage', 'threshold', 'coveralls'],
 
