@@ -34,6 +34,7 @@ var customLaunchers = {
   'SL_FireFox': {
     base: 'SauceLabs',
     browserName: 'firefox',
+    version: '45'
   }
 };
 
