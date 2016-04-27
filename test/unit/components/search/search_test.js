@@ -82,6 +82,7 @@ describe("osSearch | ", function() {
     it('should bind click event', function() {
       var fakeElement = {
         on: function() {},
+        off: function() {},
         data: function() {}
       };
       spyOn(fakeElement, 'on').and.callThrough();
