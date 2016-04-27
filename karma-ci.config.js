@@ -105,7 +105,7 @@ module.exports = function(config) {
     },
 
     sauceLabs: {
-      testName: process.env.CIRCLE_PROJECT_USERNAME + '/' + process.env.CIRCLE_PROJECT_REPONAME + (process.env.CIRCLE_BRANCH ? '/' +  process.env.CIRCLE_BRANCH : '') + (process.env.CIRCLE_TAG ? '/' +  process.env.CIRCLE_TAG : '')
+      testName: process.env.CIRCLE_PROJECT_USERNAME + '/' + process.env.CIRCLE_PROJECT_REPONAME + (process.env.CIRCLE_BRANCH ? '/' +  process.env.CIRCLE_BRANCH : '') + (process.env.CIRCLE_TAG ? '/' +  process.env.CIRCLE_TAG : '') + (process.env.CIRCLE_BUILD_NUM ? '/build_' +  process.env.CIRCLE_BUILD_NUM : '')
     },
     captureTimeout: 120000,
     customLaunchers: customLaunchers,
