@@ -1,11 +1,15 @@
 machine:
   node:
     version: "5.1.0"
+dependencies:
+  override:
+    - if [[ $(npm --version) =~ ^2 ]] ; then echo "NPM version too low, will upgrade"; npm install -g npm; fi
+    - npm install
 test:
   pre:
     - npm run build
   override:
-    - npm test
+    - npm run test-ci
 deployment:
   release:
     branch: master

@@ -1,3 +1,4 @@
+var fs = require('fs');
 var _ = require("lodash");
 var webpack = require('webpack');
 var webpackConfig = require("./webpack.config.js");
@@ -14,6 +15,39 @@ var webpackTestConfig = _.merge({}, webpackConfig, {
     ]
   }
 });
+
+//
+// Use ENV vars on Travis and sauce.json locally to get credentials
+if (!process.env.SAUCE_USERNAME) {
+  if (!fs.existsSync('sauce.json')) {
+    console.log('Create a sauce.json with your credentials based on the sauce-sample.json file.');
+    process.exit(1);
+  } else {
+    process.env.SAUCE_USERNAME = require('./sauce').username;
+    process.env.SAUCE_ACCESS_KEY = require('./sauce').accessKey;
+  }
+}
+
+
+
+// Browsers to run on Sauce Labs
+var customLaunchers = {
+  'SL_Chrome': {
+    base: 'SauceLabs',
+    browserName: 'chrome'
+  },
+  'SL_InternetExplorer': {
+    base: 'SauceLabs',
+    browserName: 'internet explorer',
+    version: '10'
+  },
+  'SL_FireFox': {
+    base: 'SauceLabs',
+    browserName: 'firefox',
+    version: '45'
+  }
+};
+
 
 module.exports = function(config) {
   config.set({
@@ -48,11 +82,7 @@ module.exports = function(config) {
       noInfo: true
     },
 
-    singleRun: true,
-
-    browsers: ['PhantomJS'],
-
-    reporters: ['progress', 'nested', 'coverage', 'threshold', 'coveralls'],
+    reporters: ['dots', 'saucelabs', 'nested', 'coverage', 'threshold', 'coveralls'],
 
     coverageReporter: {
       dir: 'build/reports/coverage',
@@ -72,7 +102,18 @@ module.exports = function(config) {
       branches: 26, // 60
       functions: 27, // 85
       lines: 47 // 90
-    }
+    },
+
+    sauceLabs: {
+      testName: process.env.CIRCLE_PROJECT_USERNAME + '/' + process.env.CIRCLE_PROJECT_REPONAME + (process.env.CIRCLE_BRANCH ? '/' +  process.env.CIRCLE_BRANCH : '') + (process.env.CIRCLE_TAG ? '/' +  process.env.CIRCLE_TAG : '') + (process.env.CIRCLE_BUILD_NUM ? '/build_' +  process.env.CIRCLE_BUILD_NUM : '')
+    },
+    captureTimeout: 120000,
+    customLaunchers: customLaunchers,
+
+    // start these browsers
+    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+    browsers: Object.keys(customLaunchers),
+    singleRun: true
 
   });
 };

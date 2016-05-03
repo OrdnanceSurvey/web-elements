@@ -5,6 +5,7 @@ import { OsSearch } from './controllers/osSearch';
 
 angular
   .module('osElements')
+  .controller('OsSearch', OsSearch)
   .directive('osSearch', ['observeOnScope', 'rx', function (observeOnScope, rx) {
     return {
       scope: {
@@ -17,13 +18,10 @@ angular
         searchProviders: '=osSearchProviders',
         searcherHidden: '=?osSearcherHidden'
       },
-      controller: OsSearch,
+      controller: 'OsSearch',
       controllerAs: 'osSearch',
       bindToController: true,
-      template: require('./templates/search.jade'),
-      link: function ($scope, element, attr, ctrl:OsSearch) {
-
-      }
+      template: require('./templates/search.jade')
     }
-  }]);
+  }])
 ;
