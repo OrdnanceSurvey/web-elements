@@ -45,7 +45,7 @@ var customLaunchers = {
   //  base: 'SauceLabs',
   //  browserName: 'firefox',
   //  version: '45'
-  }
+  //}
 };
 
 
