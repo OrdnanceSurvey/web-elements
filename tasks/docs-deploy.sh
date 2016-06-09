@@ -28,3 +28,4 @@ git status
 
 # commit the latest docs
 git commit -a -m "docs: Automatic generation of latest docs for release ${pkg_version}"
+git push

@@ -40,12 +40,12 @@ var customLaunchers = {
     base: 'SauceLabs',
     browserName: 'internet explorer',
     version: '10'
-  },
-  'SL_FireFox': {
-    base: 'SauceLabs',
-    browserName: 'firefox',
-    version: '45'
   }
+  //'SL_FireFox': {
+  //  base: 'SauceLabs',
+  //  browserName: 'firefox',
+  //  version: '45'
+  //}
 };
 
 
