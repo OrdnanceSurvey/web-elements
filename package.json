@@ -88,5 +88,8 @@
   },
   "release": {
     "verifyConditions": "condition-circle"
+  },
+  "publishConfig": {
+    "registry": "https://nexus.csp.os.uk/content/repositories/test-npm/"
   }
 }
