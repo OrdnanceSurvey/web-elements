@@ -10,7 +10,7 @@ export interface IOsButton {
 }
 
 interface IWindowService extends ng.IWindowService {
-  componentHandler: { upgradeElement(el: HTMLElement) };
+  componentHandler: { upgradeElement(el:HTMLElement) };
 }
 
 export class OsButton implements IOsButton {
@@ -19,10 +19,11 @@ export class OsButton implements IOsButton {
   colour;
   variation; // text|solid|outline|super
   disabled;
+  loading;
 
   private mdButton;
 
-  constructor(private $element:ng.IRootElementService, private $window: IWindowService) {
+  constructor(private $element:ng.IRootElementService, private $window:IWindowService) {
 
     this.mdButton = $element.children('md-button');
 
@@ -94,12 +95,20 @@ angular
       disabled: '=ngDisabled',
       colour: '@',
       variation: '@',
-      type: '@'
+      type: '@',
+      loading: '<'
     },
     controller: OsButton,
     controllerAs: 'osButton',
     transclude: true,
     template: `
-            <md-button ng-disabled="osButton.disabled" md-no-ink type="{{osButton.type}}" class="mdl-button mdl-js-button mdl-js-ripple-effect"><ng-transclude></ng-transclude></md-button>
+            <md-button ng-disabled="osButton.disabled || osButton.loading" md-no-ink type="{{osButton.type}}" class="mdl-button mdl-js-button mdl-js-ripple-effect" ng-class="{loading: osButton.loading, 'md-hue-900': osButton.loading}" layout="row">
+              <ng-transclude></ng-transclude>
+              <div class="loader">
+                <svg class="circular" viewBox="25 25 50 50">
+                  <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
+                </svg>
+              </div>
+            </md-button>
         `
   });
