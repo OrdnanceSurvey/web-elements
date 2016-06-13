@@ -3933,6 +3933,8 @@ declare module ol {
 
     class Projection {
       constructor(options: olx.Projection);
+
+      getExtent(): ol.Extent;
     }
   }
 
