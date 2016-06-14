@@ -2,21 +2,20 @@
 
 
   export interface IOsZoombar {
-    ngModel:number;
+    ngModel:any;
+    ngChange:Function;
     zoomMin:number;
     zoomMax:number;
     zoomIn(): void
     zoomOut(): void
   }
 
-  /**
-   * This is class OsZoombar description
-   */
-  export class OsZoombar implements IOsZoombar {
-    static $inject = ['$element'];
+export class OsZoombar implements IOsZoombar {
+  static $inject = ['$element'];
 
-    ngModel:number;
+    ngModel;
     zoomMin:number;
+    ngChange;
 
     /**
      * This is property description
@@ -35,13 +34,28 @@
      *
      */
     zoomIn() {
-      this.ngModel = Math.min(++this.ngModel, this.zoomMax);
+      let newZoomLevel = Math.min(this.ngModel + 1, this.zoomMax);
+
+      // fire the change function only if value changed
+      if (angular.isFunction(this.ngChange) && this.ngModel !== newZoomLevel) {
+        this.ngModel = newZoomLevel;
+        this.ngChange(this.ngModel);
+      } else {
+        this.ngModel = newZoomLevel;
+      }
     }
 
     zoomOut() {
-      this.ngModel = Math.max(--this.ngModel, this.zoomMin);
+      let newZoomLevel = Math.max(this.ngModel - 1, this.zoomMin);
+
+      // fire the change function only if value changed
+      if (angular.isFunction(this.ngChange) && this.ngModel !== newZoomLevel) {
+        this.ngModel = newZoomLevel;
+        this.ngChange(this.ngModel);
+      } else {
+        this.ngModel = newZoomLevel;
+      }
     }
 
   }
-
 
