@@ -14,7 +14,8 @@ angular
       scope: {
         ngModel: '=',
         zoomMin: '=osZoomMin',
-        zoomMax: '=osZoomMax'
+        zoomMax: '=osZoomMax',
+        ngChange: '&'
       },
       require: 'ngModel',
       controller: 'OsZoombarController',
