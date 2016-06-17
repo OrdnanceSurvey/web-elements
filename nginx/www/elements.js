@@ -197,12 +197,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        disabled: '=ngDisabled',
 	        colour: '@',
 	        variation: '@',
-	        type: '@'
+	        type: '@',
+	        loading: '<'
 	    },
 	    controller: OsButton,
 	    controllerAs: 'osButton',
 	    transclude: true,
-	    template: "\n            <md-button ng-disabled=\"osButton.disabled\" md-no-ink type=\"{{osButton.type}}\" class=\"mdl-button mdl-js-button mdl-js-ripple-effect\"><ng-transclude></ng-transclude></md-button>\n        "
+	    template: "\n            <md-button ng-disabled=\"osButton.disabled || osButton.loading\" md-no-ink type=\"{{osButton.type}}\" class=\"mdl-button mdl-js-button mdl-js-ripple-effect\" ng-class=\"{loading: osButton.loading, 'md-hue-900': osButton.loading}\" layout=\"row\">\n              <ng-transclude></ng-transclude>\n              <div class=\"loader\">\n                <svg class=\"circular\" viewBox=\"25 25 50 50\">\n                  <circle class=\"path\" cx=\"50\" cy=\"50\" r=\"20\" fill=\"none\" stroke-width=\"3\" stroke-miterlimit=\"10\"/>\n                </svg>\n              </div>\n            </md-button>\n        "
 	});
 
 
@@ -1545,7 +1546,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            scope: {
 	                ngModel: '=',
 	                zoomMin: '=osZoomMin',
-	                zoomMax: '=osZoomMax'
+	                zoomMax: '=osZoomMax',
+	                ngChange: '&'
 	            },
 	            require: 'ngModel',
 	            controller: 'OsZoombarController',
@@ -1572,10 +1574,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.$element = $element;
 	    }
 	    OsZoombar.prototype.zoomIn = function () {
-	        this.ngModel = Math.min(++this.ngModel, this.zoomMax);
+	        var newZoomLevel = Math.min(this.ngModel + 1, this.zoomMax);
+	        if (angular.isFunction(this.ngChange) && this.ngModel !== newZoomLevel) {
+	            this.ngModel = newZoomLevel;
+	            this.ngChange(this.ngModel);
+	        }
+	        else {
+	            this.ngModel = newZoomLevel;
+	        }
 	    };
 	    OsZoombar.prototype.zoomOut = function () {
-	        this.ngModel = Math.max(--this.ngModel, this.zoomMin);
+	        var newZoomLevel = Math.max(this.ngModel - 1, this.zoomMin);
+	        if (angular.isFunction(this.ngChange) && this.ngModel !== newZoomLevel) {
+	            this.ngModel = newZoomLevel;
+	            this.ngChange(this.ngModel);
+	        }
+	        else {
+	            this.ngModel = newZoomLevel;
+	        }
 	    };
 	    OsZoombar.$inject = ['$element'];
 	    return OsZoombar;
