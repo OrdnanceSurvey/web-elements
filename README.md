@@ -29,4 +29,9 @@ npm run test-watcher
 [you may edit source and unit test, all changes will be automatically detected and cover by tests]
 ```
 
-
+## documentation
+```
+npm run build
+http-server -p 8080 .
+# open chrome to localhost:8080/docs/
+`
