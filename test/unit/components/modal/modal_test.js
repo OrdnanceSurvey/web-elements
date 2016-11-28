@@ -41,7 +41,6 @@ describe("osModal | ", function() {
       expect(modal._options.$type).toBe('alert');
       expect(modal._options.title).toBe('testTitle');
       expect(modal._options.ok).toBe('testOk');
-      // expect(modal._options.theme).toBe('os');
       expect(modal._options.fullscreen).toBeTruthy();
     });
 
@@ -86,7 +85,6 @@ describe("osModal | ", function() {
       expect(modal._options.$type).toBe('confirm');
       expect(modal._options.ok).toBe('testOK');
       expect(modal._options.cancel).toBe('testCancel');
-      // expect(modal._options.theme).toBe('os');
       expect(modal._options.fullscreen).toBeTruthy();
     });
 
