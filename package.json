@@ -28,7 +28,7 @@
     "nib": "1.1.x",
     "rx": "4.0.x",
     "rx-angular": "1.1.x",
-    "stylus-loader": "1.4.x",
+    "stylus-loader": "2.0.0",
     "ts-loader": "0.8.x"
   },
   "devDependencies": {
