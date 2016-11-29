@@ -63,7 +63,7 @@ describe("osButton | ", function () {
   function createWindowSpy() {
     return {
       componentHandler: {
-        upgradeElement: jasmine.createSpy('upgradeElementSpy')
+        upgradeElements: jasmine.createSpy('upgradeElementsSpy')
       }
     };
   }
@@ -93,9 +93,9 @@ describe("osButton | ", function () {
   it("should initialize MDL on element", function () {
     var component = createComponent({colour: 'accent', variation: 'solid'});
 
-    expect(component.windowSpy.componentHandler.upgradeElement).not.toHaveBeenCalled();
+    expect(component.windowSpy.componentHandler.upgradeElements).not.toHaveBeenCalled();
     component.controller.$postLink();
-    expect(component.windowSpy.componentHandler.upgradeElement).toHaveBeenCalledTimes(1);
+    expect(component.windowSpy.componentHandler.upgradeElements).toHaveBeenCalledTimes(1);
   });
 
   it("should not initialize MDL on element if componentHandler not available", function () {
