@@ -104,7 +104,7 @@ angular
     template: `
             <md-button ng-disabled="osButton.disabled || osButton.loading" md-no-ink type="{{osButton.type}}" class="mdl-button mdl-js-button mdl-js-ripple-effect" ng-class="{loading: osButton.loading, 'md-hue-900': osButton.loading}" layout="row">
               <ng-transclude></ng-transclude>
-              <div class="loader">
+              <div class="loader" ng-show="osButton.loading">
                 <svg class="circular" viewBox="25 25 50 50">
                   <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
                 </svg>
