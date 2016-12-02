@@ -88,6 +88,12 @@ describe("osButton | ", function () {
 
     component = createComponent({disabled: false});
     expect(component.mdButtonSpy.attr).not.toHaveBeenCalled();
+
+    var component = createComponent({loading: true});
+    expect(component.mdButtonSpy.attr).toHaveBeenCalled();
+
+    component = createComponent({loading: false});
+    expect(component.mdButtonSpy.attr).not.toHaveBeenCalled();
   });
 
   it("should initialize MDL on element", function () {
