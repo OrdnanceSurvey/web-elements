@@ -15,7 +15,6 @@
   "files": [
     "typings/main.d.ts",
     "src/components/button/button.component.ts",
-    "src/components/select/select.ts",
     "src/components/tabs/tabs.ts",
     "src/components/tabs/tab.ts",
     "src/components/popup/popup.ts",
