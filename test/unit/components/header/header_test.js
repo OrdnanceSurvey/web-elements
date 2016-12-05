@@ -15,7 +15,7 @@ describe("osHeader | ", function() {
   }));
 
   it("should execute constructor", function() {
-    expect(controller).toBeNonEmptyObject();
+    expect(controller).toBe(null);
   });
 
   it("should inject dependencies", function() {
