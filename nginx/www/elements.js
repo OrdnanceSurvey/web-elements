@@ -152,7 +152,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    };
 	    OsButton.prototype.setDisabled = function () {
-	        if (this.disabled) {
+	        if (this.disabled || this.loading) {
 	            this.mdButton.attr('disabled', 'disabled');
 	        }
 	    };
@@ -183,7 +183,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    OsButton.prototype.$postLink = function () {
 	        if ('componentHandler' in this.$window) {
-	            this.$window.componentHandler.upgradeElement(this.$element.children()[0]);
+	            this.$window.componentHandler.upgradeElements(this.mdButton);
 	        }
 	    };
 	    OsButton.$inject = ['$element', '$window'];
@@ -203,7 +203,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    controller: OsButton,
 	    controllerAs: 'osButton',
 	    transclude: true,
-	    template: "\n            <md-button ng-disabled=\"osButton.disabled || osButton.loading\" md-no-ink type=\"{{osButton.type}}\" class=\"mdl-button mdl-js-button mdl-js-ripple-effect\" ng-class=\"{loading: osButton.loading, 'md-hue-900': osButton.loading}\" layout=\"row\">\n              <ng-transclude></ng-transclude>\n              <div class=\"loader\">\n                <svg class=\"circular\" viewBox=\"25 25 50 50\">\n                  <circle class=\"path\" cx=\"50\" cy=\"50\" r=\"20\" fill=\"none\" stroke-width=\"3\" stroke-miterlimit=\"10\"/>\n                </svg>\n              </div>\n            </md-button>\n        "
+	    template: "\n            <md-button ng-disabled=\"osButton.disabled || osButton.loading\" md-no-ink type=\"{{osButton.type}}\" class=\"mdl-button mdl-js-button mdl-js-ripple-effect\" ng-class=\"{loading: osButton.loading, 'md-hue-900': osButton.loading}\" layout=\"row\">\n              <ng-transclude></ng-transclude>\n              <div class=\"loader\" ng-show=\"osButton.loading\">\n                <svg class=\"circular\" viewBox=\"25 25 50 50\">\n                  <circle class=\"path\" cx=\"50\" cy=\"50\" r=\"20\" fill=\"none\" stroke-width=\"3\" stroke-miterlimit=\"10\"/>\n                </svg>\n              </div>\n            </md-button>\n        "
 	});
 
 

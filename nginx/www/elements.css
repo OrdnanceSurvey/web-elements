@@ -232,7 +232,6 @@
   transition: left 0.18s cubic-bezier(0.4, 0, 0.2, 1); }
 .mdl-ripple {
   background: #fff;
-  -webkit-border-radius: 50%;
   border-radius: 50%;
   height: 50px;
   left: 0;
@@ -280,7 +279,6 @@ os-button:focus {
   outline: none;
 }
 os-button .md-button {
-  -webkit-border-radius: 2px;
   border-radius: 2px;
 }
 os-button .md-button.md-os-super {
@@ -539,7 +537,6 @@ os-popover {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding: 0;
-  -webkit-border-radius: 2px;
   border-radius: 2px;
   background-color: #fafafa;
   -webkit-box-shadow: 0px 15px 79.38px 1.62px rgba(0,0,0,0.16);
@@ -649,7 +646,6 @@ os-popover-actions a:last-child {
 }
 md-dialog.md-os-theme {
   background-color: #f9f9f9;
-  -webkit-border-radius: 2px;
   border-radius: 2px;
   background-color: #fafafa;
   -webkit-box-shadow: 0px 15px 79.38px 1.62px rgba(0,0,0,0.16);
@@ -674,7 +670,6 @@ md-dialog.md-os-theme .os-modal-content-text {
 md-dialog.md-os-theme.md-dialog-fullscreen {
   min-height: 100%;
   min-width: 100%;
-  -webkit-border-radius: 0;
   border-radius: 0;
 }
 md-autocomplete.md-os-theme {
@@ -912,7 +907,6 @@ os-slider-item-description {
   line-height: 30px;
   margin: 0;
   padding: 0;
-  -webkit-border-radius: 0;
   border-radius: 0;
 }
 .os-zoombar .md-button md-icon {
@@ -1113,7 +1107,6 @@ os-slider-item-description {
 .os-zoombar .mdl-slider__background-flex {
   margin: 0;
   width: 100%;
-  -webkit-border-radius: 10px;
   border-radius: 10px;
   height: 6px;
   top: 40.5%;
