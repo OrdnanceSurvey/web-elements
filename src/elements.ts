@@ -25,7 +25,6 @@ function OsElementsConfig($mdThemingProvider, $mdIconProvider) {
 angular.module('osElements', ['ngMaterial', 'rx']).config(['$mdThemingProvider', '$mdIconProvider', OsElementsConfig]);
 
 export {OsButton} from './components/button/button.component';
-export {OsSelect} from './components/select/select';
 export {OsTabs} from './components/tabs/tabs';
 export {OsTab} from './components/tabs/tab';
 export {OsPopover} from './components/popup/popup';
