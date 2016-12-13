@@ -449,55 +449,6 @@ a.md-button:not([disabled]):hover,
     stroke-dashoffset: -124px;
   }
 }
-md-select.md-os-theme {
-  min-width: 316px;
-}
-md-select.md-os-theme .md-select-value,
-md-select.md-os-theme:not([disabled]):focus .md-select-value {
-  padding-bottom: 16px;
-  border-bottom-color: #d7d7d7;
-  border-bottom-width: 1px;
-  color: rgba(0,0,0,0.87);
-}
-md-select .md-select-value .md-select-icon {
-  color: #737373;
-  position: absolute;
-  top: 4px;
-  right: 8px;
-}
-md-select .md-input-has-value label {
-  display: none;
-}
-md-select-menu .md-os-theme md-option {
-  height: 37px;
-}
-md-select-menu .md-os-theme md-option:hover:not([disabled]):not([selected]) {
-  background: #eee;
-}
-md-select-menu .md-os-theme md-option[selected] {
-  color: #717171;
-}
-md-select-menu .md-os-theme md-option[selected]:focus {
-  color: #717171;
-}
-md-select-menumd-select-menu md-content.md-os-theme {
-  background-color: #fafafa;
-}
-os-select {
-  position: relative;
-}
-.osSelect__cancel {
-  display: block;
-  position: absolute;
-  color: #737373;
-  top: 10px;
-  right: 0;
-  cursor: pointer;
-}
-.osSelect__cancel .material-icons {
-  font-size: 20px;
-  line-height: 42px;
-}
 .md-os-theme md-pagination-wrapper,
 .md-os-theme md-tabs-canvas {
   height: 50px;

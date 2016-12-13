@@ -7,7 +7,7 @@
 		var a = typeof exports === 'object' ? factory(require("openlayers"), require("proj4")) : factory(root["ol"], root["proj4"]);
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(this, function(__WEBPACK_EXTERNAL_MODULE_21__, __WEBPACK_EXTERNAL_MODULE_26__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_20__, __WEBPACK_EXTERNAL_MODULE_25__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -57,7 +57,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__webpack_require__(1);
 	__webpack_require__(5);
 	__webpack_require__(7);
-	module.exports = __webpack_require__(44);
+	module.exports = __webpack_require__(43);
 
 
 /***/ },
@@ -98,33 +98,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	angular.module('osElements', ['ngMaterial', 'rx']).config(['$mdThemingProvider', '$mdIconProvider', OsElementsConfig]);
 	var button_component_1 = __webpack_require__(8);
 	exports.OsButton = button_component_1.OsButton;
-	var select_1 = __webpack_require__(9);
-	exports.OsSelect = select_1.OsSelect;
-	var tabs_1 = __webpack_require__(10);
+	var tabs_1 = __webpack_require__(9);
 	exports.OsTabs = tabs_1.OsTabs;
-	var tab_1 = __webpack_require__(11);
+	var tab_1 = __webpack_require__(10);
 	exports.OsTab = tab_1.OsTab;
-	var popup_1 = __webpack_require__(12);
+	var popup_1 = __webpack_require__(11);
 	exports.OsPopover = popup_1.OsPopover;
-	var modal_1 = __webpack_require__(14);
+	var modal_1 = __webpack_require__(13);
 	exports.OsModal = modal_1.OsModal;
-	var autocomplete_1 = __webpack_require__(17);
+	var autocomplete_1 = __webpack_require__(16);
 	exports.OsAutocomplete = autocomplete_1.OsAutocomplete;
-	var drawing_tools_1 = __webpack_require__(18);
+	var drawing_tools_1 = __webpack_require__(17);
 	exports.PolygonTool = drawing_tools_1.PolygonTool;
-	var map_1 = __webpack_require__(22);
+	var map_1 = __webpack_require__(21);
 	exports.MaxSize = map_1.MaxSize;
 	exports.ProjectionServiceProvider = map_1.ProjectionServiceProvider;
 	exports.PointerServiceProvider = map_1.PointerServiceProvider;
-	var toolbar_1 = __webpack_require__(27);
+	var toolbar_1 = __webpack_require__(26);
 	exports.OsToolbar = toolbar_1.OsToolbar;
-	var slider_1 = __webpack_require__(32);
+	var slider_1 = __webpack_require__(31);
 	exports.OsSlider = slider_1.OsSlider;
-	var header_1 = __webpack_require__(35);
+	var header_1 = __webpack_require__(34);
 	exports.OsHeader = header_1.OsHeader;
-	var search_1 = __webpack_require__(38);
+	var search_1 = __webpack_require__(37);
 	exports.OsSearch = search_1.OsSearch;
-	var zoombar_1 = __webpack_require__(41);
+	var zoombar_1 = __webpack_require__(40);
 	exports.OsZoombar = zoombar_1.OsZoombar;
 
 
@@ -212,40 +210,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	"use strict";
-	var OsSelect = (function () {
-	    function OsSelect($attrs) {
-	        this.$attrs = $attrs;
-	    }
-	    OsSelect.prototype.hasCloseExpression = function () {
-	        return this.$attrs['osClear'];
-	    };
-	    OsSelect.$inject = ['$attrs'];
-	    return OsSelect;
-	}());
-	exports.OsSelect = OsSelect;
-	angular
-	    .module('osElements')
-	    .component('osSelect', {
-	    bindings: {
-	        disabled: '=ngDisabled',
-	        ngModel: '=',
-	        osItems: '=',
-	        placeholder: '@',
-	        displayField: '@osDisplayField',
-	        clear: '&osClear'
-	    },
-	    controller: OsSelect,
-	    controllerAs: 'osSelect',
-	    transclude: false,
-	    template: "\n            <md-select ng-disabled=\"osSelect.disabled\" ng-model=\"osSelect.ngModel\" aria-label=\"{{osSelect.ngModel[osSelect.displayField]}}\" placeholder=\"{{ osSelect.placeholder }}\">\n                <md-option ng-value=\"option\" ng-disabled=\"option.disabled\" ng-repeat=\"option in osSelect.osItems\">{{ option[osSelect.displayField] }}</md-option>\n            </md-select>\n            <os-button ng-if=\"osSelect.ngModel && osSelect.hasCloseExpression()\" class=\"osSelect__cancel\" ng-click=\"osSelect.clear({object: osSelect.ngModel})\" variation=\"icon\"><i class=\"material-icons\">close</i></os-button>\n        "
-	});
-
-
-/***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-	"use strict";
 	var OsTabs = (function () {
 	    function OsTabs($element, $transclude) {
 	        this.$transclude = $transclude;
@@ -281,7 +245,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -321,7 +285,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -537,7 +501,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            controllerAs: 'osPopover',
 	            bindToController: true,
 	            transclude: true,
-	            template: __webpack_require__(13),
+	            template: __webpack_require__(12),
 	            link: function (scope, element, attr, ctrl) {
 	                ctrl.title = element.find('os-popover-title').detach();
 	                ctrl.subtitle = element.find('os-popover-subtitle').detach();
@@ -565,26 +529,26 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports) {
 
 	module.exports = "<div ng-transclude=\"ng-transclude\" class=\"transclude-content\"></div><md-icon ng-click=\"osPopover.hide()\" class=\"os-popover__close-icon\">clear</md-icon><div layout=\"row\" os-popover-background=\"osPopover.backgroundImage\" ng-class=\"{'os-popover--wide': osPopover.isWide(), 'os-popover--left-image': osPopover.hasLeftImage()}\" ng-style=\"{width: osPopover.width, height: osPopover.height, 'max-width': osPopover.width, 'max-height': osPopover.height}\" class=\"os-popover-container\"><div flex=\"flex\" ng-if=\"osPopover.leftImage\" class=\"os-popover-leftImage\"><img ng-src=\"{{ osPopover.leftImage }}\" width=\"142\" height=\"234\"/></div><div flex=\"flex\" layout=\"row\" layout-align=\"start none\"><img ng-if=\"osPopover.mainImage\" ng-src=\"{{ osPopover.mainImage }}\"/><div flex=\"flex\" layout=\"column\" layout-align=\"start stretch\" class=\"os-popover-content\"><h1 class=\"os-popover-title\"><div class=\"placeholder-title\"></div></h1><h2 class=\"os-popover__subtitle\"><div class=\"placeholder-subtitle\"></div></h2><div flex=\"flex\"></div></div></div></div><div class=\"os-popover-arrow\"></div>"
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var osModal_1 = __webpack_require__(15);
+	var osModal_1 = __webpack_require__(14);
 	exports.OsModal = osModal_1.OsModal;
-	var osModal_2 = __webpack_require__(15);
+	var osModal_2 = __webpack_require__(14);
 	angular
 	    .module('osElements')
 	    .provider('$OsModal', osModal_2.OsModal);
 
 
 /***/ },
-/* 15 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -596,7 +560,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    OsModalService.prototype.getDefaultOptions = function (options) {
 	        options.title = options.hasOwnProperty('title') ? options.title : '';
 	        options.textContent = options.hasOwnProperty('textContent') ? options.textContent : '';
-	        options.template = options.hasOwnProperty('template') ? options.template : __webpack_require__(16);
+	        options.template = options.hasOwnProperty('template') ? options.template : __webpack_require__(15);
 	        options.ok = options.hasOwnProperty('ok') ? options.ok : 'OK';
 	        options.cancel = options.hasOwnProperty('cancel') ? options.cancel : 'Cancel';
 	        options.fullscreen = options.hasOwnProperty('fullscreen') ? options.fullscreen : true;
@@ -654,13 +618,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 16 */
+/* 15 */
 /***/ function(module, exports) {
 
 	module.exports = "<md-dialog md-theme=\"{{ dialog.theme }}\" aria-label=\"{{ dialog.ariaLabel }}\" ng-class=\"dialog.css\">\n  <md-dialog-content class=\"md-dialog-content\" role=\"document\" tabIndex=\"-1\" layout-align=\"center\">\n    <h2 class=\"md-title\">{{ dialog.title}}</h2>\n\n    <div ng-if=\"::dialog.mdHtmlContent\" class=\"md-dialog-content-body\" ng-bind-html=\"::dialog.mdHtmlContent\"></div>\n    <div ng-if=\"::!dialog.mdHtmlContent\" class=\"md-dialog-content-body\"><p class=\"os-modal-content-text\">{{::dialog.mdTextContent}}</p></div>\n  </md-dialog-content>\n\n  <md-dialog-actions layout=\"column\">\n\n    <os-button ng-click=\"dialog.hide()\" colour=\"primary\" variation=\"solid\" md-autofocus=\"dialog.$type!='confirm'\">{{ dialog.ok }}</os-button>\n\n    <os-button ng-if=\"dialog.$type == 'confirm'\" ng-click=\"dialog.abort()\" colour=\"primary\" variation=\"text\">{{ dialog.cancel }}</os-button>\n\n  </md-dialog-actions>\n\n</md-dialog>\n";
 
 /***/ },
-/* 17 */
+/* 16 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -760,12 +724,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 18 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var polygon_directive_1 = __webpack_require__(19);
-	var polygon_directive_2 = __webpack_require__(19);
+	var polygon_directive_1 = __webpack_require__(18);
+	var polygon_directive_2 = __webpack_require__(18);
 	exports.PolygonTool = polygon_directive_2.PolygonTool;
 	angular
 	    .module('osElements')
@@ -773,11 +737,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 19 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var polygon_controller_1 = __webpack_require__(20);
+	var polygon_controller_1 = __webpack_require__(19);
 	var PolygonTool = (function () {
 	    function PolygonTool($timeout, $window, olData, ol) {
 	        this.$timeout = $timeout;
@@ -831,11 +795,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 20 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var ol = __webpack_require__(21);
+	var ol = __webpack_require__(20);
 	var PolygonToolController = (function () {
 	    function PolygonToolController($scope, $timeout, olData, rx) {
 	        var _this = this;
@@ -993,31 +957,31 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 21 */
+/* 20 */
 /***/ function(module, exports) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_21__;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_20__;
 
 /***/ },
-/* 22 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var max_size_directive_1 = __webpack_require__(23);
-	var max_size_directive_2 = __webpack_require__(23);
+	var max_size_directive_1 = __webpack_require__(22);
+	var max_size_directive_2 = __webpack_require__(22);
 	exports.MaxSize = max_size_directive_2.MaxSize;
-	var projection_service_1 = __webpack_require__(24);
-	var projection_service_2 = __webpack_require__(24);
+	var projection_service_1 = __webpack_require__(23);
+	var projection_service_2 = __webpack_require__(23);
 	exports.ProjectionServiceProvider = projection_service_2.ProjectionServiceProvider;
-	var pointer_service_1 = __webpack_require__(25);
-	var pointer_service_2 = __webpack_require__(25);
+	var pointer_service_1 = __webpack_require__(24);
+	var pointer_service_2 = __webpack_require__(24);
 	exports.PointerServiceProvider = pointer_service_2.PointerServiceProvider;
 	angular
 	    .module('osElements')
-	    .constant('ol', __webpack_require__(21))
-	    .constant('proj4', __webpack_require__(26))
+	    .constant('ol', __webpack_require__(20))
+	    .constant('proj4', __webpack_require__(25))
 	    .run(['$window', function ($window) {
-	        $window.proj4 = __webpack_require__(26);
+	        $window.proj4 = __webpack_require__(25);
 	    }])
 	    .directive('osMaxSize', max_size_directive_1.MaxSize.Factory())
 	    .provider('osProjectionService', projection_service_1.ProjectionServiceProvider)
@@ -1025,7 +989,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 23 */
+/* 22 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1058,11 +1022,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var ol = __webpack_require__(21);
+	var ol = __webpack_require__(20);
 	var ProjectionService = (function () {
 	    function ProjectionService(ol, proj4) {
 	        this.ol = ol;
@@ -1096,7 +1060,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1129,19 +1093,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_26__;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_25__;
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var osToolbar_1 = __webpack_require__(28);
+	var osToolbar_1 = __webpack_require__(27);
 	exports.OsToolbar = osToolbar_1.OsToolbar;
-	var osToolbar_2 = __webpack_require__(28);
+	var osToolbar_2 = __webpack_require__(27);
 	angular
 	    .module('osElements')
 	    .component('osToolbarAction', {
@@ -1153,11 +1117,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    controllerAs: 'osToolbarAction',
 	    transclude: true,
-	    template: __webpack_require__(29)
+	    template: __webpack_require__(28)
 	})
 	    .component('osToolbarSeparator', {
 	    transclude: false,
-	    template: __webpack_require__(30)
+	    template: __webpack_require__(29)
 	})
 	    .component('osToolbar', {
 	    bindings: {
@@ -1166,12 +1130,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    controller: osToolbar_2.OsToolbar,
 	    controllerAs: 'osToolbar',
 	    transclude: true,
-	    template: __webpack_require__(31)
+	    template: __webpack_require__(30)
 	});
 
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1192,31 +1156,31 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 29 */
+/* 28 */
 /***/ function(module, exports) {
 
 	module.exports = "<a><md-icon class=\"os-toolbar-actionIcon\">{{ osToolbarAction.icon }}</md-icon><span class=\"os-toolbar-actionText\"> {{ osToolbarAction.text }}</span></a>"
 
 /***/ },
-/* 30 */
+/* 29 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"os-toolbar-separator\"></div>"
 
 /***/ },
-/* 31 */
+/* 30 */
 /***/ function(module, exports) {
 
 	module.exports = "<div ng-class=\"{'os-map-toolbar--vertical': osToolbar.isVertical()}\" flex=\"flex\" layout=\"{{ osToolbar.getOrientation() }}\" layout-align=\"start stretch\" ng-transclude=\"ng-transclude\" class=\"os-map-toolbar\"></div>"
 
 /***/ },
-/* 32 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var osSlider_1 = __webpack_require__(33);
+	var osSlider_1 = __webpack_require__(32);
 	exports.OsSlider = osSlider_1.OsSlider;
-	var osSlider_2 = __webpack_require__(33);
+	var osSlider_2 = __webpack_require__(32);
 	angular
 	    .module('osElements')
 	    .component('osSlider', {
@@ -1227,12 +1191,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    controller: osSlider_2.OsSlider,
 	    controllerAs: 'osSlider',
 	    transclude: true,
-	    template: __webpack_require__(34)
+	    template: __webpack_require__(33)
 	});
 
 
 /***/ },
-/* 33 */
+/* 32 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1271,19 +1235,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 34 */
+/* 33 */
 /***/ function(module, exports) {
 
 	module.exports = "<div layout=\"row\" class=\"os-slider\"><div ng-transclude=\"ng-transclude\" class=\"os-slider-content\"></div><div class=\"os-slider-button\"><a ng-click=\"osSlider.toggle()\"><md-icon>{{ osSlider.iconName() }}</md-icon></a></div></div>"
 
 /***/ },
-/* 35 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var osHeader_1 = __webpack_require__(36);
+	var osHeader_1 = __webpack_require__(35);
 	exports.OsHeader = osHeader_1.OsHeader;
-	var osHeader_2 = __webpack_require__(36);
+	var osHeader_2 = __webpack_require__(35);
 	angular
 	    .module('osElements')
 	    .component('osHeader', {
@@ -1294,12 +1258,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    controller: osHeader_2.OsHeader,
 	    controllerAs: 'osHeader',
 	    transclude: true,
-	    template: __webpack_require__(37)
+	    template: __webpack_require__(36)
 	});
 
 
 /***/ },
-/* 36 */
+/* 35 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1318,19 +1282,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 37 */
+/* 36 */
 /***/ function(module, exports) {
 
 	module.exports = "<div layout=\"row\" layout-align=\"left strech\" class=\"os-header\"><!--a.os-header-menuIcon(flex=\"3\")md-icon menu\n--><div flex=\"63%\" class=\"os-header-title\">{{ osHeader.title }}</div><div flex=\"35%\" ng-click=\"osHeader.openSearch()\" ng-if=\"osHeader.useSearch\" class=\"os-header-searchContainer\"><div class=\"os-header-search\"></div><span class=\"os-header-searchText\">Search for a location, postcode</span><a class=\"os-header-searchIcon\"><md-icon>search</md-icon></a></div><!--a(flex=\"2\")md-icon more_vert\n--></div><div ng-transclude=\"ng-transclude\"></div>"
 
 /***/ },
-/* 38 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var osSearch_1 = __webpack_require__(39);
+	var osSearch_1 = __webpack_require__(38);
 	exports.OsSearch = osSearch_1.OsSearch;
-	var osSearch_2 = __webpack_require__(39);
+	var osSearch_2 = __webpack_require__(38);
 	angular
 	    .module('osElements')
 	    .controller('OsSearch', osSearch_2.OsSearch)
@@ -1349,13 +1313,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            controller: 'OsSearch',
 	            controllerAs: 'osSearch',
 	            bindToController: true,
-	            template: __webpack_require__(40)
+	            template: __webpack_require__(39)
 	        };
 	    }]);
 
 
 /***/ },
-/* 39 */
+/* 38 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1525,19 +1489,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 40 */
+/* 39 */
 /***/ function(module, exports) {
 
 	module.exports = "<div ng-if=\"!osSearch.searcherHidden\" class=\"os-search\"><div layout=\"row\" class=\"os-search-head\"><div flex=\"90\" class=\"os-search-headItem\"><input type=\"search\" name=\"{{osSearch.name}}\" autocomplete=\"off\" ng-model=\"osSearch.searchText\" placeholder=\"{{osSearch.placeholder}}\" ng-focus=\"osSearch.searchHidden = false\" ng-keydown=\"osSearch.keyFromInput($event)\" class=\"os-search-query\"/></div><div flex=\"10\" class=\"os-search-headItem os-search__headItem--close\"><button type=\"button\" ng-click=\"osSearch.close()\" class=\"os-search-clear\"><md-icon>clear</md-icon></button></div></div><div layout=\"column\" ng-if=\"osSearch.searchText.length &gt; 0 &amp;&amp; !osSearch.searchHidden &amp;&amp; osSearch.resultsAvailable()\" class=\"os-search-result\"><div layout=\"row\" class=\"os-search-resultHeaders\"><div flex=\"\" ng-repeat=\"(key, column) in osSearch.searchResults\" ng-if=\"column.results.length\" class=\"os-search-resultHeader\">{{ column.title }}</div></div><div layout=\"row\" class=\"os-search-resultItems\"><div layout=\"row\" class=\"os-search-resultItemsContainer\"><div flex=\"\" ng-repeat=\"(key, column) in osSearch.searchResults\" ng-if=\"column.results.length\" class=\"os-search-resultColumn\"><div ng-repeat=\"item in column.results\" class=\"os-search-resultItem\"><div ng-click=\"osSearch.selectResult(item, osSearch.internalSearchProviders[column.providerId].onSelect)\" data-search-result-index=\"{{$index}}\" data-provider-id=\"{{column.providerId}}\" tabindex=\"0\" ng-keydown=\"osSearch.keyFromSearchResult($event, result, column.providerId, searchProviders[column.providerId].onSelect)\" class=\"os-search-resultItemColumn\">{{item.text}}</div></div></div></div></div></div></div>"
 
 /***/ },
-/* 41 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var osZoombar_1 = __webpack_require__(42);
+	var osZoombar_1 = __webpack_require__(41);
 	exports.OsZoombar = osZoombar_1.OsZoombar;
-	var osZoombar_2 = __webpack_require__(42);
+	var osZoombar_2 = __webpack_require__(41);
 	angular
 	    .module('osElements')
 	    .controller('OsZoombarController', osZoombar_2.OsZoombar)
@@ -1554,7 +1518,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            controllerAs: 'osZoombar',
 	            bindToController: true,
 	            transclude: true,
-	            template: __webpack_require__(43),
+	            template: __webpack_require__(42),
 	            link: function () {
 	                if ('componentHandler' in $window) {
 	                    $window.componentHandler.upgradeAllRegistered();
@@ -1565,7 +1529,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 42 */
+/* 41 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1600,13 +1564,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 43 */
+/* 42 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"os-zoombar\"><os-button ng-click=\"osZoombar.zoomIn()\" class=\"os-zoombar-zoomIn\"><md-icon>add</md-icon></os-button><div hide-xs=\"hide-xs\" class=\"os-zoombar-scroll\"><div class=\"os-zoombar-scroll-wrapper\"><input type=\"range\" ng-model=\"osZoombar.ngModel\" min=\"{{ osZoombar.zoomMin }}\" max=\"{{ osZoombar.zoomMax }}\" value=\"{{ osZoombar.ngModel }}\" tabindex=\"-1\" class=\"mdl-slider mdl-js-slider\"/></div></div><os-button ng-click=\"osZoombar.zoomOut()\" class=\"os-zoombar-zoomOut\"><md-icon>remove</md-icon></os-button></div>"
 
 /***/ },
-/* 44 */
+/* 43 */
 /***/ function(module, exports) {
 
 	/**
