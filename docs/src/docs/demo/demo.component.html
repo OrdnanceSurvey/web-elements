@@ -1,6 +1,18 @@
-<h4>Example</h4>
-<md-content layout-padding ng-include="$ctrl.htmlUrl" onload="$ctrl.included()"></md-content>
-<os-button colour="primary" variation="solid" ng-click="$ctrl.sourceShown = !$ctrl.sourceShown">{{$ctrl.sourceShown ?
-  'Hide' : 'Show'}} source code
-</os-button>
-<pre ng-if="$ctrl.sourceShown" ng-bind="$ctrl.htmlSource"></pre>
+<section class="md-whiteframe-z1">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <span>{{$ctrl.title}}</span>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="$ctrl.sourceShown = !$ctrl.sourceShown">
+        <i class="material-icons">code</i>
+        <md-tooltip>{{$ctrl.sourceShown ? 'Hide' : 'Show'}} source code</md-tooltip>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-content layout-padding ng-if="$ctrl.sourceShown" class="demo-source" md-colors="::{'background-color': 'primary-100'}">
+    <pre ng-bind="$ctrl.htmlSource"></pre>
+  </md-content>
+  <md-content layout-padding ng-include="$ctrl.htmlUrl" onload="$ctrl.included()"></md-content>
+</section>
+
+

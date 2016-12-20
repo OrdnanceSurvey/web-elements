@@ -11,7 +11,7 @@ export interface IOsButton {
 }
 
 interface IWindowService extends ng.IWindowService {
-  componentHandler: { upgradeElements(el: HTMLElement) };
+  componentHandler: { upgradeElement(el: HTMLElement) };
 }
 
 export class OsButton implements IOsButton {
@@ -83,7 +83,7 @@ export class OsButton implements IOsButton {
   $postLink() {
     if ('componentHandler' in this.$window) {
       // trigger MDL upgrade for button element
-      this.$window.componentHandler.upgradeElements(this.mdButton);
+      this.$window.componentHandler.upgradeElement(this.mdButton[0]);
     }
   }
 

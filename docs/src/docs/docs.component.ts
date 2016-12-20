@@ -25,12 +25,14 @@ export interface IDocsCtrl {
   components: IDocsComponent[];
   selectedComponent: IDocsComponent;
   pageUrl: string;
+  pageTitle: string;
 }
 
 class DocsCtrl implements IDocsCtrl {
   components: IDocsComponent[];
   selectedComponent: IDocsComponent;
   pageUrl: string;
+  pageTitle: string;
 
   constructor(private $log: ng.ILogService, private $oselComponents: IComponentsService, private $location: ng.ILocationService, private $scope: ng.IScope, private $window: ng.IWindowService) {
     'ngInject';
@@ -61,6 +63,7 @@ class DocsCtrl implements IDocsCtrl {
       let componentMatch: IDocsComponent = _.find(this.components, {name: componentName});
       if (componentMatch) {
         this.pageUrl = componentMatch.url;
+        this.pageTitle = componentName;
       }
     } else {
       this.pageUrl = '';

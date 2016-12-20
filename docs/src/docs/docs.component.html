@@ -15,12 +15,10 @@
       </md-list-item>
     </md-list>
   </md-sidenav>
-  <md-content flex layout-padding>
-
-    <os-button variation="outline" colour="primary">os button here</os-button>
-
-    <osel-docs-page url="$ctrl.pageUrl"></osel-docs-page>
-
-
+  <md-content flex>
+    <md-toolbar>
+      <div class="md-toolbar-tools">{{$ctrl.pageTitle}}</div>
+    </md-toolbar>
+    <osel-docs-page url="$ctrl.pageUrl" layout-padding></osel-docs-page>
   </md-content>
 </section>

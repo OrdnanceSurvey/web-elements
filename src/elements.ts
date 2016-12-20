@@ -137,6 +137,13 @@ function OsElementsConfig($mdThemingProvider, $mdIconProvider) {
   });
 
   $mdThemingProvider.theme('os').primaryPalette('midnightblue').accentPalette('rubinered');
+  $mdThemingProvider.theme('osmidnightblue').primaryPalette('midnightblue');
+  $mdThemingProvider.theme('osrubinered').primaryPalette('rubinered');
+  $mdThemingProvider.theme('ossolutions').primaryPalette('solutions');
+  $mdThemingProvider.theme('oscreativegreen').primaryPalette('creativegreen');
+  $mdThemingProvider.theme('osmapping').primaryPalette('mapping');
+  $mdThemingProvider.theme('osdata').primaryPalette('data');
+  $mdThemingProvider.theme('oscharcoal').primaryPalette('charcoal');
 
   // icons
   $mdIconProvider.defaultFontSet('material-icons');
