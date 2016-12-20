@@ -1,4 +1,4 @@
-/// <reference path="../../../typings/main.d.ts" />
+import * as angular from 'angular';
 
 export { OsHeader } from './controllers/osHeader';
 import { OsHeader } from './controllers/osHeader';
@@ -13,5 +13,5 @@ angular
     controller: OsHeader,
     controllerAs: 'osHeader',
     transclude: true,
-    template: require('./templates/header.jade')
+    template: 'templates/header.html'
   });

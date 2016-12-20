@@ -1,4 +1,4 @@
-/// <reference path="../../../typings/main.d.ts" />
+import * as angular from 'angular';
 
 export { OsToolbar } from './controllers/osToolbar';
 import { OsToolbar } from './controllers/osToolbar';
@@ -14,11 +14,11 @@ angular
     },
     controllerAs: 'osToolbarAction',
     transclude: true,
-    template: require('./templates/toolbarAction.jade')
+    template: 'templates/toolbarAction.html'
   })
   .component('osToolbarSeparator', {
     transclude: false,
-    template: require('./templates/toolbarActionSeparator.jade')
+    template: 'templates/toolbarActionSeparator.html'
   })
   .component('osToolbar', {
     bindings: {
@@ -27,5 +27,5 @@ angular
     controller: OsToolbar,
     controllerAs: 'osToolbar',
     transclude: true,
-    template: require('./templates/toolbar.jade')
+    template: 'templates/toolbar.html'
   });

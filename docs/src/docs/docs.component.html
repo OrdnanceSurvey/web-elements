@@ -1,0 +1,26 @@
+<section layout="row" flex>
+  <md-sidenav class="md-sidenav-left md-whiteframe-z2 menubar" md-component-id="left" md-is-locked-open="true"
+              layout="column">
+    <md-toolbar class='header'>
+      <div class="md-toolbar-tools">
+        <h1 ng-href="/">OS Elements Docs</h1>
+      </div>
+    </md-toolbar>
+    <md-list>
+      <md-list-item ng-href="#/getting-started">Getting started</md-list-item>
+      <md-divider ></md-divider>
+      <md-subheader class="md-no-sticky">Components</md-subheader>
+      <md-list-item ng-repeat="comp in $ctrl.components"
+                 ng-href="#/component/{{comp.name}}">{{comp.name}}
+      </md-list-item>
+    </md-list>
+  </md-sidenav>
+  <md-content flex layout-padding>
+
+    <os-button variation="outline" colour="primary">os button here</os-button>
+
+    <osel-docs-page url="$ctrl.pageUrl"></osel-docs-page>
+
+
+  </md-content>
+</section>

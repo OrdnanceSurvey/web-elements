@@ -1,23 +1,30 @@
-var path = require('path');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+const webpack = require('webpack');
+const path = require('path');
+const fs = require('fs');
+const StringReplacePlugin = require("string-replace-webpack-plugin");
 
-var destFolder = '/build';
-
-var olExternals = {
+const olExternals = {
   root: 'ol',
   commonjs2: 'openlayers',
   commonjs: 'openlayers',
   amd: 'openlayers'
 };
 
-var proj4Externals = {
+const proj4Externals = {
   root: 'proj4',
   commonjs2: 'proj4',
   commonjs: 'proj4',
   amd: 'proj4'
 };
 
-var config = {
+const rxAngularExternals = {
+  root: 'Rx',
+  commonjs2: 'rx-angular',
+  commonjs: 'rx-angular',
+  amd: 'rx-angular'
+};
+
+let config = {
   context: __dirname,
   debug: true,
   cache: true,
@@ -26,22 +33,22 @@ var config = {
   displayErrorDetails: true,
   stats: {
     colors: true,
-    reasons: true
+    reasons: true,
+
+    children: false,
+    timings: true
   },
+  devtool: 'source-map',
+
   resolve: {
-    extensions: ['', '.webpack.js', '.ts', '.js', '.css', '.styl']
+    extensions: ['', '.ts', '.js']
   },
   entry: {
-    'elements': [
-      './src/components/zoombar/mdl-slider.css',
-      './src/elements.styl',
-      './src/elements.ts',
-      './node_modules/material-design-lite/material.min.js'
-    ]
+    'os-elements': './src/elements.ts'
   },
 
   output: {
-    path: path.join(__dirname, destFolder),
+    path: path.join(__dirname, 'dist'),
     filename: '[name].js',
     sourceMapFilename: '[name].js.map',
     chunkFilename: '[id].chunk.js',
@@ -52,45 +59,48 @@ var config = {
     'ol': olExternals,
     'openlayers': olExternals,
     'proj4': proj4Externals,
-    'rx': 'rx'
+    'angular-material': 'angular-material',
+    'material-design-lite': 'material-design-lite',
+    'rx-angular': 'rx-angular',
+    'rx': 'rx',
+    'angular': 'angular'
   }],
 
-  // modles to compile .less and include .css
-  // in the .ts use code like: require('./button.less');
   module: {
     loaders: [
-      {
+      { // compile .ts to .js
         test: /\.ts$/,
-        loader: 'ts-loader'
+        loaders: ['ng-annotate', 'awesome-typescript-loader']
       },
-      {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
-      },
-      {
-        test: /\.less$/,
-        loader: ExtractTextPlugin.extract('style', 'css!less')
-      },
-      {
-        test: /\.styl$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!stylus-loader')
-      },
-      {
-        test: /\.jade$/,
-        loader: 'template-html-loader'
+      { // inline all HTML templates into our src
+        test: /src/,
+        loader: StringReplacePlugin.replace({
+          replacements: [
+            {
+              pattern: /this\.templateUrl\s*=\s*'([^']+?\.html)'/g,
+              replacement: function (m, templateUrl) {
+                const templateFile = path.join(path.dirname(this.resource), templateUrl);
+                const templateContent = fs.readFileSync(templateFile, 'utf-8');
+                const shortenedTemplate = templateContent
+                  .replace(/([\n\r]\s*)+/gm, ' ')
+                  .replace(/"/g, '\\"');
+                return `template: "${shortenedTemplate}"`;
+              }
+            }
+          ]
+        })
       }
     ]
   },
 
-  // Use the plugin to specify the resulting filename (and add needed behavior to the compiler)
   plugins: [
-    new ExtractTextPlugin("[name].css")
-  ],
-
-  stylus: {
-    use: [require('nib')()],
-    import: ['~nib/lib/nib/index.styl']
-  }
+    new webpack.DefinePlugin({
+      "process.env": { // causes most big libraries to minify nicely
+        NODE_ENV: '"production"'
+      }
+    }),
+    new StringReplacePlugin()
+  ]
 };
 
 module.exports = config;

@@ -1,10 +1,7 @@
-/// <reference path="../../../typings/main.d.ts" />
-
+import * as angular from 'angular';
 
 export { OsZoombar } from './controllers/osZoombar';
 import { OsZoombar } from './controllers/osZoombar';
-
-
 
 angular
   .module('osElements')
@@ -22,12 +19,12 @@ angular
       controllerAs: 'osZoombar',
       bindToController: true,
       transclude: true,
-      template: require('./templates/zoombar.jade'),
+      template: 'templates/zoombar.html',
       link: function() {
         if ('componentHandler' in $window) {
           // trigger MDL refresh for components
-          $window.componentHandler.upgradeAllRegistered()
+          $window.componentHandler.upgradeAllRegistered();
         }
       }
-    }
+    };
   }]);

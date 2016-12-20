@@ -1,11 +1,1 @@
-<div class="transclude-content" ng-transclude></div>
-
-<h1 class="os-popover-header">{{ osPopover.title }}</h1>
-
-<p class="os-popover-description">{{ osPopover.description }}</p>
-
-<div class="os-popover-actions" layout="row" layout-align="space-between center">
-    <div>Edit</div>
-    <div>Move</div>
-    <div>Delete</div>
-</div>
+<div class="transclude-content" ng-transclude="ng-transclude"></div><md-icon class="os-popover__close-icon" ng-click="osPopover.hide()">clear</md-icon><div class="os-popover-container" layout="row" os-popover-background="osPopover.backgroundImage" ng-class="{'os-popover--wide': osPopover.isWide(), 'os-popover--left-image': osPopover.hasLeftImage()}" ng-style="{width: osPopover.width, height: osPopover.height, 'max-width': osPopover.width, 'max-height': osPopover.height}"><div class="os-popover-leftImage" flex="flex" ng-if="osPopover.leftImage"><img ng-src="{{ osPopover.leftImage }}" width="142" height="234"/></div><div flex="flex" layout="row" layout-align="start none"><img ng-if="osPopover.mainImage" ng-src="{{ osPopover.mainImage }}"/><div class="os-popover-content" flex="flex" layout="column" layout-align="start stretch"><h1 class="os-popover-title"><div class="placeholder-title"></div></h1><h2 class="os-popover__subtitle"><div class="placeholder-subtitle"></div></h2><div flex="flex"></div></div></div></div><div class="os-popover-arrow"></div>

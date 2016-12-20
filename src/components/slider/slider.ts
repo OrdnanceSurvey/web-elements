@@ -1,4 +1,4 @@
-/// <reference path="../../../typings/main.d.ts" />
+import * as angular from 'angular';
 
 export { OsSlider } from './controllers/osSlider';
 import { OsSlider } from './controllers/osSlider';
@@ -13,5 +13,5 @@ angular
     controller: OsSlider,
     controllerAs: 'osSlider',
     transclude: true,
-    template: require('./templates/slider.jade')
+    template: 'templates/slider.html'
   });

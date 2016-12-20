@@ -1,396 +1,74 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width">
+  <meta charset='utf-8'>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width">
 
-    <title>OS Elements</title>
+  <title>OS Elements</title>
 
-    <!-- demo & libs -->
-    <script type="text/javascript" src="../build/demo_vendor_libs.js"></script>
+  <link rel="stylesheet" href="os-elements-docs.css">
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="../build/demo_vendor_libs.css">
-
-
-    <!-- osElements -->
-    <link rel="stylesheet" href="../build/elements.css">
-    <script type="text/javascript" src="../build/elements.js"></script>
-
-    <!-- Flatdoc -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src='https://cdn.rawgit.com/rstacruz/flatdoc/v0.9.0/legacy.js'></script>
-    <script src='https://cdn.rawgit.com/rstacruz/flatdoc/v0.9.0/flatdoc.js'></script>
-
-    <!-- Flatdoc theme -->
-    <!--<link  href='https://cdn.rawgit.com/rstacruz/flatdoc/v0.9.0/theme-white/style.css' rel='stylesheet'>-->
-    <!--<script src='https://cdn.rawgit.com/rstacruz/flatdoc/v0.9.0/theme-white/script.js'></script>-->
-
-    <!-- Meta -->
-    <meta content="OS Elements" property="og:title">
-    <meta content="OS Elements description goes here." name="description">
+  <!-- demo & libs -->
+  <!--<script type="text/javascript" src="https://unpkg.com/openlayers@3.18.2/dist/ol-debug.js"></script>-->
+  <!--<link rel="stylesheet" href="https://unpkg.com/openlayers@3.18.2/dist/ol.css">-->
+  <!--<script type="text/javascript" src="https://unpkg.com/proj4@2.3.15/dist/proj4.js"></script>-->
+  <script src="https://unpkg.com/jquery@1.9.1/jquery.min.js"></script>
 
 
+  <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">-->
+  <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
+
+  <!--&lt;!&ndash; Angular and Angular Material &ndash;&gt;-->
+  <!--<script type="text/javascript" src="https://unpkg.com/angular@1.5.8/angular.min.js"></script>-->
+  <!--<script type="text/javascript" src="https://unpkg.com/angular-animate@1.5.8/angular-animate.min.js"></script>-->
+  <!--<script type="text/javascript" src="https://unpkg.com/angular-aria@1.5.8/angular-aria.min.js"></script>-->
+  <!--<script type="text/javascript" src="https://unpkg.com/angular-messages@1.5.8/angular-messages.min.js"></script>-->
+  <!--<script type="text/javascript" src="https://unpkg.com/angular-sanitize@1.5.8/angular-sanitize.min.js"></script>-->
+  <!--<script type="text/javascript" src="https://unpkg.com/angular-material@1.1.0/angular-material.min.js"></script>-->
+  <!--<link rel="stylesheet" href="https://unpkg.com/angular-material@1.1.0/angular-material.min.css">-->
+
+  <!--<script type="text/javascript" src="https://unpkg.com/rx@4.0.8/dist/rx.all.min.js"></script>-->
+  <!--<script type="text/javascript" src="https://unpkg.com/rx-angular@1.1.3/dist/rx.angular.min.js"></script>-->
+
+  <!--&lt;!&ndash; osElements &ndash;&gt;-->
+  <!--<link rel="stylesheet" href="../os-elements.css">-->
+  <!--<script type="text/javascript" src="../os-elements.js"></script>-->
+
+  <!--&lt;!&ndash; Flatdoc &ndash;&gt;-->
+  <!--<script src='https://unpkg.com/flatdoc@0.9.0/legacy.js'></script>-->
+  <script src='https://unpkg.com/flatdoc@0.9.0/flatdoc.js'></script>
+
+  <!-- Flatdoc theme -->
+  <!--<link  href='https://cdn.rawgit.com/rstacruz/flatdoc/v0.9.0/theme-white/style.css' rel='stylesheet'>-->
+  <!--<script src='https://cdn.rawgit.com/rstacruz/flatdoc/v0.9.0/theme-white/script.js'></script>-->
 
 
-    <!-- Initializer -->
-    <style>
-        code .string,
-        code .number {
-            color: #3ac;
-        }
-        code .init {
-            color: #383;
-        }
-        code .keyword {
-            font-weight: bold;
-        }
-        code .comment {
-            color: #adadcc;
-        }
+  <!-- Initializer -->
+  <style>
+    code .string,
+    code .number {
+      color: #3ac;
+    }
 
-        .live-example {
-            background-color: #dfdfdf;
-        }
-    </style>
+    code .init {
+      color: #383;
+    }
+
+    code .keyword {
+      font-weight: bold;
+    }
+
+    code .comment {
+      color: #adadcc;
+    }
+
+    .live-example {
+      background-color: #dfdfdf;
+    }
+  </style>
 </head>
-<body layout="column" flex role="flatdoc" ng-controller="docs-controller as docs">
-
-<md-toolbar class='header'>
-    <div class="md-toolbar-tools">
-        <h1>OS Elements</h1>
-    </div>
-</md-toolbar>
-
-<section layout="row" flex>
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2 menubar" md-component-id="left" md-is-locked-open="true" layout="column">
-        <os-button colour="primary" variation="raised" ng-repeat="comp in docs.components" ng-click="docs.selectComponent(comp)">{{comp.name}}</os-button>
-    </md-sidenav>
-    <md-content flex layout-padding>
-        <component-docs url="docs.selectedComponent.url"></component-docs>
-    </md-content>
-</section>
-
-
-<script>
-    //        Flatdoc.run({
-    ////            fetcher: Flatdoc.github('ordnancesurvey/elements')
-    //            fetcher: Flatdoc.file('../README.md')
-    //        });
-    window.Flatdoc.highlighters.html_old = window.Flatdoc.highlighters.html;
-
-    window.Flatdoc.highlighters.html = function(code) {
-        console.log('skip HTML syntax highlighting');
-        return code;
-    };
-
-    angular.element().ready(function() {
-        function makeAwesome(selector, before, after) {
-            var $el = $(selector);
-            $el.replaceWith(before + $el.html() + after);
-            return $el;
-        }
-//            makeAwesome('.header', '<md-toolbar>', '</md-toolbar>')
-
-
-
-        angular
-                .module('docs-app', ['osElements', 'ngSanitize'])
-                .controller('docs-controller', function($log) {
-                    this.$inject = ['$log'];
-
-                    var vm = this;
-                    vm.components = [
-                        { name: 'readme', url: '../README.md' },
-                        { name: 'autocomplete', url: '../src/components/autocomplete/docs/Autocomplete.md' },
-                        { name: 'button', url: '../src/components/button/docs/Button.md' },
-                        { name: 'header', url: '../src/components/header/docs/Header.md' },
-                        { name: 'modal', url: '../src/components/modal/docs/Modal.md' },
-                        { name: 'popup', url: '../src/components/popup/docs/Popup.md' },
-                        { name: 'search', url: '../src/components/search/docs/Search.md' },
-                        { name: 'select', url: '../src/components/select/docs/Select.md' },
-                        { name: 'slider', url: '../src/components/slider/docs/Slider.md' },
-                        { name: 'tabs', url: '../src/components/tabs/docs/Tabs.md' },
-                        { name: 'toolbar', url: '../src/components/toolbar/docs/Toolbar.md' },
-                        { name: 'zoombar', url: '../src/components/zoombar/docs/Zoombar.md' }
-                    ];
-
-                    vm.selectComponent = function(comp) {
-                        vm.selectedComponent = comp;
-                    };
-
-                    vm.selectComponent(this.components[1]);
-
-                })
-                .controller('PopupCtrl', function() {
-                  var vm = this;
-
-                  this.visible = false;
-
-                  this.togglePopup = function() {
-                    vm.visible = !vm.visible;
-                  };
-
-                })
-                .controller('autocompleteController', function() {
-                  this.searchText = '';
-
-                  this.loadAll = function() {
-                    var rows = [];
-
-                    var data =  {
-                      grid: 'SP 06952 692305',
-                      addr: '79 This Street, Over here, over there, OT12 3RD',
-                      post: 'OT12 3RD'
-                    };
-                    var i = 30;
-
-                    while (i-- > 0) {
-                      rows.push(data);
-                    }
-
-                    return rows;
-                  };
-
-                })
-                .controller('zoombarController', function() {
-                  this.zoomLevel = 5
-                })
-                .controller('searchController', function($q) {
-                  this.searchProviders = [
-                    //{
-                    //    id: 'WIKI',
-                    //    data: {
-                    //        action: 'opensearch',
-                    //        format: 'json',
-                    //        search: '%s'
-                    //    },
-                    //    dataType: 'jsonp',
-                    //    url: 'http://en.wikipedia.org/w/api.php',
-                    //    title: 'Wikipedia'
-                    //},
-                    {
-                      id: 'ECHO_UPPERCASE',
-                      title: 'Grid Reference',
-                      minLength: 1,
-                      columnWidth: 10,
-                      fn: function(term) {
-                        var deffered = $q.defer();
-
-                        var upper = term;
-                        try {
-                          upper = term.toUpperCase();
-                        } catch (e) {}
-
-                        // return an array to illustrate how transformResponse can be used
-                        deffered.resolve([{
-                          text: upper
-                        },{
-                          text: upper
-                        },{
-                          text: upper
-                        }]);
-
-                        return deffered.promise;
-                      },
-                      transformResponse: function(response) {
-                        // return an object with a results property containing the array
-                        return {
-                          results: response
-                        };
-                      },
-                      onSelect: function(result, hideSearch) {
-                        console.log('selected an UPPERCASE result', result);
-                        hideSearch();
-                      }
-                    },
-                    {
-                      id: 'ECHO_LOWERCASE',
-                      title: 'Grid Reference',
-                      minLength: 1,
-                      columnWidth: 10,
-                      fn: function(term) {
-                        var deffered = $q.defer();
-
-                        var upper = term;
-                        try {
-                          upper = term.toLowerCase();
-                        } catch (e) {}
-
-                        // return an array to illustrate how transformResponse can be used
-                        deffered.resolve([{
-                          text: upper
-                        },{
-                          text: upper
-                        },{
-                          text: upper
-                        }]);
-
-                        return deffered.promise;
-                      },
-                      transformResponse: function(response) {
-                        // return an object with a results property containing the array
-                        return {
-                          results: response
-                        };
-                      },
-                      onSelect: function(result, hideSearch) {
-                        console.log('selected an UPPERCASE result', result);
-                        hideSearch();
-                      }
-                    }
-                  ]
-                })
-                .controller('modalController', function($log, $OsModal) {
-                  this.$inject = ['$log', '$OsModal'];
-
-                  var vm = this;
-
-                  vm.alert = function () {
-                    $OsModal.alert({
-                      title: 'Alert title',
-                      textContent: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab autem dolor maiores.',
-                      fullscreen: true
-                    }).finally(function () {
-                      console.log('Alert has been closed');
-                    });
-                  };
-
-                  vm.confirm = function () {
-                    $OsModal.confirm(
-                      {
-                        title: 'Confirm title',
-                        textContent: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab autem dolor maiores.',
-                        cancel: 'Dismiss'
-                      }
-                    ).finally(function () {
-                      console.log('Confirm has been closed');
-                    });
-                  };
-
-                  vm.html = function () {
-                    var myCustomController = function($scope, $mdDialog) {
-                      $scope.hide = function() {
-                        $mdDialog.hide();
-                      };
-                      $scope.cancel = function() {
-                        $mdDialog.cancel();
-                      };
-                      $scope.answer = function(answer) {
-                        $mdDialog.hide(answer);
-                      };
-                    }
-
-                    $OsModal.html({
-                        title: 'Alert title',
-                        textContent: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab autem dolor maiores.',
-                        templateUrl: './examples/modal/custom_template.html',
-                        fullscreen: true,
-                        controller: myCustomController
-                    });
-                  }
-
-                })
-                .component('componentDocs', {
-                    bindings: {
-                        url: '='
-                    },
-                    controller: function($log, $window, $scope, $element, $compile) {
-                        this.$inject = ['$log', '$window', '$scope', '$element', '$compile'];
-
-                        var vm = this;
-
-                        function recompile() {
-                            $log.debug('recompiling');
-//                            var code = $element.find('p > .demo').parent().next().find('code.lang-html');
-//                            code.parent().after('<div class="abc"></div>');
-
-
-                            $scope.$apply(function() {
-                                console.log('doing scope.$apply');
-                                var compiled = $compile($element.contents())($scope);
-                            });
-                        }
-
-                        $scope.$watch('ctrl.url', function(newUrl) {
-                            $log.debug('load docs for:', newUrl);
-                            $window.Flatdoc.run({
-                                fetcher: Flatdoc.file(newUrl)
-                            });
-                        });
-
-                        $window.$(document).on('flatdoc:ready', recompile);
-                    },
-                    controllerAs: 'ctrl',
-                    transclude: true,
-                    template: `
-                                <div class="ng-hide" role="flatdoc-menu"></div>
-                                <div role="flatdoc-content"></div>
-                            `
-                })
-                .directive('componentDemo', function($log, $compile, $templateCache) {
-                    return {
-                        scope: {
-
-                        },
-                        restrict: 'E',
-                        controllerAs: 'ctrl',
-                        controller: function($attrs) {
-                            var vm = this;
-
-                            this.htmlURL = '../src/' + $attrs.html;
-
-                            this.included = function() {
-                                vm.htmlSource = $templateCache.get(this.htmlURL);
-                            };
-
-                            this.items = [
-                                'one',
-                                'two',
-                                'three'
-                            ];
-
-                        },
-                        template: `
-                                <h4>Example</h4>
-                                <md-content layout-padding ng-include="ctrl.htmlURL" onload="ctrl.included()"></md-content>
-                                <os-button colour="primary" variation="solid" ng-click="ctrl.sourceShown = !ctrl.sourceShown">{{ctrl.sourceShown ? 'Hide' : 'Show'}} source code</os-button>
-                                <pre ng-if="ctrl.sourceShown" ng-bind="ctrl.htmlSource"></pre>
-                            `
-                    }
-                });
-
-        angular.bootstrap(angular.element(document.body), ['docs-app']);
-
-    });
-</script>
-
-<script type="text/javascript">
-  <!-- setup code for osPopover -->
-  var OS = OS || {};
-  OS.showPopup = function(name, element) {
-
-    var service = angular.element(document.body).injector().get('$osPopover');
-
-    var popupHandle = service.create({
-      title: name,
-      description: 'Description',
-      parent: element,
-      scope: {
-        ngCallback: function() {
-          console.log('Hit callback');
-        }
-      },
-      actions: '<a ng-click="ngCallback()">Action #1</a>'
-    });
-
-    service.show(popupHandle);
-
-    //service.hide(popupHandle);
-  }
-</script>
-
+<body layout="column" flex role="flatdoc">
+<osel-docs></osel-docs>
 </body>
 </html>

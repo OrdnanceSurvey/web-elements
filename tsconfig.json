@@ -7,18 +7,11 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "noEmitHelpers": false,
-    "sourceMap": false
+    "sourceMap": false,
+    "allowUnusedLabels": true,
+    "typeRoots" : ["./node_modules/@types", "./src/types"]
   },
   "exclude": [
     "node_modules"
-  ],
-  "files": [
-    "typings/main.d.ts",
-    "src/components/button/button.component.ts",
-    "src/components/tabs/tabs.ts",
-    "src/components/tabs/tab.ts",
-    "src/components/popup/popup.ts",
-    "src/components/autocomplete/autocomplete.ts",
-    "src/elements.ts"
   ]
 }

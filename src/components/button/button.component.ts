@@ -1,4 +1,5 @@
-/// <reference path="../../../typings/main.d.ts" />
+import * as angular from 'angular';
+import 'material-design-lite';
 
 export interface IOsButton {
   colour: string;
@@ -10,7 +11,7 @@ export interface IOsButton {
 }
 
 interface IWindowService extends ng.IWindowService {
-  componentHandler: { upgradeElements(el:HTMLElement) };
+  componentHandler: { upgradeElements(el: HTMLElement) };
 }
 
 export class OsButton implements IOsButton {
@@ -23,9 +24,9 @@ export class OsButton implements IOsButton {
 
   private mdButton;
 
-  constructor(private $element:ng.IRootElementService, private $window:IWindowService) {
+  constructor(private $element: ng.IRootElementService, private $window: IWindowService) {
 
-    this.mdButton = $element.children('md-button');
+    this.mdButton = $element.children('.md-button');
 
     // assign classes immediately to avoid FOUC
     this.mdButton.addClass(this.makeClass());
@@ -102,7 +103,9 @@ angular
     controllerAs: 'osButton',
     transclude: true,
     template: `
-            <md-button ng-disabled="osButton.disabled || osButton.loading" md-no-ink type="{{osButton.type}}" class="mdl-button mdl-js-button mdl-js-ripple-effect" ng-class="{loading: osButton.loading, 'md-hue-900': osButton.loading}" layout="row">
+            <md-button ng-disabled="osButton.disabled || osButton.loading" 
+                       md-no-ink type="{{osButton.type}}" class="mdl-button mdl-js-button mdl-js-ripple-effect" 
+                       ng-class="{loading: osButton.loading, 'md-hue-900': osButton.loading}" layout="row">
               <ng-transclude></ng-transclude>
               <div class="loader" ng-if="osButton.loading">
                 <svg class="circular" viewBox="25 25 50 50">

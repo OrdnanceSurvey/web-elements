@@ -1,5 +1,3 @@
-/// <reference path="../../../../typings/main.d.ts" />
-
 export class OsSlider {
   static $inject = ['$element', '$scope'];
 
@@ -10,7 +8,7 @@ export class OsSlider {
     this.setVisibility();
 
     $scope.$watch(() => {
-      this.setVisibility()
+      this.setVisibility();
     });
   }
 
@@ -28,11 +26,11 @@ export class OsSlider {
   }
 
   isOpened(): boolean {
-    return this.opened == true;
+    return this.opened === true;
   }
 
   iconName(): string {
-    return this.isOpened() ? 'keyboard_arrow_left' : 'keyboard_arrow_right' ;
+    return this.isOpened() ? 'keyboard_arrow_left' : 'keyboard_arrow_right';
   }
 
 }

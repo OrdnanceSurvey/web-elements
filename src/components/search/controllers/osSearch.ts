@@ -1,4 +1,5 @@
-/// <reference path="../../../../typings/main.d.ts" />
+import * as angular from 'angular';
+import 'rx-angular';
 
 export interface IOsSearchProvider {
   id: string;
@@ -74,11 +75,11 @@ export class OsSearch implements IOsSearch {
     }
 
     return this.rx.Observable.fromPromise(this.$http(config));
-  };
+  }
 
   private observableFromFn(fn, term) {
-    return this.rx.Observable.fromPromise(fn(term))
-  };
+    return this.rx.Observable.fromPromise(fn(term));
+  }
 
   private createProviderObservable(provider, term) {
     if (provider.hasOwnProperty('fn')) {
@@ -86,7 +87,7 @@ export class OsSearch implements IOsSearch {
     } else { // else assume provider is 'AJAX' type
       return this.observableWithAJAXConfig(provider, term);
     }
-  };
+  }
 
   configProviders() {
     this.internalSearchProviders = this.searchProviders.reduce(function (providerHashMap, provider) {
@@ -122,7 +123,7 @@ export class OsSearch implements IOsSearch {
     });
 
     let observables = filtered.map((provider) => {
-      var providerObservable = this.createProviderObservable(provider, term);
+      let providerObservable = this.createProviderObservable(provider, term);
       providerObservable.providerId = provider.id;
       providerObservable.term = term;
       providerObservable.sent = new Date();
@@ -144,7 +145,7 @@ export class OsSearch implements IOsSearch {
           if (this.searchText === providerObservable.term) {
             this.searchResults[providerObservable.providerId].inProgress = false;
             this.searchResults[providerObservable.providerId].results = response.results;
-            this.searchResults[providerObservable.providerId].error = "";
+            this.searchResults[providerObservable.providerId].error = '';
             this.searchResults[providerObservable.providerId].sent = providerObservable.sent;
             this.searchResults[providerObservable.providerId].received = new Date();
 
@@ -159,12 +160,12 @@ export class OsSearch implements IOsSearch {
       }, (error) => {
         this.searchResults[providerObservable.providerId].inProgress = false;
         this.searchResults[providerObservable.providerId].results = [];
-        this.searchResults[providerObservable.providerId].error = error.data.error || error.data; // TODO check this logic with a real server error
-        this.searchResults[providerObservable.providerId].received = Infinity; // needs to be Infinity so that we can sort errors to the right
+        this.searchResults[providerObservable.providerId].error = error.data.error || error.data;
+        this.searchResults[providerObservable.providerId].received = Infinity; // Infinity so that we can sort errors to the right
         this.searchResults[providerObservable.providerId].sent = providerObservable.sent; // TODO check this is available
       });
     });
-  };
+  }
 
   clear() {
    this.searchText = '';
@@ -182,14 +183,16 @@ export class OsSearch implements IOsSearch {
 
   handleClick = (event) => {
     // skip click on os search
-    if (this.closestByClass(event.target, 'os-header-searchContainer')) return false;
+    if (this.closestByClass(event.target, 'os-header-searchContainer')) {
+      return false;
+    }
 
     if (!this.closestByClass(event.target, 'os-search')
       && !this.closestByClass(event.target, 'os-search-container')
     ) {
       this.hideSearch();
     }
-  };
+  }
 
   closestByClass(el, className) {
     while (! (el.classList.contains(className))) {

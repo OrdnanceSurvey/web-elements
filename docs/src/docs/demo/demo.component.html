@@ -1,0 +1,6 @@
+<h4>Example</h4>
+<md-content layout-padding ng-include="$ctrl.htmlUrl" onload="$ctrl.included()"></md-content>
+<os-button colour="primary" variation="solid" ng-click="$ctrl.sourceShown = !$ctrl.sourceShown">{{$ctrl.sourceShown ?
+  'Hide' : 'Show'}} source code
+</os-button>
+<pre ng-if="$ctrl.sourceShown" ng-bind="$ctrl.htmlSource"></pre>

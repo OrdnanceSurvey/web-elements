@@ -1,4 +1,4 @@
-/// <reference path="../../../typings/main.d.ts" />
+import * as angular from 'angular';
 
 import IScope = angular.IScope;
 import IServiceProvider = angular.IServiceProvider;
@@ -12,7 +12,7 @@ export class OsPopover {
 
   private parent;
 
-  osDirection:string;
+  osDirection: string;
   visible: boolean = false;
   autoshow: any;
   type: string;
@@ -21,21 +21,21 @@ export class OsPopover {
   private parentRect;
   private tipRect;
 
-  title:string;
-  subtitle:string;
-  mainImage:string;
-  leftImage:string;
-  backgroundImage:string;
-  description:string;
-  actions:string;
+  title: string;
+  subtitle: string;
+  mainImage: string;
+  leftImage: string;
+  backgroundImage: string;
+  description: string;
+  actions: string;
 
-  width:string;
-  height:string;
+  width: string;
+  height: string;
 
   static TOOLTIP_WINDOW_EDGE_SPACE = 8;
   static ARROW_HEIGHT = 20;
 
-  constructor(private $element:ng.IRootElementService, private $transclude:ng.ITranscludeFunction, private $mdUtil:any, $scope: IScope) {
+  constructor(private $element: ng.IRootElementService, private $transclude: ng.ITranscludeFunction, private $mdUtil: any, $scope: IScope) {
     //this.tooltipParent = angular.element(document.body);
     this.tooltipParent = $element.parent();
 
@@ -47,7 +47,7 @@ export class OsPopover {
       return this.$mdUtil.offsetRect($element, this.tooltipParent);
     }, (newVal, oldVal) => {
       this.positionTooltip();
-    }, true)
+    }, true);
   }
 
   private postLink() {
@@ -72,7 +72,7 @@ export class OsPopover {
 
   toggleVisibility(visible: boolean) {
     this.visible = visible;
-    this.visible ? this.show(): this.hide();
+    this.visible ? this.show() : this.hide();
   }
 
   private show() {
@@ -93,7 +93,7 @@ export class OsPopover {
     });
   }
 
-  protected getPosition(dir:string) {
+  protected getPosition(dir: string) {
     return dir === 'left'
       ? {
       left: this.parentRect.left - this.tipRect.width - OsPopover.TOOLTIP_WINDOW_EDGE_SPACE,
@@ -166,7 +166,7 @@ export class OsPopover {
 
 }
 
-class PopupManager implements ng.IServiceProvider{
+class PopupManager implements ng.IServiceProvider {
 
   private popups = {};
 
@@ -185,7 +185,7 @@ class PopupManager implements ng.IServiceProvider{
       }
     };
   }
-  constructor() {}
+
 }
 
 angular
@@ -197,19 +197,21 @@ angular
         osPopoverBackground: '='
       },
       link: function (scope, element, attr) {
-        scope.$watch('osPopoverBackground', function(image) {
-          if (! image) { return; }
+        scope.$watch('osPopoverBackground', function (image) {
+          if (!image) {
+            return;
+          }
 
           element.css({
-            'background-image': 'url(' + image +')',
-            'background-size' : 'cover'
+            'background-image': 'url(' + image + ')',
+            'background-size': 'cover'
           });
-        })
+        });
       }
-    }
+    };
   })
-  .provider("$osPopupManager", PopupManager)
-  .factory('$osPopover', ['$osPopupManager', '$rootScope', '$compile',function($osPopupManager, $rootScope, $compile) {
+  .provider('$osPopupManager', PopupManager)
+  .factory('$osPopover', ['$osPopupManager', '$rootScope', '$compile', function ($osPopupManager, $rootScope, $compile) {
     return {
       create: options => {
         let scope = $rootScope.$new();
@@ -228,15 +230,15 @@ angular
         return scope.$id;
       },
       prepareTemplates: options => {
-        return '<os-popover class="os-popover" os-direction="'+ (options.direction || 'top') +'"> \
-          <os-popover-title>'+ (options.title || '') + '</os-popover-title> \
-          <os-popover-subtitle>'+ (options.subtitle || '') + '</os-popover-subtitle> \
-          <os-popover-description>'+ (options.description || '') + '</os-popover-description> \
-          <os-popover-actions>'+ (options.actions || '') + '</os-popover-actions> \
-          <os-popover-main-image>'+ (options.mainImage || '') + '</os-popover-main-image> \
-          <os-popover-left-image>'+ (options.leftImage || '') + '</os-popover-left-image> \
-          <os-popover-background-image>'+ (options.backgroundImage || '') + '</os-popover-background-image> \
-          <os-popover-actions>'+ (options.actions || '') + '</os-popover-actions> \
+        return '<os-popover class="os-popover" os-direction="' + (options.direction || 'top') + '"> \
+          <os-popover-title>' + (options.title || '') + '</os-popover-title> \
+          <os-popover-subtitle>' + (options.subtitle || '') + '</os-popover-subtitle> \
+          <os-popover-description>' + (options.description || '') + '</os-popover-description> \
+          <os-popover-actions>' + (options.actions || '') + '</os-popover-actions> \
+          <os-popover-main-image>' + (options.mainImage || '') + '</os-popover-main-image> \
+          <os-popover-left-image>' + (options.leftImage || '') + '</os-popover-left-image> \
+          <os-popover-background-image>' + (options.backgroundImage || '') + '</os-popover-background-image> \
+          <os-popover-actions>' + (options.actions || '') + '</os-popover-actions> \
           </os-popover>';
       },
       compilePopup: (options, scope) => {
@@ -248,21 +250,14 @@ angular
       },
       show: handle => {
         let elem = this.getPopupByHandle(handle);
-        elem.toggleVisibility(true)
+        elem.toggleVisibility(true);
       },
       hide: handle => {
         let elem = this.getPopupByHandle(handle);
-        elem.toggleVisibility(false)
+        elem.toggleVisibility(false);
       },
-    }
+    };
   }])
-  //.directive('osPopoverTitle', function() {
-  //  return {
-  //    transclude: true,
-  //    replace: true,
-  //    template: '<h1 class="os-popover-title" ng-transclude></h1>'
-  //  };
-  //})
   .directive('osPopover', ['$osPopupManager', function ($osPopupManager) {
     return {
       scope: {
@@ -278,8 +273,8 @@ angular
       controllerAs: 'osPopover',
       bindToController: true,
       transclude: true,
-      template: require('./popup.jade'),
-      link: function (scope, element, attr, ctrl:OsPopover) {
+      template: 'popup.html',
+      link: function (scope, element, attr, ctrl: OsPopover) {
         // content
         ctrl.title = element.find('os-popover-title').detach();
         ctrl.subtitle = element.find('os-popover-subtitle').detach();
@@ -300,18 +295,18 @@ angular
         angular.element(element[0].getElementsByClassName('transclude-content')[0]).remove();
 
         // translude button without losing bindings
-        angular.element(element[0].getElementsByClassName('os-popover-content')).append( ctrl.actions );
+        angular.element(element[0].getElementsByClassName('os-popover-content')).append(ctrl.actions);
 
         // watchers
         scope.$watch('osPopover.visible', function (visible) {
           ctrl.toggleVisibility(visible);
         });
 
-        scope.$on("$destroy", function() {
+        scope.$on('$destroy', function () {
           $osPopupManager.deregister(scope.$parent.$id);
         });
 
         $osPopupManager.register(scope.$parent.$id, ctrl);
       }
-    }
+    };
   }]);

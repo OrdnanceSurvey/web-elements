@@ -1,4 +1,5 @@
-/// <reference path="../../../typings/main.d.ts" />
+import * as angular from 'angular';
+import 'rx';
 
 export { OsSearch } from './controllers/osSearch';
 import { OsSearch } from './controllers/osSearch';
@@ -21,7 +22,7 @@ angular
       controller: 'OsSearch',
       controllerAs: 'osSearch',
       bindToController: true,
-      template: require('./templates/search.jade')
-    }
+      template: 'templates/search.html'
+    };
   }])
 ;

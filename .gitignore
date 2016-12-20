@@ -8,8 +8,12 @@ typings/
 
 # built files
 build
+dist
 src/**/*.js
 src/**/*.d.ts
+src/**/*.css
+docs/**/*.js
+docs/**/*.css
 
 # misc
 npm-debug.log
