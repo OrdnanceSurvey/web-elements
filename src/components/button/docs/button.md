@@ -8,8 +8,10 @@
 
 ## Attributes
 
-Parameter | Type | Description
---- | --- | ---
-**colour** | `string` | e.g. `primary`, `secondary`
-**colour** | `string` | e.g. `primary`, `secondary`
-**colour** | `string` | e.g. `primary`, `secondary`
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+**colour** | `string` | | Colour intention e.g. `primary`, `secondary`
+**variation** | `string` | | Specific variation e.g. `solid`, `outline`, `super`, `icon`, `text`
+**type** | `string` | | Adds the `type` attribute e.g. `submit`, `button`
+**disabled** | `boolean` | `false` | Dis/Enable the button to stop clicks being allowed
+**loading** | `boolean` | `false` | Show/hide the inner loading spinner. Also disables the button while true
