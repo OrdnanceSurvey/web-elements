@@ -73,10 +73,16 @@ let config = {
         loaders: ['ng-annotate', 'awesome-typescript-loader']
       },
       { // inline all HTML templates into our src
-        test: /src/,
+        test: /src\/.*ts/,
         loader: StringReplacePlugin.replace({
           replacements: [
-            {
+            { // rename the property from templateUrl to template
+              pattern: /templateUrl:\s*string;/g,
+              replacement: function (m, templateUrl) {
+                return `template: string;`;
+              }
+            },
+            { // inline the template's HTML contents
               pattern: /this\.templateUrl\s*=\s*'([^']+?\.html)'/g,
               replacement: function (m, templateUrl) {
                 const templateFile = path.join(path.dirname(this.resource), templateUrl);
@@ -84,7 +90,8 @@ let config = {
                 const shortenedTemplate = templateContent
                   .replace(/([\n\r]\s*)+/gm, ' ')
                   .replace(/"/g, '\\"');
-                return `template: "${shortenedTemplate}"`;
+                console.log('inline template for ', templateFile);
+                return `this.template = "${shortenedTemplate}"`;
               }
             }
           ]
@@ -94,9 +101,10 @@ let config = {
   },
 
   plugins: [
+    new webpack.optimize.DedupePlugin(),
     new webpack.DefinePlugin({
-      "process.env": { // causes most big libraries to minify nicely
-        NODE_ENV: '"production"'
+      "process.env": {
+        NODE_ENV: '"production"' // make most big libraries to minify nicely
       }
     }),
     new StringReplacePlugin()

@@ -1,5 +1,6 @@
 import * as angular from 'angular';
 import 'angular-material';
+import 'rx-angular';
 
 function OsElementsConfig($mdThemingProvider, $mdIconProvider) {
 
@@ -149,12 +150,12 @@ function OsElementsConfig($mdThemingProvider, $mdIconProvider) {
   $mdIconProvider.defaultFontSet('material-icons');
 }
 
-angular.module('osElements', ['ngMaterial']).config(['$mdThemingProvider', '$mdIconProvider', OsElementsConfig]);
+angular.module('osElements', ['ngMaterial', 'rx']).config(['$mdThemingProvider', '$mdIconProvider', OsElementsConfig]);
 
-export {OsButton} from './components/button/button.component';
+export * from './components/button/button.component';
 export {OsPopover} from './components/popup/popup';
 export {OsToolbar} from './components/toolbar/toolbar';
 export {OsSlider} from './components/slider/slider';
 export {OsHeader} from './components/header/header';
-export {OsSearch} from './components/search/search';
+export * from './components/search/search.component';
 export {OsZoombar} from './components/zoombar/zoombar';

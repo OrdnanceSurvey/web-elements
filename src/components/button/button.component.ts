@@ -1,32 +1,54 @@
 import * as angular from 'angular';
 import 'material-design-lite';
 
-export interface IOsButton {
-  colour: string;
-  variation: string;
-  disabled: boolean;
-  $postLink($window);
+export class ButtonComponent implements ng.IComponentOptions {
+  controller: Function;
+  templateUrl: string;
+  bindings: any;
+  transclude: boolean;
+
+  constructor() {
+    this.controller = ButtonCtrl;
+    this.templateUrl = 'button.component.html';
+    this.bindings = {
+      disabled: '=?ngDisabled',
+      colour: '@',
+      variation: '@',
+      type: '@',
+      loading: '<?'
+    };
+    this.transclude = true;
+  }
+}
+
+export interface IButtonCtrlBindings {
+  disabled?: boolean;
+  colour?: string;
+  variation?: 'solid'|'outline'|'super'|'icon'|'text';
+  type?: string;
+  loading?: boolean;
+}
+
+export interface IButtonCtrl extends IButtonCtrlBindings {
+  $postLink();
   assignEvents();
-  makeClass();
+  makeClass(): string;
 }
 
-interface IWindowService extends ng.IWindowService {
-  componentHandler: { upgradeElement(el: HTMLElement) };
-}
+export class ButtonCtrl implements IButtonCtrl {
 
-export class OsButton implements IOsButton {
-  static $inject = ['$element', '$window'];
+  // component bindings
+  disabled: boolean;
+  colour: string;
+  variation: 'solid'|'outline'|'super'|'icon'|'text';
+  type: string;
+  loading: boolean;
 
-  colour;
-  variation; // text|solid|outline|super
-  disabled;
-  loading;
+  private mdButton: JQuery;
 
-  private mdButton;
-
-  constructor(private $element: ng.IRootElementService, private $window: IWindowService) {
-
-    this.mdButton = $element.children('.md-button');
+  constructor(private $element: ng.IRootElementService, private $window: ng.IWindowService) {
+    'ngInject';
+    this.mdButton = $element.find('.md-button');
 
     // assign classes immediately to avoid FOUC
     this.mdButton.addClass(this.makeClass());
@@ -53,7 +75,7 @@ export class OsButton implements IOsButton {
   }
 
   makeClass() {
-    var classes = [];
+    let classes = [];
     switch (this.variation) {
       case 'solid':
         classes.push('md-raised');
@@ -83,35 +105,12 @@ export class OsButton implements IOsButton {
   $postLink() {
     if ('componentHandler' in this.$window) {
       // trigger MDL upgrade for button element
-      this.$window.componentHandler.upgradeElement(this.mdButton[0]);
+      this.$window['componentHandler'].upgradeElement(this.mdButton[0]);
     }
   }
 
 }
 
-angular
+export let ButtonModule = angular
   .module('osElements')
-  .component('osButton', {
-    bindings: {
-      disabled: '=ngDisabled',
-      colour: '@',
-      variation: '@',
-      type: '@',
-      loading: '<'
-    },
-    controller: OsButton,
-    controllerAs: 'osButton',
-    transclude: true,
-    template: `
-            <md-button ng-disabled="osButton.disabled || osButton.loading" 
-                       md-no-ink type="{{osButton.type}}" class="mdl-button mdl-js-button mdl-js-ripple-effect" 
-                       ng-class="{loading: osButton.loading, 'md-hue-900': osButton.loading}" layout="row">
-              <ng-transclude></ng-transclude>
-              <div class="loader" ng-if="osButton.loading">
-                <svg class="circular" viewBox="25 25 50 50">
-                  <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
-                </svg>
-              </div>
-            </md-button>
-        `
-  });
+  .component('osButton', new ButtonComponent());

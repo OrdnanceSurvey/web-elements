@@ -1,6 +1,8 @@
-<div ng-controller="searchController as ctrl" flex>
+<div ng-controller="searchDemo1Ctrl as $ctrl" flex>
   <os-search
-    placeholder="79 starting to type"
-    os-search-providers="ctrl.searchProviders"
+    placeholder="Type 2 chars to begin search"
+    os-search-providers="$ctrl.searchProviders"
   ></os-search>
+
+  <pre>{{ctrl.searchProviders | json}}</pre>
 </div>

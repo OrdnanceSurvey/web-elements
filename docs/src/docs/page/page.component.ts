@@ -56,25 +56,7 @@ class PageCtrl implements IPageCtrl {
       console.log('doing scope.$apply');
 
       let contents = this.$element.contents();
-
-      contents = this.makeFirstHeaderToolbar(contents);
-
       this.$compile(contents)(this.$scope);
     });
   }
-
-  private makeFirstHeaderToolbar(contents) {
-    let firstHeader = contents.children('h1')[0];
-    // this.wrap(firstHeader, '<md-toolbar><div class="md-toolbar-tools">', '</div></md-toolbar>');
-    let secondHeader = contents.children('h1')[1];
-    // this.wrap(firstHeader, '<md-toolbar><div class="md-toolbar-tools">', '</div></md-toolbar>');
-    return contents;
-  }
-
-  private wrap(el, before, after) {
-    let $el = angular.element(el);
-    $el.replaceWith(before + $el.html() + after);
-    return $el;
-  }
-
 }

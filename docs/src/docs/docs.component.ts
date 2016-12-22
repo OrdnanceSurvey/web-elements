@@ -4,7 +4,7 @@ import {PageComponent} from './page/page.component';
 import {DemoComponent} from './demo/demo.component';
 import {IComponentsService} from '../../../src/types/IComponentsService';
 import * as _ from 'lodash';
-// const Flatdoc = require('flatdoc') as any;
+import 'oclazyload';
 
 export class DocsComponent implements ng.IComponentOptions {
   controller: Function;
@@ -72,7 +72,7 @@ class DocsCtrl implements IDocsCtrl {
 }
 
 export let DocsModule = angular
-  .module('osel.docs', ['ngMaterial'])
+  .module('osel.docs', ['ngMaterial', 'oc.lazyLoad'])
   .component('oselDocs', new DocsComponent())
   .component('oselDocsPage', new PageComponent())
   .component('oselDocsDemo', new DemoComponent());
