@@ -66,8 +66,7 @@ let config = {
                 const shortenedTemplate = templateContent
                   .replace(/([\n\r]\s*)+/gm, ' ')
                   .replace(/"/g, '\\"');
-                console.log('inline template for ', templateFile);
-                console.log(`this.template = "${shortenedTemplate}"`);
+                console.log('inlined the html for component: ' + templateFile);
                 return `this.template = "${shortenedTemplate}"`;
               }
             }

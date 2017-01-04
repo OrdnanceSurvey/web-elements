@@ -153,9 +153,3 @@ function OsElementsConfig($mdThemingProvider, $mdIconProvider) {
 angular.module('osElements', ['ngMaterial', 'rx']).config(['$mdThemingProvider', '$mdIconProvider', OsElementsConfig]);
 
 export * from './components/button/button.component';
-export {OsPopover} from './components/popup/popup';
-export {OsToolbar} from './components/toolbar/toolbar';
-export {OsSlider} from './components/slider/slider';
-export {OsHeader} from './components/header/header';
-export * from './components/search/search.component';
-export {OsZoombar} from './components/zoombar/zoombar';

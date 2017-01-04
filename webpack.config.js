@@ -88,9 +88,8 @@ let config = {
                 const templateFile = path.join(path.dirname(this.resource), templateUrl);
                 const templateContent = fs.readFileSync(templateFile, 'utf-8');
                 const shortenedTemplate = templateContent
-                  .replace(/([\n\r]\s*)+/gm, ' ')
-                  .replace(/"/g, '\\"');
-                console.log('inline template for ', templateFile);
+                  .replace(/([\n\r]\s*)+/gm, ' ') // replace newlines with spaces
+                  .replace(/"/g, '\\"'); // escape all double quotes
                 return `this.template = "${shortenedTemplate}"`;
               }
             }

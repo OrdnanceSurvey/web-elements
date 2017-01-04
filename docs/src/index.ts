@@ -14,13 +14,11 @@ function loadAppConfig() {
   const $log = initInjector.get('$log') as ng.ILogService;
 
   $log.debug('Starting the OS Elements Documentation site');
-  return $http.get('./docs.json').then(function(response) {
-    console.log('set config', response.data, APP_NAME, '$oselComponents');
-    angular
-      .module(APP_NAME)
-      .constant('$oselComponents', response.data);
+  return $http.get('./docs.json').then(function(response: any) {
+    $log.debug(`Found ${response.data.components.length} components`);
+    angular.module(APP_NAME).constant('$oselDocsConfig', response.data);
   }, function(errorResponse) {
-    $log.error('App Bootstrap :: Failed to load app.config.json. The application cannot start.');
+    $log.error('The application cannot start - docs.json failed to load.');
   });
 }
 

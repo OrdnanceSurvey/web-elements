@@ -54,18 +54,15 @@
   version "4.14.43"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.43.tgz#0373de422e70f5bce12c15340103a3c126c81086"
 
+"@types/marked@^0.0.28":
+  version "0.0.28"
+  resolved "https://registry.yarnpkg.com/@types/marked/-/marked-0.0.28.tgz#44ba754e9fa51432583e8eb30a7c4dd249b52faa"
+
 "@types/openlayers@^3.18.40":
   version "3.18.40"
   resolved "https://registry.yarnpkg.com/@types/openlayers/-/openlayers-3.18.40.tgz#b1308bc5371383935fbe5d1cf4b2979a2fe58fd0"
 
-"@types/rx-angular@^0.0.28":
-  version "0.0.28"
-  resolved "https://registry.yarnpkg.com/@types/rx-angular/-/rx-angular-0.0.28.tgz#76bb931dea03a44f51deb2cdaa1b51df9472a300"
-  dependencies:
-    "@types/angular" "*"
-    "@types/rx" "*"
-
-"@types/rx@*", "@types/rx@^2.5.34":
+"@types/rx@^2.5.34":
   version "2.5.34"
   resolved "https://registry.yarnpkg.com/@types/rx/-/rx-2.5.34.tgz#361a94a547905c5ac06c10f3b7c68a916341dd71"
 
@@ -176,6 +173,12 @@ angular-animate@1.5.8:
 angular-aria@1.5.8:
   version "1.5.8"
   resolved "https://registry.yarnpkg.com/angular-aria/-/angular-aria-1.5.8.tgz#558fa07dc82c6fa57b1438e660bbdcfcb805a2f5"
+
+angular-marked@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/angular-marked/-/angular-marked-1.2.2.tgz#031f81015dad5fb01adf8d48922c52feb3588de5"
+  dependencies:
+    marked "^0.3.3"
 
 angular-material@1.1.0:
   version "1.1.0"
@@ -3481,7 +3484,7 @@ map-stream@~0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/map-stream/-/map-stream-0.1.0.tgz#e56aa94c4c8055a16404a0674b78f215f7c8e194"
 
-marked@0.3.6, marked@~0.3.4:
+marked@0.3.6, marked@^0.3.3, marked@^0.3.6, marked@~0.3.4:
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/marked/-/marked-0.3.6.tgz#b2c6c618fccece4ef86c4fc6cb8a7cbf5aeda8d7"
 

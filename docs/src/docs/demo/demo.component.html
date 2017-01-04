@@ -9,10 +9,10 @@
       </md-button>
     </div>
   </md-toolbar>
-  <md-content layout-padding ng-if="$ctrl.sourceShown" class="demo-source" md-colors="::{'background-color': 'primary-100'}">
+  <md-content layout-padding ng-if="$ctrl.sourceShown" md-colors="::{'background-color': 'primary-100'}">
     <pre ng-bind="$ctrl.htmlSource"></pre>
   </md-content>
-  <md-content layout-padding ng-include="$ctrl.htmlUrl" onload="$ctrl.included()"></md-content>
+  <md-content layout-padding ng-include="$ctrl.htmlUrl" onload="$ctrl.included()" md-colors="::{'background-color': 'creativegreen-50'}"></md-content>
 </section>
 
 

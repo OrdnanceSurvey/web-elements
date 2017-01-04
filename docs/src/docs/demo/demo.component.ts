@@ -39,7 +39,7 @@ class DemoCtrl implements IDemoCtrl {
   htmlUrl: string;
   htmlSource: string;
 
-  constructor(private $templateCache: ng.ITemplateCacheService, private $location: ng.ILocationService, private $ocLazyLoad) {
+  constructor(private $templateCache: ng.ITemplateCacheService, private $location: ng.ILocationService, private $ocLazyLoad, private $log: ng.ILogService) {
     'ngInject';
   }
 
@@ -57,9 +57,9 @@ class DemoCtrl implements IDemoCtrl {
 
   private initJs(componentName: string) {
     let jsToLoad = componentName + '/' + this.externalJs;
-    console.log('lazy load the js: ' + jsToLoad);
+    this.$log.debug(`Use the demo JS at: ${jsToLoad}`);
     this.$ocLazyLoad.load(jsToLoad).then(response => {
-      console.log('completed lazy load for: ' + jsToLoad);
+      this.$log.debug(`JS finished lazy loading: ${jsToLoad}`);
       this.initHtml(componentName);
     });
   }
@@ -68,7 +68,7 @@ class DemoCtrl implements IDemoCtrl {
     let htmlToLoad = componentName + '/' + this.externalHtml;
 
     // set the htmlUrl so that ngInclude begins
-    console.log('try to use externalHtml', htmlToLoad);
+    this.$log.debug(`Use the demo HTML at: ${htmlToLoad}`);
     this.htmlUrl = htmlToLoad;
   }
 

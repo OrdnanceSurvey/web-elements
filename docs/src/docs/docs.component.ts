@@ -1,10 +1,9 @@
 import * as angular from 'angular';
 import 'angular-material';
-import {PageComponent} from './page/page.component';
 import {DemoComponent} from './demo/demo.component';
 import {IComponentsService} from '../../../src/types/IComponentsService';
-import * as _ from 'lodash';
 import 'oclazyload';
+import 'angular-marked';
 
 export class DocsComponent implements ng.IComponentOptions {
   controller: Function;
@@ -16,63 +15,61 @@ export class DocsComponent implements ng.IComponentOptions {
   }
 }
 
-export interface IDocsComponent {
-  name: string;
-  url: string;
-}
-
 export interface IDocsCtrl {
-  components: IDocsComponent[];
-  selectedComponent: IDocsComponent;
+  selectedComponent: string;
   pageUrl: string;
   pageTitle: string;
+  setPageTitle(pageTitle: string);
+  capitalizeFirstLetters(string): string;
 }
 
 class DocsCtrl implements IDocsCtrl {
-  components: IDocsComponent[];
-  selectedComponent: IDocsComponent;
+  selectedComponent: string;
   pageUrl: string;
   pageTitle: string;
 
-  constructor(private $log: ng.ILogService, private $oselComponents: IComponentsService, private $location: ng.ILocationService, private $scope: ng.IScope, private $window: ng.IWindowService) {
+  constructor(private $log: ng.ILogService, private $oselDocsConfig: IComponentsService, private $location: ng.ILocationService, private $scope: ng.IScope, private $window: ng.IWindowService) {
     'ngInject';
-    this.$window['Flatdoc'].highlighters.html_old = this.$window['Flatdoc'].highlighters.html;
-
-    this.$window['Flatdoc'].highlighters.html = function (code) {
-      console.log('skip HTML syntax highlighting');
-      return code;
-    };
-
   }
 
   $onInit() {
-    console.log('initialising DocsCtrl');
-    this.components = this.$oselComponents.components.map(componentName => {
-      return {
-        name: componentName,
-        url: componentName + '/' + componentName + '.md'
-      };
-    });
+    this.$oselDocsConfig = this.$oselDocsConfig;
     this.$scope.$on('$locationChangeSuccess', this.handleLocationChangeSuccess);
   }
 
+  /*
+   Find the component or page name and build the correct url to the .md file
+   */
   private handleLocationChangeSuccess = (evt, newUrl: string, oldUrl: string) => {
-    let path = this.$location.path();
-    let componentName = path.replace(/^\/component\/([^/]+)$/, '$1');
-    if (componentName) {
-      let componentMatch: IDocsComponent = _.find(this.components, {name: componentName});
-      if (componentMatch) {
-        this.pageUrl = componentMatch.url;
-        this.pageTitle = componentName;
-      }
+    let path = this.$location.path(); // e.g. /component/button or /getting-started
+
+    if (/^\/component\//.test(path)) {
+      let componentName = path.replace(/^\/component\/([^/]+)$/, '$1');
+      this.$log.debug(`location change found component name: ${componentName}`);
+      this.pageUrl = `${componentName}/${componentName}.md`;
+      this.pageTitle = this.capitalizeFirstLetters(componentName);
     } else {
-      this.pageUrl = '';
+      let pageName = path.replace(/^\/([^/]+)$/, '$1') || 'getting-started'; // default to getting-started if no page
+      this.$log.debug(`location change found page name: ${pageName}`);
+      this.pageUrl = 'pages/' + pageName + '.md'; //
     }
+  }
+
+  setPageTitle(pageTitle: string) {
+    this.pageTitle = pageTitle;
+  }
+
+  capitalizeFirstLetters(string): string {
+    return string
+        .split(' ')
+        .map(s => {
+          return s.charAt(0).toUpperCase() + string.slice(1);
+        })
+      .join(' ');
   }
 }
 
 export let DocsModule = angular
-  .module('osel.docs', ['ngMaterial', 'oc.lazyLoad'])
+  .module('osel.docs', ['ngMaterial', 'oc.lazyLoad', 'hc.marked'])
   .component('oselDocs', new DocsComponent())
-  .component('oselDocsPage', new PageComponent())
   .component('oselDocsDemo', new DemoComponent());

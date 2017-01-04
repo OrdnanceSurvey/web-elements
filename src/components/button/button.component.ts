@@ -48,7 +48,7 @@ export class ButtonCtrl implements IButtonCtrl {
 
   constructor(private $element: ng.IRootElementService, private $window: ng.IWindowService) {
     'ngInject';
-    this.mdButton = $element.find('.md-button');
+    this.mdButton = $element.children('.mdl-button');
 
     // assign classes immediately to avoid FOUC
     this.mdButton.addClass(this.makeClass());

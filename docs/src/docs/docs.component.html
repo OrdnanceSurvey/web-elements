@@ -3,22 +3,27 @@
               layout="column">
     <md-toolbar class='header'>
       <div class="md-toolbar-tools">
-        <h1 ng-href="/">OS Elements Docs</h1>
+        <div flex layout="row" layout-align="space-between end">
+          <h1 class="md-title" ng-href="/">OS Elements Docs</h1>
+          <span class="md-caption">v{{::$ctrl.$oselDocsConfig.version}}</span>
+        </div>
       </div>
     </md-toolbar>
     <md-list>
-      <md-list-item ng-href="#/getting-started">Getting started</md-list-item>
+      <md-list-item ng-href="#/getting-started" ng-click="$ctrl.setPageTitle('Getting Started')">Getting Started</md-list-item>
       <md-divider ></md-divider>
       <md-subheader class="md-no-sticky">Components</md-subheader>
-      <md-list-item ng-repeat="comp in $ctrl.components"
-                 ng-href="#/component/{{comp.name}}">{{comp.name}}
+      <md-list-item ng-repeat="comp in $ctrl.$oselDocsConfig.components"
+                 ng-href="#/component/{{comp}}">{{$ctrl.capitalizeFirstLetters(comp)}}
       </md-list-item>
     </md-list>
   </md-sidenav>
   <md-content flex>
-    <md-toolbar md-colors="::{'background-color': 'oscharcoal-primary-50'}">
+    <md-toolbar md-colors="::{'background-color': 'oscharcoal-primary-50'}" ng-if="$ctrl.pageTitle">
       <div class="md-toolbar-tools">{{$ctrl.pageTitle}}</div>
     </md-toolbar>
-    <osel-docs-page url="$ctrl.pageUrl"></osel-docs-page>
+    <section class="osel-docs__page-content">
+      <marked src="$ctrl.pageUrl" compile="true" ng-if="$ctrl.pageUrl"></marked>
+    </section>
   </md-content>
 </section>

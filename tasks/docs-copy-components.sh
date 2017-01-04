@@ -3,8 +3,12 @@
 # copy docs from all component folders into the dist directory, and create a json file enumerating the component names
 # e.g. from: src/components/button/docs
 #        to: dist/docs/components/button/docs
+# also copy regular docs 'pages' from docs/src/pages to dist/docs/pages
 
-# setup a the docs folder and json so we can reference them immediately
+# read the version from package.json
+version=$(cat package.json | grep -oE "\"version\":.*" | sed -e 's/\"version\": \"//g' -e 's/\".//g')
+
+# setup the docs folder and json so we can reference them immediately
 mkdir -p dist/docs
 
 docsjsonfile="dist/docs/docs.json"
@@ -15,6 +19,7 @@ srcdirs=$(find src -type d -name "docs")
 
 # create the json file
 echo "{" >> $docsjsonfile
+echo "  \"version\": \"${version}\"," >> $docsjsonfile
 echo "  \"components\": [" >> $docsjsonfile
 
 i=0
@@ -53,5 +58,7 @@ sed -i .bak "s/\"$lastComponent\",/\"$lastComponent\"/" $docsjsonfile
 # cleanup .bak file
 rm $docsjsonfile.bak
 
-
+# copy the main HTML file for the docs site
 cp docs/index.html dist/docs
+
+cp -R docs/src/pages dist/docs/pages
